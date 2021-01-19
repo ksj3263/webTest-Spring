@@ -104,7 +104,7 @@ public class Controller {
 		model.addAttribute("pagination", pgb);
 		return "/board_list";
 	}
-	//ddd
+	
 	@RequestMapping("/board_detail")
 	public String boardDetail(Model model, @RequestParam("bId") int id) {
 		Board board = boardservice.findBoard(id);
