@@ -2,6 +2,8 @@ package com.webTest2.example.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,16 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.webTest2.example.domain.Board;
 import com.webTest2.example.domain.PaginationBoard;
+import com.webTest2.example.domain.Reply;
 import com.webTest2.example.domain.User;
 import com.webTest2.example.service.BoardService;
+import com.webTest2.example.service.ReplyService;
 import com.webTest2.example.service.UserService;
 
 @org.springframework.stereotype.Controller
@@ -23,6 +29,7 @@ public class Controller {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired BoardService boardservice;
 	@Autowired UserService userservice;
+	@Autowired ReplyService replyservice;
 	
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -95,6 +102,7 @@ public class Controller {
 	public String boardWriteResult(Model model, Board board) {
 		board.setbOrder(0);
 		board.setbGroup(0);
+		board.setuId(board.getbWriter());
 		boardservice.writeBoard(board);
 		boardservice.updateBase();
 		
@@ -110,6 +118,9 @@ public class Controller {
 	public String boardDetail(Model model, @RequestParam("bId") int id) {
 		Board board = boardservice.findBoard(id);
 		model.addAttribute("board", board);
+		
+		List<Reply> list = replyservice.getReply(id);
+		model.addAttribute("list", list);
 		return "/board_detail";
 	}
 	
@@ -128,6 +139,7 @@ public class Controller {
 		} else {
 			board.setbOrder(board2.getbOrder());			
 		}
+		board.setuId(board.getbWriter());
 		board.setbBase(board2.getbBase());
 		board.setbGroup(board2.getbGroup()+1);
 		
@@ -139,5 +151,25 @@ public class Controller {
 		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
 		model.addAttribute("pagination", pgb);
 		return "/board_list";
+	}
+	
+	@RequestMapping(value="/board_reply", method=RequestMethod.POST)
+	@ResponseBody
+	public String boardReply(Model model, HttpServletRequest request) {
+		int bId = Integer.parseInt(request.getParameter("b_id"));
+		System.out.println(request.getParameter("b_id"));
+		System.out.println(request.getParameter("content"));
+		System.out.println(request.getParameter("rWriter"));
+		
+		Reply reply = new Reply();
+		reply.setbId(bId);
+		reply.setrContent(request.getParameter("content"));
+		reply.setrWriter(request.getParameter("rWriter"));
+		reply.setuId(request.getParameter("rWriter"));
+		replyservice.writeReply(reply);
+		
+		List<Reply> list = replyservice.getReply(bId);
+		model.addAttribute("list", list);
+		return "/reply_list.jsp";
 	}
 }

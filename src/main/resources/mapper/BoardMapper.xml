@@ -7,10 +7,7 @@
 				ta.b_title as bTitle,
 				ta.b_content as bContent,
 				ta.b_writer as bWriter,
-				ta.b_datetime as bDateTime,
-				ta.b_order as bOrder,
-				ta.b_base as bBase,
-				ta.b_group as bGroup
+				ta.b_datetime as bDateTime
 	    FROM board ta,
 	    	(select @rownum := (select count(*)-#{pageNum}+1 from board ta)) tb
 	  	order by ta.b_base desc, b_order asc
@@ -25,7 +22,8 @@
 			b_writer,
 			b_order,
 			b_base,
-			b_group
+			b_group,
+			u_id
 		) values (
 			#{bId},
 			#{bTitle},
@@ -33,7 +31,8 @@
 			#{bWriter},
 			#{bOrder},
 			#{bBase},
-			#{bGroup}
+			#{bGroup},
+			#{uId}
 		)
 	</insert>
 	
@@ -45,7 +44,8 @@
 				b_datetime as bDateTime,
 				b_order as bOrder,
 				b_base as bBase,
-				b_group as bGroup
+				b_group as bGroup,
+				u_id as uId
 		from board
 		where b_id = #{id}
 	</select>
@@ -74,14 +74,16 @@
 			b_writer,
 			b_order,
 			b_base,
-			b_group
+			b_group,
+			u_id
 		) values (
 			#{bTitle},
 			#{bContent},
 			#{bWriter},
 			#{bOrder},
 			#{bBase},
-			#{bGroup}
+			#{bGroup},
+			#{uId}
 		)
 	</insert>
 </mapper>

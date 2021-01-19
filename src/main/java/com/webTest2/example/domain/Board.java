@@ -9,8 +9,15 @@ public class Board {
 	private int rowNum;
 	private int bBase;
 	private int bOrder;
-	private int bGroup;	
+	private int bGroup;
+	private String uId;
 	
+	public String getuId() {
+		return uId;
+	}
+	public void setuId(String uId) {
+		this.uId = uId;
+	}
 	public int getRowNum() {
 		return rowNum;
 	}

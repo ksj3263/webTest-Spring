@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webTest2.example.mapper.ReplyMapper">
+	<select id="getReply" resultType="Reply">
+		SELECT r_id as rId,
+				r_content as rContent,
+				r_writer as rWriter,
+				r_datetime as rDateTime,
+				u_id as uId,
+				b_id as bId
+		from reply
+		where b_id = #{bId}
+	</select>
+	
+	<insert id="writeReply" parameterType="Reply">
+		insert into reply (
+			r_id,
+			r_content,
+			r_writer,
+			b_id,
+			u_id
+		) values (
+			#{rId},
+			#{rContent},
+			#{rWriter},
+			#{bId},
+			#{uId}
+		)
+	</insert>
+</mapper>
+
