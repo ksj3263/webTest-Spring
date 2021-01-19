@@ -14,4 +14,8 @@ public interface BoardService {
 	public int getBoardCount();
 	
 	public void updateBase();
+	
+	public int getMaxOrder(int id);
+	
+	public void addBoard(Board board);
 }

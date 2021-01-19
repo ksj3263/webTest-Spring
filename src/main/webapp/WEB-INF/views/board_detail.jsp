@@ -11,6 +11,7 @@
 	<p>내용 : ${board.bContent }</p>
 	<p>날짜 : ${board.bDateTime }</p>
 	<p>작성자 : ${board.bWriter }</p>
+	<a href="/board_add?bId=${board.bId }">답글쓰기</a>
 	<a href="/board_list">돌아가기</a>
 </body>
 </html>

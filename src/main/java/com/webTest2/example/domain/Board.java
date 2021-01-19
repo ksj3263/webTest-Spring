@@ -9,7 +9,20 @@ public class Board {
 	private int rowNum;
 	private int bBase;
 	private int bOrder;
+	private int bGroup;	
 	
+	public int getRowNum() {
+		return rowNum;
+	}
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+	public int getbGroup() {
+		return bGroup;
+	}
+	public void setbGroup(int bGroup) {
+		this.bGroup = bGroup;
+	}
 	public int getbBase() {
 		return bBase;
 	}
@@ -51,11 +64,5 @@ public class Board {
 	}
 	public void setbDateTime(String bDateTime) {
 		this.bDateTime = bDateTime;
-	}
-	public int getrowNum() {
-		return rowNum;
-	}
-	public void setrowNum(int rowNum) {
-		this.rowNum = rowNum;
 	}
 }

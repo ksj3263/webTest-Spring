@@ -36,4 +36,14 @@ public class BoardServiceImpl implements BoardService {
 	public void updateBase() {
 		boardmapper.updateBase();
 	}
+	
+	@Override
+	public int getMaxOrder(int id) {
+		return boardmapper.getMaxOrder(id);
+	}
+	
+	@Override
+	public void addBoard(Board board) {
+		boardmapper.addBoard(board);
+	}
 }

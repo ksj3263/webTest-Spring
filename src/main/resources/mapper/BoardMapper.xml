@@ -9,7 +9,8 @@
 				ta.b_writer as bWriter,
 				ta.b_datetime as bDateTime,
 				ta.b_order as bOrder,
-				ta.b_base as bBase
+				ta.b_base as bBase,
+				ta.b_group as bGroup
 	    FROM board ta,
 	    	(select @rownum := (select count(*)-#{pageNum}+1 from board ta)) tb
 	  	order by ta.b_base desc, b_order asc
@@ -22,13 +23,17 @@
 			b_title,
 			b_content,
 			b_writer,
-			b_order
+			b_order,
+			b_base,
+			b_group
 		) values (
 			#{bId},
 			#{bTitle},
 			#{bContent},
 			#{bWriter},
-			#{bOrder}
+			#{bOrder},
+			#{bBase},
+			#{bGroup}
 		)
 	</insert>
 	
@@ -39,7 +44,8 @@
 				b_writer as bWriter,
 				b_datetime as bDateTime,
 				b_order as bOrder,
-				b_base as bBase
+				b_base as bBase,
+				b_group as bGroup
 		from board
 		where b_id = #{id}
 	</select>
@@ -52,7 +58,31 @@
 	<update id="updateBase" parameterType="Board">
 		update board
 		set b_base = b_id
-		where b_id = (select b_id FROM board WHERE b_base is NULL)
+		where b_id = (select b_id FROM board WHERE b_base = 0)
 	</update>
+	
+	<select id="getMaxOrder" resultType="int">
+		select max(b_order)
+		from board
+		where b_base = #{id}
+	</select>
+	
+	<insert id="addBoard" parameterType="Board">
+		insert into board (
+			b_title,
+			b_content,
+			b_writer,
+			b_order,
+			b_base,
+			b_group
+		) values (
+			#{bTitle},
+			#{bContent},
+			#{bWriter},
+			#{bOrder},
+			#{bBase},
+			#{bGroup}
+		)
+	</insert>
 </mapper>
 

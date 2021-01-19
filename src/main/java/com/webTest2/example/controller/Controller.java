@@ -94,6 +94,7 @@ public class Controller {
 	@RequestMapping("/board_write_result")
 	public String boardWriteResult(Model model, Board board) {
 		board.setbOrder(0);
+		board.setbGroup(0);
 		boardservice.writeBoard(board);
 		boardservice.updateBase();
 		
@@ -110,5 +111,33 @@ public class Controller {
 		Board board = boardservice.findBoard(id);
 		model.addAttribute("board", board);
 		return "/board_detail";
+	}
+	
+	@RequestMapping("/board_add")
+	public String boardAdd(Model model, @RequestParam("bId") int id) {
+		Board board = boardservice.findBoard(id);
+		model.addAttribute("board", board);
+		return "/board_add";
+	}
+	
+	@RequestMapping("/board_add_result")
+	public String boardAddResult(Model model, Board board, @RequestParam("bId") int id) {
+		Board board2 = boardservice.findBoard(id);
+		if(board2.getbOrder() == 0) {
+			board.setbOrder(boardservice.getMaxOrder(board2.getbBase())+1);
+		} else {
+			board.setbOrder(board2.getbOrder());			
+		}
+		board.setbBase(board2.getbBase());
+		board.setbGroup(board2.getbGroup()+1);
+		
+		boardservice.addBoard(board);
+		
+		List<Board> list = boardservice.selectBoardList(1);
+		model.addAttribute("list", list);
+		
+		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
+		model.addAttribute("pagination", pgb);
+		return "/board_list";
 	}
 }
