@@ -21,4 +21,8 @@ public interface BoardMapper {
 	public int getMaxOrder(int id);
 	
 	public void addBoard(Board board);
+	
+	public void deleteBoard(int id);
+	
+	public void editBoard(Board board);
 }

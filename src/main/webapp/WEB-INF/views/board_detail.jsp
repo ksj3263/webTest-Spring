@@ -15,6 +15,8 @@
 	<p>날짜 : ${board.bDateTime }</p>
 	<p>작성자 : ${board.bWriter }</p>
 	<a href="/board_add?bId=${board.bId }">답글쓰기</a>
+	<a href="/board_edit?bId=${board.bId }">수정하기</a>
+	<a href="/board_delete?bId=${board.bId }">삭제하기</a>
 	<a href="/board_list">돌아가기</a>
 	
 <br><br>

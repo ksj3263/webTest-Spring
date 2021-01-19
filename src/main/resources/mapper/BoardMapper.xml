@@ -86,5 +86,18 @@
 			#{uId}
 		)
 	</insert>
+	
+	<delete id = "deleteBoard" parameterType = "board">
+		delete from board
+		where b_id = #{id}
+	</delete>
+	
+	<update id = "editBoard" parameterType="board">
+		update board
+		set b_title=#{bTitle},
+			b_content=#{bContent},
+			b_datetime=#{bDateTime}
+		where b_id = #{bId}
+	</update>
 </mapper>
 

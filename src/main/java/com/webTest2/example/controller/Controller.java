@@ -1,5 +1,7 @@
 package com.webTest2.example.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -153,13 +155,49 @@ public class Controller {
 		return "/board_list";
 	}
 	
+	@RequestMapping("/board_delete")
+	public String boardDelete(Model model, @RequestParam("bId") int id) {
+		boardservice.deleteBoard(id);
+		
+		List<Board> list = boardservice.selectBoardList(1);
+		model.addAttribute("list", list);
+		
+		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
+		model.addAttribute("pagination", pgb);
+		
+		return "/board_list";
+	}
+	
+	@RequestMapping("/board_edit")
+	public String boardEdit(Model model, @RequestParam("bId") int id) {
+		Board board = boardservice.findBoard(id);
+		
+		model.addAttribute("board", board);
+		
+		return "/board_edit";
+	}
+	
+	@RequestMapping("/board_edit_result")
+	public String boardEditResult(Model model, Board board) {
+		Date today = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");		
+		board.setbDateTime(format.format(today));
+		
+		boardservice.editBoard(board);
+		
+		List<Board> list = boardservice.selectBoardList(1);
+		model.addAttribute("list", list);
+		
+		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
+		model.addAttribute("pagination", pgb);
+		
+		return "/board_list";
+	}
+	
 	@RequestMapping(value="/board_reply", method=RequestMethod.POST)
 	@ResponseBody
 	public String boardReply(Model model, HttpServletRequest request) {
 		int bId = Integer.parseInt(request.getParameter("b_id"));
-		System.out.println(request.getParameter("b_id"));
-		System.out.println(request.getParameter("content"));
-		System.out.println(request.getParameter("rWriter"));
 		
 		Reply reply = new Reply();
 		reply.setbId(bId);
@@ -170,6 +208,7 @@ public class Controller {
 		
 		List<Reply> list = replyservice.getReply(bId);
 		model.addAttribute("list", list);
-		return "/reply_list.jsp";
+		// ?
+		return "/reply_list";
 	}
 }
