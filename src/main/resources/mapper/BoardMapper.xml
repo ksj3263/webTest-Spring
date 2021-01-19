@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webTest2.example.mapper.BoardMapper">
+	<select id="selectBoardList" resultType="Board">
+		SELECT @ROWNUM := @ROWNUM -1 as ROWNUM,
+				ta.b_id as bId,
+				ta.b_title as bTitle,
+				ta.b_content as bContent,
+				ta.b_writer as bWriter,
+				ta.b_datetime as bDateTime,
+				ta.b_order as bOrder,
+				ta.b_base as bBase
+	    FROM board ta,
+	    	(select @rownum := (select count(*)-#{pageNum}+1 from board ta)) tb
+	  	order by ta.b_base desc, b_order asc
+	    limit #{pageNum}, 10
+	</select>
+	
+	<insert id="writeBoard" parameterType="Board">
+		insert into board (
+			b_id,
+			b_title,
+			b_content,
+			b_writer,
+			b_order
+		) values (
+			#{bId},
+			#{bTitle},
+			#{bContent},
+			#{bWriter},
+			#{bOrder}
+		)
+	</insert>
+	
+	<select id="findBoard" resultType="Board">
+		select 	b_id as bId,
+				b_title as bTitle,
+				b_content as bContent,
+				b_writer as bWriter,
+				b_datetime as bDateTime,
+				b_order as bOrder,
+				b_base as bBase
+		from board
+		where b_id = #{id}
+	</select>
+	
+	<select id="getBoardCount" resultType="int">
+		select count(*) as count
+		from board
+	</select>
+	
+	<update id="updateBase" parameterType="Board">
+		update board
+		set b_base = b_id
+		where b_id = (select b_id FROM board WHERE b_base is NULL)
+	</update>
+</mapper>
+
