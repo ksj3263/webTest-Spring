@@ -34,16 +34,16 @@
 			<th>ID</th>
 			<th>내용</th>
 			<th>날짜</th>
-			<th>수정</th>
-			<th>삭제</th>
+			<th></th>
+			<th></th>
 		</tr>
 		<c:forEach items="${list}" var="item">
 			<tr>
 				<td>${item.rWriter}</td>
 				<td>${item.rContent}</td>
 				<td>${item.rDateTime}</td>
-				<td><input type="button" class="btn-edit" data-e_r_idx="${item.rId }"></td>
-				<td><input type="button" class="btn-del" data-d_r_idx="${item.rId }"></td>
+				<td><input type="button" class="btn-edit" data-e_r_id="${item.rId }" value="수정"></td>
+				<td><input type="button" class="btn-del" data-d_r_id="${item.rId }" value="삭제"></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -68,6 +68,58 @@ $(document).on('click', '#btn', function () {
 	 		console.log("ok");
 	 		$("#replyList").html(data);	
 	 		$("#cont").val('');
+		});
+});
+$(document).on('click', '.btn-edit', function() {
+	let r_id = $(this).attr('data-e_r_id');
+	let checkBtn = $(this);	
+	let tr = checkBtn.parent().parent();
+	let td = tr.children();
+	console.log(r_id);
+	console.log(td.eq(1).text());
+	
+	$.ajax({
+		method: "POST",
+		url: "/board_reply_edit",
+		data: {r_id: r_id},
+		dateType: "html"
+	})
+	.done(function(data) {
+		console.log(data);
+		td.eq(1).html(data);
+	});
+});
+$(document).on('click', '#btn-edit-comp', function () {
+	let r_id = $('input[name="r_id"]').val();
+	let edit_content = $('input[name="edit_content"]').val();
+	console.log(r_id);
+	console.log(edit_content);
+	
+	$.ajax({
+		  method: "POST",
+		  url: "/board_reply_edit_result",
+		  data: { r_id: r_id, edit_content: edit_content },
+		  dataType: "html"
+		})
+		.done(function(data) {
+	 		console.log("ok");
+	 		$("#replyList").html(data);	
+		});
+});
+$(document).on('click', '.btn-del', function () {
+	let r_id = $(this).attr('data-d_r_id');
+	console.log(r_id);
+	console.log("del");
+	
+	$.ajax({
+		  method: "POST",
+		  url: "/board_reply_delete",
+		  data: { r_id: r_id },
+		  dataType: "html"
+		})
+		.done(function(data) {
+			console.log("ok");
+		 	$("#replyList").html(data);
 		});
 });
 </script>

@@ -141,12 +141,7 @@ public class Controller {
 		
 		boardservice.addBoard(board);
 		
-		List<Board> list = boardservice.selectBoardList(1);
-		model.addAttribute("list", list);
-		
-		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
-		model.addAttribute("pagination", pgb);
-		return "/board_list";
+		return "redirect:/board_detail?bId=" + boardservice.lastBoard();
 	}
 	
 	@RequestMapping("/board_delete")
@@ -159,7 +154,7 @@ public class Controller {
 		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
 		model.addAttribute("pagination", pgb);
 		
-		return "/board_list";
+		return "redirect:/board_list?page=1";
 	}
 	
 	@RequestMapping("/board_edit")
@@ -178,14 +173,8 @@ public class Controller {
 		board.setbDateTime(format.format(today));
 		
 		boardservice.editBoard(board);
-		
-		List<Board> list = boardservice.selectBoardList(1);
-		model.addAttribute("list", list);
-		
-		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
-		model.addAttribute("pagination", pgb);
-		
-		return "/board_list";
+				
+		return "redirect:/board_detail?bId=" + board.getbId();
 	}
 	
 	@RequestMapping(value="/board_reply", method=RequestMethod.POST)
@@ -201,7 +190,50 @@ public class Controller {
 		
 		List<Reply> list = replyservice.getReply(bId);
 		model.addAttribute("list", list);
-		// ?
+		
+		return "/reply_list";
+	}
+	
+	@RequestMapping(value="/board_reply_delete", method=RequestMethod.POST)
+	public String boardReplyDelete(Model model, HttpServletRequest request) {
+		int rId = Integer.parseInt(request.getParameter("r_id"));
+		
+		Reply reply = replyservice.findReply(rId);
+		
+		replyservice.deleteReply(rId);
+		
+		List<Reply> list = replyservice.getReply(reply.getbId());
+		model.addAttribute("list", list);
+		
+		return "/reply_list";
+	}
+	
+	@RequestMapping(value="/board_reply_edit", method=RequestMethod.POST)
+	public String boardReplyEdit(Model model, HttpServletRequest request) {
+		int rId = Integer.parseInt(request.getParameter("r_id"));
+		
+		Reply reply = replyservice.findReply(rId);
+		model.addAttribute("reply", reply);
+		
+		return "/reply_edit";
+	}
+	
+	@RequestMapping(value="/board_reply_edit_result", method=RequestMethod.POST)
+	public String boardReplyEditResult(Model model, HttpServletRequest request) {
+		int rId = Integer.parseInt(request.getParameter("r_id"));
+		String content = request.getParameter("edit_content");
+		
+		Reply reply = replyservice.findReply(rId);
+		
+		reply.setrContent(content);
+		Date today = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");		
+		reply.setrDateTime(format.format(today));
+		
+		replyservice.editReply(reply);
+		List<Reply> list = replyservice.getReply(reply.getbId());
+		model.addAttribute("list", list);
+		
 		return "/reply_list";
 	}
 }

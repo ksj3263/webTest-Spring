@@ -27,5 +27,28 @@
 			#{uId}
 		)
 	</insert>
+	
+	<delete id="deleteReply" parameterType="Reply">
+		delete from reply
+		where r_id = #{rId}
+	</delete>
+	
+	<select id="findReply" resultType="Reply">
+		select r_id as rId,
+				r_content as rContent,
+				r_writer as rWriter,
+				r_datetime as rDateTime,
+				u_id as uId,
+				b_id as bId
+		from reply
+		where r_id=#{rId}
+	</select>
+	
+	<update id="editReply" parameterType="Reply">
+		update reply
+		set r_content=#{rContent},
+			r_datetime=#{rDateTime}
+		where r_id=#{rId}
+	</update>
 </mapper>
 

@@ -8,4 +8,10 @@ public interface ReplyService {
 	public void writeReply(Reply reply);
 	
 	public List<Reply> getReply(int bId);
+	
+	public void deleteReply(int rId);
+	
+	public Reply findReply(int rId);
+	
+	public void editReply(Reply reply);
 }

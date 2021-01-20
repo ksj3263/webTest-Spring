@@ -60,14 +60,7 @@
 	</table>
 	<a href="/board_write">글쓰기</a>
 	<a href="/">돌아가기</a>
-	
-	<p> prev : ${pagination.prevPage }</p>
-	<p> next : ${pagination.nextPage }</p>
-	<p> start : ${pagination.startPage }</p>
-	<p> end : ${pagination.endPage }</p>
-	<p> last : ${pagination.lastPage }</p>
-	<p> cur : ${pagination.page }</p>
-	
+		
 	<div>
 		<ul>
 			 <c:choose>
