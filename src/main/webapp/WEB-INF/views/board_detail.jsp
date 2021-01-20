@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,16 +14,18 @@
 	<p>내용 : ${board.bContent }</p>
 	<p>날짜 : ${board.bDateTime }</p>
 	<p>작성자 : ${board.bWriter }</p>
-	<a href="/board_add?bId=${board.bId }">답글쓰기</a>
-	<a href="/board_edit?bId=${board.bId }">수정하기</a>
-	<a href="/board_delete?bId=${board.bId }">삭제하기</a>
+	<sec:authorize access="isAuthenticated()">
+		<a href="/board_add?bId=${board.bId }">답글쓰기</a>
+		<a href="/board_edit?bId=${board.bId }">수정하기</a>
+		<a href="/board_delete?bId=${board.bId }">삭제하기</a>
+	</sec:authorize>
+	
 	<a href="/board_list">돌아가기</a>
 	
 <br><br>
-<input type="hidden" name="b_id" value="${board.bId }">
-<input type="text" name="content" id="cont"> <input type="button" value="댓글달기" id="btn">
-
 <sec:authorize access="isAuthenticated()">
+	<input type="hidden" name="b_id" value="${board.bId }">
+	<input type="text" name="content" id="cont"> <input type="button" value="댓글달기" id="btn">
 	<sec:authentication property="principal" var="principal"/>
 	<input type="hidden" name="rWriter" value="${principal.username }">
 </sec:authorize>

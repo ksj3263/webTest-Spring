@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>관리자 페이지</h1>
+<h1>관리자 페이지</h1>
+<hr>
+<a href="user_list"><input type="button" value="회원목록"></a>
 </body>
 </html>

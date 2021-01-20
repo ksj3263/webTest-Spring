@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <style>
+	h1 {
+		text-align:center;
+	}
 	table {
 		border-collapse:collapse;
 		margin:40px auto;
@@ -42,30 +44,28 @@
 		border-radius:5px;
 	}
 </style>
-<body>
-	<table>
+<body>	
+<h1>회원 목록</h1>
+	<table >
 		<tr>
-			<td>rownum</td>
-			<td>title</td>
-			<td>writer</td>
-			<td>datetime</td>
+			<td colspan="3">전체 회원 수 : ${pagination.userCount}</td>
+		</tr> 
+		<tr>
+			<th>No</th>
+			<th>ID</th>
+			<th>이름</th>
 		</tr>
-		<c:forEach var="list" items="${list }">
-			<tr>
-				<td><a href="/board_detail?bId=${list.bId }">${list.rowNum }</a></td>
-				<td>${list.bTitle }</td>
-				<td>${list.bWriter }</td>
-				<td>${list.bDateTime }</td>
-			</tr>
-		</c:forEach>
+		<c:forEach items="${list}" var="item" varStatus="status">
+			 <tr>
+				<td><a href="user_detail?username=${item.username}">${item.rowNum}</a></td>
+				<td>${item.username}</td>
+				<td>${item.uName}</td>
+		     <tr>
+		</c:forEach>				
 	</table>
 	
-	<sec:authorize access="isAuthenticated()">
-		<a href="/board_write">글쓰기</a>
-	</sec:authorize>
+	<a href="/"><input type="button" value="돌아가기"></a>
 	
-	<a href="/">돌아가기</a>
-		
 	<div>
 		<ul>
 			 <c:choose>
@@ -76,7 +76,7 @@
 				</c:when>
 				<c:when test="${ pagination.prevPage >= 5}">
 					<li>
-						<a href="/board_list?page=${pagination.prevPage}">◀</a>
+						<a href="user_list?page=${pagination.prevPage}">◀</a>
 					</li>
 				</c:when>
 			</c:choose> 
@@ -89,7 +89,7 @@
 						</c:when>
 						<c:when test="${ pagination.page ne i }">
 							<li>
-								<a href="/board_list?page=${i}">${i}</a>
+								<a href="user_list?page=${i}">${i}</a>
 							</li>
 						</c:when>
 					</c:choose>
@@ -97,16 +97,17 @@
 			<c:choose>
 				<c:when test="${ pagination.nextPage <= pagination.lastPage }">
 					<li style="">
-						<a href="/board_list?page=${pagination.nextPage}">▶</a>
+						<a href="user_list?page=${pagination.nextPage}">▶</a>
 					</li>
 				</c:when>
 				<c:when test="${ pagination.nextPage > pagination.lastPage}">
 					<li style="display:none;">
-						<a href="/board_list?page=${pagination.nextPage}">▶</a>
+						<a href="user_list?page=${pagination.nextPage}">▶</a>
 					</li>
 				</c:when>
 			</c:choose> 
 		</ul>
 	</div>
+
 </body>
 </html>

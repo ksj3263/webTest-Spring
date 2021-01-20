@@ -12,6 +12,7 @@ public class User implements UserDetails{
 	private String password;
 	private String uName;
 	private String uDateTime;
+	private int rowNum;
 	
 	private Collection<? extends GrantedAuthority> authorities;
 	
@@ -102,4 +103,16 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 		return isEnabled;
 	}
+
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+
+	public String getuDateTime() {
+		return uDateTime;
+	}	
 }

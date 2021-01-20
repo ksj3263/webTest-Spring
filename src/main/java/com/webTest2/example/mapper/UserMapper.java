@@ -16,4 +16,10 @@ public interface UserMapper {
 	public List<GrantedAuthority> readAuthorities(String username);
 	
 	public void createAuthority(User user);
+	
+	public List<User> selectUserList(int pageNum);
+	
+	public int getUserCount();
+	
+	public User findUser(String username);
 }

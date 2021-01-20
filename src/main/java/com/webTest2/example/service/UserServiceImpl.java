@@ -45,4 +45,18 @@ public class UserServiceImpl implements UserService {
 	public User readUser(String username) {
 		return userMapper.readUser(username);
 	}
+	
+	@Override
+	public List<User> selectUserList(int page) {
+		return userMapper.selectUserList((page-1)*10);
+	}
+	
+	public int getUserCount() {
+		return userMapper.getUserCount();
+	}
+	
+	@Override
+	public User findUser(String username) {
+		return userMapper.findUser(username);
+	}
 }

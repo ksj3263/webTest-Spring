@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.webTest2.example.domain.Board;
 import com.webTest2.example.domain.PaginationBoard;
+import com.webTest2.example.domain.PaginationUser;
 import com.webTest2.example.domain.Reply;
 import com.webTest2.example.domain.User;
 import com.webTest2.example.service.BoardService;
@@ -235,5 +236,23 @@ public class Controller {
 		model.addAttribute("list", list);
 		
 		return "/reply_list";
+	}
+	
+	@RequestMapping("/user_list")
+	public String userList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page) {				
+		List<User> list = userservice.selectUserList(Integer.parseInt(page));
+		model.addAttribute("list", list);
+		
+		PaginationUser pgu = new PaginationUser(Integer.parseInt(page), userservice.getUserCount());
+		model.addAttribute("pagination", pgu);
+		return "/user_list";
+	}
+	
+	@RequestMapping("/user_detail")
+	public String userDetail(Model model, @RequestParam("username") String username) {
+		User user = userservice.findUser(username);
+		
+		model.addAttribute("user", user);
+		return "/user_detail";
 	}
 }

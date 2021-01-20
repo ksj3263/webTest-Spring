@@ -57,4 +57,38 @@
 		update
 			u_id = #{username}
 	</insert>
+	
+	<select id="selectUserList" resultType="User">
+		SELECT @ROWNUM := @ROWNUM -1 as ROWNUM,
+				ta.u_id as username,
+				ta.u_password as password,
+				ta.u_name as uName,
+				ta.u_datetime as uDateTime,
+				ta.u_isAccountNonExpired as isAccountNonExpired,
+				ta.u_isAccountNonLocked as isAccountNonLocked,
+				ta.u_isCredentialNonExpired as isCredentialsNonExpired,
+				ta.u_isEnabled as isEnabled
+	    FROM user ta,
+	    	(select @rownum := (select count(*)-#{pageNum}+1 from user ta)) tb
+	  	order by ta.u_datetime desc
+	    limit #{pageNum}, 10
+	</select>
+	
+	<select id="getUserCount" resultType="int">
+		select count(*) as count
+		from user
+	</select>
+	
+	<select id="findUser" parameterType="String" resultType="User">
+		select u_id as username,
+				u_password as password,
+				u_name as uName,
+				u_datetime as uDateTime,
+				u_isAccountNonExpired as isAccountNonExpired,
+				u_isAccountNonLocked as isAccountNonLocked,
+				u_isCredentialNonExpired as isCredentialsNonExpired,
+				u_isEnabled as isEnabled
+		from user
+		where u_id = #{username}
+	</select>
 </mapper>
