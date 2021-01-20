@@ -22,4 +22,6 @@ public interface BoardService {
 	public void deleteBoard(int id);
 	
 	public void editBoard(Board board);
+	
+	public int lastBoard();
 }

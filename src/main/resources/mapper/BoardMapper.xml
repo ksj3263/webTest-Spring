@@ -99,5 +99,12 @@
 			b_datetime=#{bDateTime}
 		where b_id = #{bId}
 	</update>
+	
+	<select id = "lastBoard" resultType="int">
+		select b_id
+		from board
+		order by b_id desc
+		limit 1
+	</select>
 </mapper>
 

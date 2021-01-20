@@ -62,7 +62,7 @@ $(document).on('click', '#btn', function () {
 		  method: "POST",
 		  url: "/board_reply",
 		  data: { b_id: b_id, content: content, rWriter: rWriter },
-		  dateType: "html"
+		  dataType: "html"
 		})
 		.done(function(data) {
 	 		console.log("ok");

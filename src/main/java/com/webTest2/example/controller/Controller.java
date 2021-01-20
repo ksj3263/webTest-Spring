@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.webTest2.example.domain.Board;
 import com.webTest2.example.domain.PaginationBoard;
@@ -106,14 +105,9 @@ public class Controller {
 		board.setbGroup(0);
 		board.setuId(board.getbWriter());
 		boardservice.writeBoard(board);
-		boardservice.updateBase();
+		boardservice.updateBase();		
 		
-		List<Board> list = boardservice.selectBoardList(1);
-		model.addAttribute("list", list);
-		
-		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
-		model.addAttribute("pagination", pgb);
-		return "/board_list";
+		return "redirect:/board_detail?bId=" + boardservice.lastBoard();
 	}
 	
 	@RequestMapping("/board_detail")
@@ -195,7 +189,6 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="/board_reply", method=RequestMethod.POST)
-	@ResponseBody
 	public String boardReply(Model model, HttpServletRequest request) {
 		int bId = Integer.parseInt(request.getParameter("b_id"));
 		
