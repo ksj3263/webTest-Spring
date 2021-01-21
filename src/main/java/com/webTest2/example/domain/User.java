@@ -115,4 +115,20 @@ public class User implements UserDetails{
 	public String getuDateTime() {
 		return uDateTime;
 	}	
+	
+	public boolean getisAccountNonExpired() {
+		return isAccountNonExpired();
+	}
+	
+	public boolean getisAccountNonLocked() {
+		return isAccountNonLocked();
+	}
+	
+	public boolean getisCredentialsNonExpired() {
+		return isCredentialsNonExpired;
+	}
+	
+	public boolean getisEnabled() {
+		return isEnabled;
+	}
 }

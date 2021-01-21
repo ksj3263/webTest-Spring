@@ -91,4 +91,14 @@
 		from user
 		where u_id = #{username}
 	</select>
+	
+	<update id="editUser" parameterType="User">
+		update user
+		set u_name = #{uName},
+			u_isAccountNonExpired = #{isAccountNonExpired},
+			u_isAccountNonLocked = #{isAccountNonLocked},
+			u_isCredentialNonExpired = #{isCredentialsNonExpired},
+			u_isEnabled = #{isEnabled}
+		where u_id = #{username}
+	</update>
 </mapper>

@@ -59,4 +59,9 @@ public class UserServiceImpl implements UserService {
 	public User findUser(String username) {
 		return userMapper.findUser(username);
 	}
+	
+	@Override
+	public void editUser(User user) {
+		userMapper.editUser(user);
+	}
 }

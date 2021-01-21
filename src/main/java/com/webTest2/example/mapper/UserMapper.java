@@ -22,4 +22,6 @@ public interface UserMapper {
 	public int getUserCount();
 	
 	public User findUser(String username);
+	
+	public void editUser(User user);
 }

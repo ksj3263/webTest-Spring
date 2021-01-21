@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
 	public int getUserCount();
 	
 	public User findUser(String username);
+	
+	public void editUser(User user);
 }

@@ -17,9 +17,10 @@
 				<a href="/beforeSignup">È¸¿ø°¡ÀÔ</a>
 			</sec:authorize>   
 			<sec:authorize access="isAuthenticated()">
-			<a href="/logout">·Î±×¾Æ¿ô</a>
-			</sec:authorize>
-            
+				<sec:authentication property="principal" var="principal"/>
+					<p>${principal.uName }´Ô</p>
+				<a href="/logout">·Î±×¾Æ¿ô</a>
+			</sec:authorize>            
 		</div>
 		<div>
 			<sec:authorize access="isAuthenticated()">        

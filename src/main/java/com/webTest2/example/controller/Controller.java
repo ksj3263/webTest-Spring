@@ -255,4 +255,27 @@ public class Controller {
 		model.addAttribute("user", user);
 		return "/user_detail";
 	}
+	
+	@RequestMapping("/user_edit")
+	public String userEdit(Model model, @RequestParam("username") String username) {
+		User user = userservice.findUser(username);
+		
+		model.addAttribute("user", user);
+		return "/user_edit";
+	}
+	
+	@RequestMapping("/user_edit_result")
+	public String userEditResult(Model model, @RequestParam("username") String username, HttpServletRequest request) {
+		User user = userservice.findUser(username);
+		
+		user.setAccountNonExpired(Boolean.parseBoolean(request.getParameter("ANE")));
+		user.setAccountNonLocked(Boolean.parseBoolean(request.getParameter("ANL")));
+		user.setCredentialsNonExpired(Boolean.parseBoolean(request.getParameter("CNE")));
+		user.setEnabled(Boolean.parseBoolean(request.getParameter("E")));
+		user.setuName(request.getParameter("uName"));
+		
+		userservice.editUser(user);
+		
+		return "/user_edit_result";
+	}
 }
