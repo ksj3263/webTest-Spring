@@ -24,4 +24,6 @@ public interface UserMapper {
 	public User findUser(String username);
 	
 	public void editUser(User user);
+	
+	public void delUser(String username);
 }

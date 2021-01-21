@@ -101,4 +101,9 @@
 			u_isEnabled = #{isEnabled}
 		where u_id = #{username}
 	</update>
+	
+	<delete id="delUser" parameterType="String">
+		delete from user
+		where u_id = #{username}
+	</delete>
 </mapper>

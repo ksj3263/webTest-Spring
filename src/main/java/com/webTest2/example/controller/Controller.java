@@ -278,4 +278,12 @@ public class Controller {
 		
 		return "/user_edit_result";
 	}
+	
+	@RequestMapping("/user_del")
+	public String userDel(Model model, @RequestParam("username") String username) {
+		
+		userservice.delUser(username);
+		
+		return "redirect:/user_list";
+	}
 }
