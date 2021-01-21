@@ -14,7 +14,7 @@
 	<p>내용 : ${board.bContent }</p>
 	<p>날짜 : ${board.bDateTime }</p>
 	<p>작성자 : ${board.bWriter }</p>
-	<sec:authorize access="isAuthenticated()">
+	<sec:authorize access="isAuthenticated()">		
 		<a href="/board_add?bId=${board.bId }">답글쓰기</a>
 		<a href="/board_edit?bId=${board.bId }">수정하기</a>
 		<a href="/board_delete?bId=${board.bId }">삭제하기</a>
@@ -27,7 +27,8 @@
 	<input type="hidden" name="b_id" value="${board.bId }">
 	<input type="text" name="content" id="cont"> <input type="button" value="댓글달기" id="btn">
 	<sec:authentication property="principal" var="principal"/>
-	<input type="hidden" name="rWriter" value="${principal.username }">
+	<input type="hidden" name="rWriter" value="${principal.uName }">
+	<input type="hidden" name="u_id" value="${principal.username }">
 </sec:authorize>
 
 <div id="replyList">
@@ -56,6 +57,7 @@ $(document).on('click', '#btn', function () {
 	let b_id = $('input[name="b_id"]').val();
 	let content = $('input[name="content"]').val();	
 	let rWriter = $('input[name="rWriter"]').val();
+	let u_id = $('input[name="u_id"]').val();
 	console.log(b_id);
 	console.log(content);
 	console.log(rWriter);
@@ -63,7 +65,7 @@ $(document).on('click', '#btn', function () {
 	$.ajax({
 		  method: "POST",
 		  url: "/board_reply",
-		  data: { b_id: b_id, content: content, rWriter: rWriter },
+		  data: { b_id: b_id, content: content, rWriter: rWriter, u_id: u_id },
 		  dataType: "html"
 		})
 		.done(function(data) {

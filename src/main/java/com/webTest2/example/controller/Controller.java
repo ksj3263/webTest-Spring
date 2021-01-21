@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
@@ -146,21 +147,25 @@ public class Controller {
 	}
 	
 	@RequestMapping("/board_delete")
-	public String boardDelete(Model model, @RequestParam("bId") int id) {
-		boardservice.deleteBoard(id);
+	public String boardDelete(Model model, @RequestParam("bId") int id, @AuthenticationPrincipal User user) {
+		Board board = boardservice.findBoard(id);
+		String uId = user.getUsername();
 		
-		List<Board> list = boardservice.selectBoardList(1);
-		model.addAttribute("list", list);
-		
-		PaginationBoard pgb = new PaginationBoard(1, boardservice.getBoardCount());
-		model.addAttribute("pagination", pgb);
+		if(!uId.equals(board.getuId()))
+			return "/denied";
+
+		boardservice.deleteBoard(id);	
 		
 		return "redirect:/board_list?page=1";
 	}
 	
 	@RequestMapping("/board_edit")
-	public String boardEdit(Model model, @RequestParam("bId") int id) {
+	public String boardEdit(Model model, @RequestParam("bId") int id, @AuthenticationPrincipal User user) {
 		Board board = boardservice.findBoard(id);
+		String uId = user.getUsername();
+		
+		if(!uId.equals(board.getuId()))
+			return "/denied";
 		
 		model.addAttribute("board", board);
 		
@@ -186,7 +191,7 @@ public class Controller {
 		reply.setbId(bId);
 		reply.setrContent(request.getParameter("content"));
 		reply.setrWriter(request.getParameter("rWriter"));
-		reply.setuId(request.getParameter("rWriter"));
+		reply.setuId(request.getParameter("u_id"));
 		replyservice.writeReply(reply);
 		
 		List<Reply> list = replyservice.getReply(bId);
@@ -196,10 +201,15 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="/board_reply_delete", method=RequestMethod.POST)
-	public String boardReplyDelete(Model model, HttpServletRequest request) {
+	public String boardReplyDelete(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
 		int rId = Integer.parseInt(request.getParameter("r_id"));
 		
 		Reply reply = replyservice.findReply(rId);
+		String uId = user.getUsername();
+		
+		// denied가 reply_list에 나옴
+		if(!uId.equals(reply.getuId()))
+			return "/denied";		
 		
 		replyservice.deleteReply(rId);
 		
