@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webTest2.example.mapper.PlayerMapper">
+	<select id="getPlayerList" resultType="Player">
+		SELECT *
+	    FROM player
+	    order by p_num desc
+	</select>
+	
+	<select id="findPlayer" resultType="Player">
+		select *
+		from player
+		where p_num = #{p_num}
+	</select>
+</mapper>

@@ -1,7 +1,6 @@
 package com.webTest2.example.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.webTest2.example.domain.Board;
 import com.webTest2.example.domain.PaginationBoard;
 import com.webTest2.example.domain.PaginationUser;
+import com.webTest2.example.domain.Player;
 import com.webTest2.example.domain.Reply;
 import com.webTest2.example.domain.User;
 import com.webTest2.example.service.BoardService;
+import com.webTest2.example.service.PlayerService;
 import com.webTest2.example.service.ReplyService;
 import com.webTest2.example.service.UserService;
 
@@ -36,6 +37,7 @@ public class Controller {
 	@Autowired BoardService boardservice;
 	@Autowired UserService userservice;
 	@Autowired ReplyService replyservice;
+	@Autowired PlayerService playerservice;
 	
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -309,9 +311,24 @@ public class Controller {
 	
 	@RequestMapping("/user_del")
 	public String userDel(Model model, @RequestParam("username") String username) {
-		
 		userservice.delUser(username);
 		
 		return "redirect:/user_list";
+	}
+	
+	@RequestMapping("/player_list")
+	public String playerList(Model model) {
+		List<Player> list = playerservice.getPlayerList();
+		
+		model.addAttribute("list", list);
+		return "/player_list";
+	}
+	
+	@RequestMapping("/player_detail")
+	public String playerDetail(Model model, @RequestParam("p_num") int p_num) {
+		Player player = playerservice.findPlayer(p_num);
+		model.addAttribute("player", player);
+		
+		return "/player_detail";
 	}
 }
