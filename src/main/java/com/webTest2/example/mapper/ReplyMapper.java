@@ -17,4 +17,6 @@ public interface ReplyMapper {
 	public Reply findReply(int rId);
 	
 	public void editReply(Reply reply);
+	
+	public void deleteAllReply(int bId);
 }

@@ -62,17 +62,21 @@ $(document).on('click', '#btn', function () {
 	console.log(content);
 	console.log(rWriter);
 	
-	$.ajax({
-		  method: "POST",
-		  url: "/board_reply",
-		  data: { b_id: b_id, content: content, rWriter: rWriter, u_id: u_id },
-		  dataType: "html"
-		})
-		.done(function(data) {
-	 		console.log("ok");
-	 		$("#replyList").html(data);	
-	 		$("#cont").val('');
-		});
+	if(!content) {
+		console.log("null");
+	} else {	
+		$.ajax({
+			  method: "POST",
+			  url: "/board_reply",
+			  data: { b_id: b_id, content: content, rWriter: rWriter, u_id: u_id },
+			  dataType: "html"
+			})
+			.done(function(data) {
+		 		console.log("ok");
+		 		$("#replyList").html(data);	
+		 		$("#cont").val('');
+			});
+	}
 });
 $(document).on('click', '.btn-edit', function() {
 	let r_id = $(this).attr('data-e_r_id');
@@ -90,7 +94,11 @@ $(document).on('click', '.btn-edit', function() {
 	})
 	.done(function(data) {
 		console.log(data);
-		td.eq(1).html(data);
+		if(data == 'denied') {
+			location.href = data;
+		} else {
+			td.eq(1).html(data);			
+		}
 	});
 });
 $(document).on('click', '#btn-edit-comp', function () {
@@ -122,8 +130,12 @@ $(document).on('click', '.btn-del', function () {
 		  dataType: "html"
 		})
 		.done(function(data) {
-			console.log("ok");
-		 	$("#replyList").html(data);
+			console.log(data);
+			if(data == 'denied') {
+				location.href = data;
+			} else {
+			 	$("#replyList").html(data);
+			}
 		});
 });
 </script>

@@ -36,4 +36,9 @@ public class ReplyServiceImpl implements ReplyService {
 	public void editReply(Reply reply) {
 		replymapper.editReply(reply);
 	}
+	
+	@Override
+	public void deleteAllReply(int bId) {
+		replymapper.deleteAllReply(bId);
+	}
 }

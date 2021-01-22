@@ -1,6 +1,7 @@
 package com.webTest2.example.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +59,7 @@ public class Controller {
 		user.setEnabled(true);
 		user.setAccountNonLocked(true);
 		user.setCredentialsNonExpired(true);
-		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
+		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER,ROLE_TEST"));
 		
 		userservice.createUser(user);
 		userservice.createAuthorities(user);
@@ -150,11 +153,22 @@ public class Controller {
 	public String boardDelete(Model model, @RequestParam("bId") int id, @AuthenticationPrincipal User user) {
 		Board board = boardservice.findBoard(id);
 		String uId = user.getUsername();
+		SimpleGrantedAuthority admin = new SimpleGrantedAuthority("ROLE_ADMIN");
+		
+		// admin 권한?
+		System.out.println(admin.getAuthority());		
+		System.out.println(user.getAuthorities());
+				
+		for(GrantedAuthority object : user.getAuthorities()) {
+		    System.out.println(object.getAuthority());
+		    System.out.println(object);
+		}
 		
 		if(!uId.equals(board.getuId()))
 			return "/denied";
 
-		boardservice.deleteBoard(id);	
+		replyservice.deleteAllReply(id);
+		boardservice.deleteBoard(id);
 		
 		return "redirect:/board_list?page=1";
 	}
@@ -206,10 +220,9 @@ public class Controller {
 		
 		Reply reply = replyservice.findReply(rId);
 		String uId = user.getUsername();
-		
-		// denied가 reply_list에 나옴
+
 		if(!uId.equals(reply.getuId()))
-			return "/denied";		
+			return "/reply_denied";		
 		
 		replyservice.deleteReply(rId);
 		
@@ -220,10 +233,15 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="/board_reply_edit", method=RequestMethod.POST)
-	public String boardReplyEdit(Model model, HttpServletRequest request) {
+	public String boardReplyEdit(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
 		int rId = Integer.parseInt(request.getParameter("r_id"));
 		
 		Reply reply = replyservice.findReply(rId);
+		String uId = user.getUsername();
+
+		if(!uId.equals(reply.getuId()))
+			return "/reply_denied";
+		
 		model.addAttribute("reply", reply);
 		
 		return "/reply_edit";

@@ -50,5 +50,10 @@
 			r_datetime=#{rDateTime}
 		where r_id=#{rId}
 	</update>
+	
+	<delete id = "deleteAllReply" parameterType="int">
+		delete from reply
+		where b_id = #{bId}
+	</delete>
 </mapper>
 
