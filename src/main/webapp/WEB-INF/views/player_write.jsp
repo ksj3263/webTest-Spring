@@ -38,6 +38,7 @@
 	<p> 이미지 : <input id="filename" name="filename" type="file"></p>
 	<p> 포지션 :
 		<select name="position">
+			<option></option>
 			<option value="st">스트라이커</option>
 			<option value="as">어시스터</option>
 			<option value="at">어태커</option>
