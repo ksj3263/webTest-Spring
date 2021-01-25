@@ -21,4 +21,9 @@ public class PlayerServiceImpl implements PlayerService {
 	public Player findPlayer(int p_num) {
 		return playermapper.findPlayer(p_num);
 	}
+	
+	@Override
+	public void writePlayer(Player player) {
+		playermapper.writePlayer(player);
+	}
 }

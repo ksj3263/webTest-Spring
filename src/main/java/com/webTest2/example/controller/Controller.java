@@ -342,6 +342,37 @@ public class Controller {
 	@RequestMapping("/player_write")
 	public String playerWrite(Model model) {
 		
+		return "/player_write";
+	}
+	
+	@RequestMapping("/player_write_result")
+	public String playerWriteResult(Model model, Player player, HttpServletRequest request) {
+		// jsp에서 player값 안넘어옴
+		System.out.println(player.toString());
+		
+		System.out.println(request.getParameter("vAttribute"));
+		System.out.println(request.getParameter("vTier"));
+		System.out.println(request.getParameter("vPosition"));
+		System.out.println(request.getParameter("vStone1"));
+		System.out.println(request.getParameter("vStone2"));
+		System.out.println(request.getParameter("vStone3"));
+		player.setP_attribute(request.getParameter("vAttribute"));
+		player.setP_tier(request.getParameter("vTier"));
+		player.setP_position(request.getParameter("vPosition"));
+		player.setP_stone1(request.getParameter("vStone1"));
+		player.setP_stone2(request.getParameter("vStone2"));
+		player.setP_stone3(request.getParameter("vStone3"));
+		String date = request.getParameter("vYear") + request.getParameter("vMonth") + request.getParameter("vDay");
+		player.setP_date(date);
+		
+		System.out.println(player.toString());
+		playerservice.writePlayer(player);
+		
+		return "redirect:/player_list";
+	}
+	
+	@RequestMapping("/player_test")
+	public String playerTest() {
 		return "/test";
 	}
 	

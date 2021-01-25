@@ -156,6 +156,13 @@ public class Player {
 	public void setP_image(String p_image) {
 		this.p_image = p_image;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "Player [p_num=" + p_num + ", p_name=" + p_name + ", p_position=" + p_position + ", p_power=" + p_power
+				+ ", p_technique=" + p_technique + ", p_physical=" + p_physical + ", p_speed=" + p_speed
+				+ ", p_attribute=" + p_attribute + ", p_tier=" + p_tier + ", p_active=" + p_active + ", p_passive1="
+				+ p_passive1 + ", p_passive2=" + p_passive2 + ", p_passive3=" + p_passive3 + ", p_image=" + p_image
+				+ ", p_stone1=" + p_stone1 + ", p_stone2=" + p_stone2 + ", p_stone3=" + p_stone3 + ", p_date=" + p_date
+				+ ", p_coop=" + p_coop + ", p_coop1=" + p_coop1 + ", p_coop2=" + p_coop2 + ", p_coop3=" + p_coop3 + "]";
+	}	
 }

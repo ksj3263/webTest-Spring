@@ -11,4 +11,6 @@ public interface PlayerMapper {
 	public List<Player> getPlayerList();
 	
 	public Player findPlayer(int p_num);
+	
+	public void writePlayer(Player player);
 }

@@ -12,4 +12,40 @@
 		from player
 		where p_num = #{p_num}
 	</select>
+	
+	<insert id="writePlayer" parameterType="Player">
+		insert into player (
+			p_name,
+			p_position,
+			p_power,
+			p_technique,
+			p_physical,
+			p_speed,
+			p_active,
+			p_passive1,
+			p_passive2,
+			p_passive3,
+			p_stone1,
+			p_stone2,
+			p_stone3,
+			p_attribute,
+			p_tier
+		) values (
+			#{p_name},
+			#{p_position},
+			#{p_power},
+			#{p_technique},
+			#{p_physical},
+			#{p_speed},
+			#{p_active},
+			#{p_passive1},
+			#{p_passive2},
+			#{p_passive3},
+			#{p_stone1},
+			#{p_stone2},
+			#{p_stone3},
+			#{p_attribute},
+			#{p_tier}
+		)
+	</insert>
 </mapper>

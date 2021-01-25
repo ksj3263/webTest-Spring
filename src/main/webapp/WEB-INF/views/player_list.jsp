@@ -38,6 +38,7 @@
 </table>
 <br>
 <a href="/player_write">추가하기</a>
+<a href="/player_test">이미지 업로드 테스트</a>
 </body>
 <script>
 $(document).on('click', '#btn-all', function () {
