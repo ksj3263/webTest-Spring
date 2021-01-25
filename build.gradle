@@ -20,6 +20,7 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
 	implementation 'org.springframework.session:spring-session-jdbc'
 	implementation 'org.springframework.security:spring-security-taglibs'
+	implementation 'commons-io:commons-io:2.8'
 	
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

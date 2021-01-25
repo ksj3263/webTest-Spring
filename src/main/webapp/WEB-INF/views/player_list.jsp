@@ -13,7 +13,7 @@
 <p> 속성 : 열혈<input type="checkbox"> 질풍<input type="checkbox"> 천둥<input type="checkbox"> 섬광<input type="checkbox"> 암흑<input type="checkbox"> </p>
 <p> 포지션 : 스트라이커<input type="checkbox"> 스트라이커(원거리)<input type="checkbox"> 골키퍼<input type="checkbox"> 어태커<input type="checkbox"> 디펜더<input type="checkbox"></p>
 <p> &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 어시스터(지정)<input type="checkbox"> 어시스터(전방)<input type="checkbox"> 어시스터(세로)<input type="checkbox"> 어시스터(롱)<input type="checkbox"> 리더<input type="checkbox"> </p>
-<p> 등급 : LR<input type="checkbox"> SR<input type="checkbox"> SRB<input type="checkbox"> R<input type="checkbox"> RB<input type="checkbox"> N<input type="checkbox"> </p>
+<p> 등급 : L<input type="checkbox"> SR<input type="checkbox"> SRB<input type="checkbox"> R<input type="checkbox"> RB<input type="checkbox"> N<input type="checkbox"> </p>
 <input type="button" id="btn-all" value="전체선택"> <input type="button" id="btn-not-all" value="선택해제"> <br>
 <input type="text"> <input type="button" value="검색"> <a href="/">돌아가기</a>
 </div>
@@ -36,6 +36,8 @@
 		</tr>
 	</c:forEach>
 </table>
+<br>
+<a href="/player_write">추가하기</a>
 </body>
 <script>
 $(document).on('click', '#btn-all', function () {

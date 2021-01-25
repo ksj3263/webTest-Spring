@@ -1,5 +1,7 @@
 package com.webTest2.example.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.webTest2.example.domain.Board;
 import com.webTest2.example.domain.PaginationBoard;
@@ -330,5 +333,21 @@ public class Controller {
 		model.addAttribute("player", player);
 		
 		return "/player_detail";
+	}
+	
+	@RequestMapping("/player_write")
+	public String playerWrite(Model model) {
+		
+		return "/player_write";
+	}
+	
+	@RequestMapping("/file_upload")
+	public String fildUpload(HttpServletRequest request, @RequestParam("filename") MultipartFile mFile) {
+		try {
+			mFile.transferTo(new File("c:/soledot/" + mFile.getOriginalFilename()));
+		} catch(IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		return "/player_list";
 	}
 }
