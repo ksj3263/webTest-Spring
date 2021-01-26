@@ -22,45 +22,51 @@
         }
         
         for(var i = 1; i <= 12; i++){
-            $("#month").append("<option value='" + i + "'>"+ i +"월</option>");
+        	if(i < 10)
+        		$("#month").append("<option value='" + i + "'>0"+ i +"월</option>");
+        	else
+        		$("#month").append("<option value='" + i + "'>"+ i +"월</option>");
         }
         
         for(let d = 1 ; d <= 31 ; d++) {
-        	$("#day").append("<option value='" + d + "'>" + d + "일</option>");
+        	if(d < 10)
+        		$("#day").append("<option value='" + d + "'>0" + d + "일</option>");
+        	else
+        		$("#day").append("<option value='" + d + "'>" + d + "일</option>");
         }
     }
 </script>
 <body>
-<form action="player_write_result" method="post">
+<form id="form" method="post" enctype="multipart/form-data">
 	<p> 선수명 : <input type="text" name="p_name"></p>
-	<p> 이미지 : </p>
+	<p> 이미지 : <input type="file" name="p_image"></p>
 	<p> 포지션 :
-		<select name="position" id="position">
-			<option value="st">스트라이커</option>
-			<option value="as">어시스터</option>
-			<option value="at">어태커</option>
-			<option value="df">디펜더</option>
-			<option value="le">리더</option>
-			<option value="gk">골키퍼</option>
+		<select name="p_position" id="position">
+			<option value="스트라이커">스트라이커</option>
+			<option value="어시스터">어시스터</option>
+			<option value="어태커">어태커</option>
+			<option value="디펜더">디펜더</option>
+			<option value="리더">리더</option>
+			<option value="골키퍼">골키퍼</option>
 		</select>
 	</p>
 	<p> 속성 :
-		<select name="attribute" id="attribute">
-			<option value="am">열혈</option>
-			<option value="wh">질풍</option>
-			<option value="th">천둥</option>
-			<option value="li">섬광</option>
-			<option value="da">암흑</option>
+		<select name="p_attribute" id="attribute">
+			<option value="열혈">열혈</option>
+			<option value="질풍">질풍</option>
+			<option value="천둥">천둥</option>
+			<option value="섬광">섬광</option>
+			<option value="암흑">암흑</option>
 		</select>
 	</p>
 	<p> 등급 :
-		<select name="tier" id="tier">
-			<option value="l">L</option>
-			<option value="sr">SR</option>
-			<option value="srb">SRB</option>
-			<option value="rb">RB</option>
-			<option value="r">R</option>
-			<option value="n">N</option>
+		<select name="p_tier" id="tier">
+			<option value="L">L</option>
+			<option value="SR">SR</option>
+			<option value="SRB">SRB</option>
+			<option value="RB">RB</option>
+			<option value="R">R</option>
+			<option value="N">N</option>			
 		</select>
 	</p>
 	<p> 파워 : <input type="text" name="p_power"></p>
@@ -74,30 +80,30 @@
 	<p> 패시브3 : <input type="text" name="p_passive3"></p>
 	
 	<p> 스톤1 :
-		<select name="stone1" id="stone1">
-			<option value="am">열혈</option>
-			<option value="wh">질풍</option>
-			<option value="th">천둥</option>
-			<option value="li">섬광</option>
-			<option value="da">암흑</option>
+		<select name="p_stone1" id="stone1">
+			<option value="열혈">열혈</option>
+			<option value="질풍">질풍</option>
+			<option value="천둥">천둥</option>
+			<option value="섬광">섬광</option>
+			<option value="암흑">암흑</option>
 		</select>
 	</p>
 	<p> 스톤2 :
-		<select name="stone2" id="stone2">
-			<option value="am">열혈</option>
-			<option value="wh">질풍</option>
-			<option value="th">천둥</option>
-			<option value="li">섬광</option>
-			<option value="da">암흑</option>
+		<select name="p_stone2" id="stone2">
+			<option value="열혈">열혈</option>
+			<option value="질풍">질풍</option>
+			<option value="천둥">천둥</option>
+			<option value="섬광">섬광</option>
+			<option value="암흑">암흑</option>
 		</select>
 	</p>
 	<p> 스톤3 :
-		<select name="stone3" id="stone3">
-			<option value="am">열혈</option>
-			<option value="wh">질풍</option>
-			<option value="th">천둥</option>
-			<option value="li">섬광</option>
-			<option value="da">암흑</option>
+		<select name="p_stone3" id="stone3">
+			<option value="열혈">열혈</option>
+			<option value="질풍">질풍</option>
+			<option value="천둥">천둥</option>
+			<option value="섬광">섬광</option>
+			<option value="암흑">암흑</option>
 		</select>
 	</p>
 	
@@ -116,74 +122,47 @@
 	<p> 협동 선수1 : <input type="text" name="p_coop1"></p>
 	<p> 협동 선수2 : <input type="text" name="p_coop2"></p>
 	<p> 협동 선수3 : <input type="text" name="p_coop3"></p>
-	<input type="submit" value="완료"> 
+	
+	<p> 스토리 : <input type="text" name="p_story"></p>
+	<input type="button" value="완료" onclick="test2();"> 
 </form>
 <a href="/player_list">돌아가기</a>
-<input type="button" value="테스트용" id="btn">
 </body>
 <script>
-$(document).on('click', '#btn', function () {
+function test2() {	
+	let form = $('#form')[0];
+	let formData = new FormData(form);
+	
+	formData.delete('year');
+	formData.delete('month');
+	formData.delete('day');
+	
 	let year = document.getElementById("year");
 	let vYear = year.options[year.selectedIndex].value;
 	let month = document.getElementById("month");
 	let vMonth = month.options[month.selectedIndex].value;
 	let day = document.getElementById("day");
 	let vDay = day.options[day.selectedIndex].value;
-	console.log(vYear);
-	console.log(vMonth);
-	console.log(vDay);
+	let date = vYear;				
+	if(vMonth < 10)
+		date += '0';
+	date += vMonth;
+	if(vDay < 10)
+		date += '0';
+	date += vDay;	
 	
-	let position = document.getElementById("position");
-	let vPosition = position.options[position.selectedIndex].text;
-	let attribute = document.getElementById("attribute");
-	let vAttribute = attribute.options[attribute.selectedIndex].text;
-	let tier = document.getElementById("tier");
-	let vTier = tier.options[tier.selectedIndex].text;
-	let stone1 = document.getElementById("stone1");
-	let vStone1 = stone1.options[stone1.selectedIndex].text;
-	let stone2 = document.getElementById("stone3");
-	let vStone2 = stone2.options[stone2.selectedIndex].text;
-	let stone3 = document.getElementById("stone3");
-	let vStone3 = stone3.options[stone3.selectedIndex].text;
-	
-	console.log(vPosition);
-	console.log(vAttribute);
-	console.log(vTier);
-	console.log(vStone1);
-	console.log(vStone2);
-	console.log(vStone3);
-});
-
-$('form').on('submit', function (event) {	
-	let year = document.getElementById("year");
-	let vYear = year.options[year.selectedIndex].value;
-	let month = document.getElementById("month");
-	let vMonth = month.options[month.selectedIndex].value;
-	let day = document.getElementById("day");
-	let vDay = day.options[day.selectedIndex].value;
-	let position = document.getElementById("position");
-	let vPosition = position.options[position.selectedIndex].text;
-	let attribute = document.getElementById("attribute");
-	let vAttribute = attribute.options[attribute.selectedIndex].text;
-	let tier = document.getElementById("tier");
-	let vTier = tier.options[tier.selectedIndex].text;
-	let stone1 = document.getElementById("stone1");
-	let vStone1 = stone1.options[stone1.selectedIndex].text;
-	let stone2 = document.getElementById("stone3");
-	let vStone2 = stone2.options[stone2.selectedIndex].text;
-	let stone3 = document.getElementById("stone3");
-	let vStone3 = stone3.options[stone3.selectedIndex].text;
+	formData.append('p_date', date);
 	
 	$.ajax({
-		  method: "POST",
-		  url: "/player_write_result",
-		  data: { vYear: vYear, vMonth: vMonth, vDay: vDay, vPosition: vPosition, vAttribute: vAttribute, vTier: vTier, vStone1: vStone1, vStone2: vStone2, vStone3: vStone3 },
-		  dataType: "text"
-		}).success(function(data) {
-			location.href = "/player_list";
-		});
-
-	event.preventDefault();
-});
+		type:"POST",
+		url: "/player_write_result",
+		data: formData,
+		contentType: false,
+		processData: false
+	}).success(function(data) {
+		console.log("ok");
+		//location.href = "/player_list";
+	});
+};
 </script>
 </html>

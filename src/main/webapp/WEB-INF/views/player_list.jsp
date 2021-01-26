@@ -29,7 +29,7 @@
 	<c:forEach var="list" items="${list }">
 		<tr>
 			<td><a href="/player_detail?p_num=${list.p_num}">${list.p_name }</a></td>
-			<td><img src="${list.p_image }" width=50px height=50px> </td>
+			<td><img src="${list.p_thumb }" width=50px height=50px> </td>
 			<td>${list.p_position }</td>
 			<td>${list.p_attribute }</td>
 			<td>${list.p_tier}</td>

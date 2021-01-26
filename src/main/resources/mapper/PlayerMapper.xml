@@ -25,11 +25,15 @@
 			p_passive1,
 			p_passive2,
 			p_passive3,
+			p_thumb,
+			p_full,
 			p_stone1,
 			p_stone2,
 			p_stone3,
+			p_date,
 			p_attribute,
-			p_tier
+			p_tier,
+			p_story
 		) values (
 			#{p_name},
 			#{p_position},
@@ -41,11 +45,15 @@
 			#{p_passive1},
 			#{p_passive2},
 			#{p_passive3},
+			#{p_thumb},
+			#{p_full},
 			#{p_stone1},
 			#{p_stone2},
 			#{p_stone3},
+			#{p_date},
 			#{p_attribute},
-			#{p_tier}
+			#{p_tier},
+			#{p_story}
 		)
 	</insert>
 </mapper>

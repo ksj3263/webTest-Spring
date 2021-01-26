@@ -1,5 +1,7 @@
 package com.webTest2.example.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Player {
 	private int p_num;
 	private String p_name;
@@ -14,7 +16,9 @@ public class Player {
 	private String p_passive1;
 	private String p_passive2;
 	private String p_passive3;
-	private String p_image;
+	private MultipartFile p_image;
+	private String p_thumb;
+	private String p_full;
 	private String p_stone1;
 	private String p_stone2;
 	private String p_stone3;
@@ -23,7 +27,14 @@ public class Player {
 	private String p_coop1;
 	private String p_coop2;
 	private String p_coop3;	
-	
+	private String p_story;
+			
+	public String getP_full() {
+		return p_full;
+	}
+	public void setP_full(String p_full) {
+		this.p_full = p_full;
+	}
 	public String getP_stone1() {
 		return p_stone1;
 	}
@@ -150,12 +161,6 @@ public class Player {
 	public void setP_passive3(String p_passive3) {
 		this.p_passive3 = p_passive3;
 	}
-	public String getP_image() {
-		return p_image;
-	}
-	public void setP_image(String p_image) {
-		this.p_image = p_image;
-	}
 	@Override
 	public String toString() {
 		return "Player [p_num=" + p_num + ", p_name=" + p_name + ", p_position=" + p_position + ", p_power=" + p_power
@@ -164,5 +169,23 @@ public class Player {
 				+ p_passive1 + ", p_passive2=" + p_passive2 + ", p_passive3=" + p_passive3 + ", p_image=" + p_image
 				+ ", p_stone1=" + p_stone1 + ", p_stone2=" + p_stone2 + ", p_stone3=" + p_stone3 + ", p_date=" + p_date
 				+ ", p_coop=" + p_coop + ", p_coop1=" + p_coop1 + ", p_coop2=" + p_coop2 + ", p_coop3=" + p_coop3 + "]";
-	}	
+	}
+	public String getP_story() {
+		return p_story;
+	}
+	public void setP_story(String p_story) {
+		this.p_story = p_story;
+	}
+	public String getP_thumb() {
+		return p_thumb;
+	}
+	public void setP_thumb(String p_thumb) {
+		this.p_thumb = p_thumb;
+	}
+	public MultipartFile getP_image() {
+		return p_image;
+	}
+	public void setP_image(MultipartFile p_image) {
+		this.p_image = p_image;
+	}
 }

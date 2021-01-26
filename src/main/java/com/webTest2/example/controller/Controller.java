@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -341,52 +342,25 @@ public class Controller {
 	
 	@RequestMapping("/player_write")
 	public String playerWrite(Model model) {
-		
 		return "/player_write";
 	}
 	
 	@RequestMapping("/player_write_result")
-	public String playerWriteResult(Model model, Player player, HttpServletRequest request) {
-		// jsp에서 player값 안넘어옴
+	public String playerWriteResult(Player player, HttpServletRequest request) {
 		System.out.println(player.toString());
 		
-		System.out.println(request.getParameter("vAttribute"));
-		System.out.println(request.getParameter("vTier"));
-		System.out.println(request.getParameter("vPosition"));
-		System.out.println(request.getParameter("vStone1"));
-		System.out.println(request.getParameter("vStone2"));
-		System.out.println(request.getParameter("vStone3"));
-		player.setP_attribute(request.getParameter("vAttribute"));
-		player.setP_tier(request.getParameter("vTier"));
-		player.setP_position(request.getParameter("vPosition"));
-		player.setP_stone1(request.getParameter("vStone1"));
-		player.setP_stone2(request.getParameter("vStone2"));
-		player.setP_stone3(request.getParameter("vStone3"));
-		String date = request.getParameter("vYear") + request.getParameter("vMonth") + request.getParameter("vDay");
-		player.setP_date(date);
+		String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\";
 		
-		System.out.println(player.toString());
-		playerservice.writePlayer(player);
-		
-		return "redirect:/player_list";
-	}
-	
-	@RequestMapping("/player_test")
-	public String playerTest() {
-		return "/test";
-	}
-	
-	@RequestMapping("/file_upload")
-	public String fildUpload(HttpServletRequest request, @RequestParam("filename") MultipartFile mFile) {
+		MultipartFile file = player.getP_image();
+		String uuidName = UUID.randomUUID().toString() + file.getOriginalFilename();
+		String oPath = path + uuidName; // 원본 경로
+					
 		try {
-			mFile.transferTo(new File("c:/soledot/" + mFile.getOriginalFilename()));
+			file.transferTo(new File(oPath));
 		} catch(IllegalStateException | IOException e) {
 			e.printStackTrace();
-		}		
-
-		// thumbnail
+		}
 		
-		String oPath = "C:/soledot/" + mFile.getOriginalFilename(); // 원본 경로
 		File oFile = new File(oPath);
 
 		int index = oPath.lastIndexOf(".");
@@ -411,8 +385,12 @@ public class Controller {
 			ImageIO.write(tImage, ext, tFile);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
 		
-		return "/player_list";
+		player.setP_full("resources\\img\\" + uuidName);
+		player.setP_thumb("resources\\img\\t-" + uuidName);
+		playerservice.writePlayer(player);
+		
+		return "redirect:/player_list";
 	}
 }
