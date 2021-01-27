@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +34,7 @@ import com.webTest2.example.domain.PaginationBoard;
 import com.webTest2.example.domain.PaginationUser;
 import com.webTest2.example.domain.Player;
 import com.webTest2.example.domain.Reply;
+import com.webTest2.example.domain.Search;
 import com.webTest2.example.domain.User;
 import com.webTest2.example.service.BoardService;
 import com.webTest2.example.service.PlayerService;
@@ -392,5 +394,31 @@ public class Controller {
 		playerservice.writePlayer(player);
 		
 		return "redirect:/player_list";
+	}
+	
+	@RequestMapping("/player_search")
+	public String PlayerSearch(Model model, Search search) {
+		System.out.println(search.toString());
+		List<String> temp = new ArrayList<String>();
+		temp.add("");	
+		
+		if(search.getAttributes() == null) {
+			search.setAttributes(temp);
+			search.setCheckAttributes(false);
+		}
+		if(search.getPositions() == null) { 
+			search.setPositions(temp);
+			search.setCheckPositions(false);
+		}
+		if(search.getTiers() == null) {
+			search.setTiers(temp);
+			search.setCheckTiers(false);
+		}
+		
+		System.out.println(search.toString());
+		List<Player> list = playerservice.searchPlayer(search);
+		
+		model.addAttribute("list", list);
+		return "/player_search";
 	}
 }

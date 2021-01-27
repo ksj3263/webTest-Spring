@@ -21,6 +21,7 @@
 			p_technique,
 			p_physical,
 			p_speed,
+			p_ace,
 			p_active,
 			p_passive1,
 			p_passive2,
@@ -41,6 +42,7 @@
 			#{p_technique},
 			#{p_physical},
 			#{p_speed},
+			#{p_ace},
 			#{p_active},
 			#{p_passive1},
 			#{p_passive2},
@@ -56,4 +58,29 @@
 			#{p_story}
 		)
 	</insert>
+	
+	<select id="searchPlayer" resultType="Player">
+		select *
+		from player
+		where 1=1
+		<if test="checkAttributes">
+			and p_attribute in
+			<foreach collection="attributes" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="checkPositions">
+			and p_position in
+			<foreach collection="positions" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="checkTiers">
+			and p_tier in
+			<foreach collection="tiers" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		order by p_num desc
+	</select>
 </mapper>

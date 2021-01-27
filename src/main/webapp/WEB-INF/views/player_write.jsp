@@ -74,6 +74,7 @@
 	<p> 피지컬 : <input type="text" name="p_physical"></p>
 	<p> 스피드 : <input type="text" name="p_speed"></p>
 	
+	<p> 에이스 : <input type="text" name="p_ace"></p>
 	<p> 액티브 : <input type="text" name="p_active"></p>
 	<p> 패시브1 : <input type="text" name="p_passive1"></p>
 	<p> 패시브2 : <input type="text" name="p_passive2"></p>

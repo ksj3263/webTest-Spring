@@ -12,6 +12,7 @@ public class Player {
 	private int p_speed;
 	private String p_attribute;
 	private String p_tier;
+	private String p_ace;
 	private String p_active;
 	private String p_passive1;
 	private String p_passive2;
@@ -29,6 +30,12 @@ public class Player {
 	private String p_coop3;	
 	private String p_story;
 			
+	public String getP_ace() {
+		return p_ace;
+	}
+	public void setP_ace(String p_ace) {
+		this.p_ace = p_ace;
+	}
 	public String getP_full() {
 		return p_full;
 	}

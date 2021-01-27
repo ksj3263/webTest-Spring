@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.webTest2.example.domain.Player;
+import com.webTest2.example.domain.Search;
 import com.webTest2.example.mapper.PlayerMapper;
 
 @Service("PlayerServiceImpl")
@@ -25,5 +26,10 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void writePlayer(Player player) {
 		playermapper.writePlayer(player);
+	}
+	
+	@Override
+	public List<Player> searchPlayer(Search search) {
+		return playermapper.searchPlayer(search);
 	}
 }
