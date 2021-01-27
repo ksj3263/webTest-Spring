@@ -306,17 +306,11 @@ public class Controller {
 	}
 	
 	@RequestMapping("/user_edit_result")
-	public String userEditResult(Model model, @RequestParam("username") String username, HttpServletRequest request) {
-		User user = userservice.findUser(username);
-		
-		user.setAccountNonExpired(Boolean.parseBoolean(request.getParameter("ANE")));
-		user.setAccountNonLocked(Boolean.parseBoolean(request.getParameter("ANL")));
-		user.setCredentialsNonExpired(Boolean.parseBoolean(request.getParameter("CNE")));
-		user.setEnabled(Boolean.parseBoolean(request.getParameter("E")));
-		user.setuName(request.getParameter("uName"));
-		
+	public String userEditResult(Model model, User user) {
+		System.out.println(user.toString());
+		System.out.println(user.getUsername());
 		userservice.editUser(user);
-		
+		//user data 잘 안넘어옴
 		return "/user_edit_result";
 	}
 	

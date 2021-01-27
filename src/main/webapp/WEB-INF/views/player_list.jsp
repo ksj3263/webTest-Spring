@@ -65,7 +65,7 @@ RB<input type="checkbox" id="RB" value="RB" class="tier">
 N<input type="checkbox" id="N" value="N" class="tier"> </p>
 
 <input type="button" id="btn-all" value="전체선택"> <input type="button" id="btn-not-all" value="선택해제"> <br>
-<input type="text" id="content"> <input type="button" value="검색" id="btn-search"> <button onclick="history.back()">돌아가기</button>
+<input type="text" id="content"> <input type="button" value="검색" id="btn-search"> <a href="/"><input type="button" value="돌아가기"></a>
 </div>
 <br>
 <div id="playerList">

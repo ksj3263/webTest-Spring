@@ -125,12 +125,12 @@
 	<p> 협동 선수3 : <input type="text" name="p_coop3"></p>
 	
 	<p> 스토리 : <input type="text" name="p_story"></p>
-	<input type="button" value="완료" onclick="test2();"> 
+	<input type="button" value="완료" onclick="submit();"> 
 </form>
 <a href="/player_list">돌아가기</a>
 </body>
 <script>
-function test2() {	
+function submit() {	
 	let form = $('#form')[0];
 	let formData = new FormData(form);
 	
