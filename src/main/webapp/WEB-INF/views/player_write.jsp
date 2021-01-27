@@ -119,7 +119,7 @@
 		</select>
 	</p>
 	
-	<p> 협동기 : <input type="text" name="p_coop"></p>
+	<p> 협동기/결전기 : <input type="text" name="p_coop"></p>
 	<p> 협동 선수1 : <input type="text" name="p_coop1"></p>
 	<p> 협동 선수2 : <input type="text" name="p_coop2"></p>
 	<p> 협동 선수3 : <input type="text" name="p_coop3"></p>
@@ -161,8 +161,7 @@ function test2() {
 		contentType: false,
 		processData: false
 	}).success(function(data) {
-		console.log("ok");
-		//location.href = "/player_list";
+		location.href = "/player_list";
 	});
 };
 </script>

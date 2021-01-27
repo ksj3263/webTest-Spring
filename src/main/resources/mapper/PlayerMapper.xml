@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.webTest2.example.mapper.PlayerMapper">
-	<select id="getPlayerList" resultType="Player">
-		SELECT *
-	    FROM player
-	    order by p_num desc
+	<select id="getPlayerList" resultType="Player" parameterType="int">
+		SELECT @ROWNUM := @ROWNUM -1 as ROWNUM,	ta.*
+	    FROM player ta,
+	    	(select @rownum := (select count(*)-#{pageNum}+1 from player ta)) tb
+	  	order by ta.p_num desc
+	    limit #{pageNum}, 10
 	</select>
 	
 	<select id="findPlayer" resultType="Player">
@@ -82,5 +84,10 @@
 			</foreach>
 		</if>
 		order by p_num desc
+	</select>
+	
+	<select id="getPlayerCount" resultType="int">
+		select count(*) as count
+		from player
 	</select>
 </mapper>

@@ -14,8 +14,8 @@ public class PlayerServiceImpl implements PlayerService {
 	@Autowired PlayerMapper playermapper;
 	
 	@Override
-	public List<Player> getPlayerList() {
-		return playermapper.getPlayerList();
+	public List<Player> getPlayerList(int page) {
+		return playermapper.getPlayerList((page-1)*10);
 	}
 	
 	@Override
@@ -31,5 +31,10 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public List<Player> searchPlayer(Search search) {
 		return playermapper.searchPlayer(search);
+	}
+	
+	@Override
+	public int getPlayerCount() {
+		return playermapper.getPlayerCount();
 	}
 }

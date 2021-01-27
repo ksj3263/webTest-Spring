@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.webTest2.example.domain.Board;
 import com.webTest2.example.domain.PaginationBoard;
+import com.webTest2.example.domain.PaginationPlayer;
 import com.webTest2.example.domain.PaginationUser;
 import com.webTest2.example.domain.Player;
 import com.webTest2.example.domain.Reply;
@@ -327,10 +328,12 @@ public class Controller {
 	}
 	
 	@RequestMapping("/player_list")
-	public String playerList(Model model) {
-		List<Player> list = playerservice.getPlayerList();
-		
+	public String playerList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page) {
+		List<Player> list = playerservice.getPlayerList(Integer.parseInt(page));
 		model.addAttribute("list", list);
+		
+		PaginationPlayer pgp = new PaginationPlayer(Integer.parseInt(page), playerservice.getPlayerCount());
+		model.addAttribute("pagination", pgp);
 		return "/player_list";
 	}
 	
