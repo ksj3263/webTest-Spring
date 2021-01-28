@@ -16,37 +16,37 @@
 		
 		 <c:choose>
 			<c:when test="${user.isAccountNonExpired }">
-				<p> isAccountNonExpired <input type="checkbox" checked name="isAccountNonExpired" value="true"></p>
+				<p> isAccountNonExpired <input type="checkbox" checked name="ANE" value="true"></p>
 			</c:when>
 			<c:when test="${not user.isAccountNonExpired }">
-				<p> isAccountNonExpired <input type="checkbox" name="isAccountNonExpired" value="true"></p>
+				<p> isAccountNonExpired <input type="checkbox" name="ANE" value="true"></p>
 			</c:when>
 		</c:choose>
 		
 		<c:choose>		
 			<c:when test="${user.isAccountNonLocked }">
-				<p> isAccountNonLocked <input type="checkbox" checked name="isAccountNonLocked" value="true"></p>
+				<p> isAccountNonLocked <input type="checkbox" checked name="ANL" value="true"></p>
 			</c:when>
 			<c:when test="${not user.isAccountNonLocked }">
-				<p> isAccountNonLocked <input type="checkbox" name="isAccountNonLocked" value="true"></p>
+				<p> isAccountNonLocked <input type="checkbox" name="ANL" value="true"></p>
 			</c:when>
 		</c:choose>
 		
 		<c:choose>
 			<c:when test="${user.isCredentialsNonExpired }">
-				<p> isCredentialsNonExpired <input type="checkbox" checked name="isCredentialsNonExpired" value="true"></p>
+				<p> isCredentialsNonExpired <input type="checkbox" checked name="CNE" value="true"></p>
 			</c:when>
 			<c:when test="${not user.isCredentialsNonExpired }">
-				<p> isCredentialsNonExpired <input type="checkbox" name="isCredentialsNonExpired" value="true"></p>
+				<p> isCredentialsNonExpired <input type="checkbox" name="CNE" value="true"></p>
 			</c:when>
 		</c:choose>
 		
 		<c:choose>		
 			<c:when test="${user.isEnabled }">
-				<p> isEnabled <input type="checkbox" checked name="isEnabled" value="true"></p>
+				<p> isEnabled <input type="checkbox" checked name="E" value="true"></p>
 			</c:when>
 			<c:when test="${not user.isEnabled }">
-				<p> isEnabled <input type="checkbox" name="isEnabled" value="true"></p>
+				<p> isEnabled <input type="checkbox" name="E" value="true"></p>
 			</c:when>
 		</c:choose>
 		
@@ -58,13 +58,18 @@
 function edit() {	
 	let form = $('#form')[0];
 	let formData = new FormData(form);
+	let url = '/user_edit_result';
 	let username = $('input[name="username"]').val();
-	let url = '/user_edit_result?username=' + username;
 	
-	for(var pair of formData.entries()) {
-	   console.log(pair[0]+ ', '+ pair[1]);
-	}
-	
+	if(!formData.get("ANE"))
+		formData.append("ANE", "false");
+	if(!formData.get("ANL"))
+		formData.append("ANL", "false");
+	if(!formData.get("CNE"))
+		formData.append("CNE", "false");
+	if(!formData.get("E"))
+		formData.append("E", "false");
+		
 	$.ajax({
 		type: "POST",
 		url: url,
@@ -73,7 +78,7 @@ function edit() {
 		contentType: false,
 		dataType: "html"
 	}).success(function (data) {
-		console.log("ok");
+		location.href = data + username;
 	});
 };
 </script>

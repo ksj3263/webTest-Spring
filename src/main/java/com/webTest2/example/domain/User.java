@@ -21,6 +21,43 @@ public class User implements UserDetails{
 	private boolean isCredentialsNonExpired;
 	private boolean isEnabled;
 	
+	private String ANE;
+	private String ANL;
+	private String CNE;
+	private String E;
+	
+	public String getANE() {
+		return ANE;
+	}
+
+	public void setANE(String aNE) {
+		ANE = aNE;
+	}
+
+	public String getANL() {
+		return ANL;
+	}
+
+	public void setANL(String aNL) {
+		ANL = aNL;
+	}
+
+	public String getCNE() {
+		return CNE;
+	}
+
+	public void setCNE(String cNE) {
+		CNE = cNE;
+	}
+
+	public String getE() {
+		return E;
+	}
+
+	public void setE(String e) {
+		E = e;
+	}
+
 	public String getuName() {
 		return uName;
 	}
@@ -66,14 +103,6 @@ public class User implements UserDetails{
 		return authorities;
 	}
 	
-	@Override
-	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", uName=" + uName + ", uDateTime=" + uDateTime
-				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
-				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + "]";
-	}
-
 	@Override
 	public String getPassword() {
 		return password;
@@ -131,4 +160,12 @@ public class User implements UserDetails{
 	public boolean getisEnabled() {
 		return isEnabled;
 	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", password=" + password + ", uName=" + uName + ", uDateTime=" + uDateTime
+				+ ", rowNum=" + rowNum + ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
+				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
+				+ ", isEnabled=" + isEnabled + ", ANE=" + ANE + ", ANL=" + ANL + ", CNE=" + CNE + ", E=" + E + "]";
+	}	
 }

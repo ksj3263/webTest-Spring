@@ -307,10 +307,17 @@ public class Controller {
 	
 	@RequestMapping("/user_edit_result")
 	public String userEditResult(Model model, User user) {
-		System.out.println(user.toString());
-		System.out.println(user.getUsername());
+		if(user.getANE().equals("true"))
+			user.setAccountNonExpired(true);
+		if(user.getANL().equals("true"))
+			user.setAccountNonLocked(true);
+		if(user.getCNE().equals("true"))
+			user.setCredentialsNonExpired(true);
+		if(user.getE().equals("true"))
+			user.setEnabled(true);
+				
 		userservice.editUser(user);
-		//user data 잘 안넘어옴
+		
 		return "/user_edit_result";
 	}
 	
