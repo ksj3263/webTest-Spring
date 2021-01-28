@@ -9,6 +9,7 @@ public class Search {
 	private Boolean checkAttributes;
 	private Boolean checkPositions;
 	private Boolean checkTiers;
+	private String content;
 	
 	public Boolean getCheckAttributes() {
 		return checkAttributes;
@@ -51,5 +52,11 @@ public class Search {
 		return "Search [attributes=" + attributes + ", positions=" + positions + ", tiers=" + tiers
 				+ ", checkAttributes=" + checkAttributes + ", checkPositions=" + checkPositions + ", checkTiers="
 				+ checkTiers + "]";
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}	
 }

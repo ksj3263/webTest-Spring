@@ -9,7 +9,7 @@
 </head>
 <body>	
 	<p> 선수명 : ${player.p_name }</p>
-	<p> 이미지 : <img src="${player.p_full }"></p>
+	<p> 선수 이미지 <br> <img src="${player.p_full }"></p>
 	<p> 포지션 : ${player.p_position } </p>
 	<p> 속성 : ${player.p_attribute } </p>
 	<p> 등급 : ${player.p_tier } </p>

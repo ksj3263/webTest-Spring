@@ -404,8 +404,7 @@ public class Controller {
 	}
 	
 	@RequestMapping("/player_search")
-	public String PlayerSearch(Model model, Search search) {
-		System.out.println(search.toString());
+	public String PlayerSearch(Model model, Search search, @RequestParam (value="page", required=false, defaultValue="1") String page) {
 		List<String> temp = new ArrayList<String>();
 		temp.add("");	
 		
@@ -423,9 +422,13 @@ public class Controller {
 		}
 		
 		System.out.println(search.toString());
+		System.out.println(search.getContent());
 		List<Player> list = playerservice.searchPlayer(search);
 		
 		model.addAttribute("list", list);
+		
+		PaginationPlayer pgp = new PaginationPlayer(Integer.parseInt(page), list.size());
+		model.addAttribute("pagination", pgp);
 		return "/player_search";
 	}
 	
@@ -489,5 +492,13 @@ public class Controller {
 		playerservice.editPlayer(player);
 		
 		return "redirect:/player_list";
+	}
+	
+	@RequestMapping("/player_test")
+	public String playerTest() {
+		// ajax로 vo로 받기
+		// name=value로 값이 넘어온다
+		// pagination 합치기
+		return "";
 	}
 }
