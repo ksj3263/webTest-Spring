@@ -9,11 +9,72 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         setDateBox();
+        
+        $('#position option').each(function() {
+            if($(this).val() == "${player.p_position}"){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#attribute option').each(function() {
+            if($(this).val() == "${player.p_attribute}"){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#tier option').each(function() {
+            if($(this).val() == "${player.p_tier}"){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#stone1 option').each(function() {
+            if($(this).val() == "${player.p_stone1}"){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#stone2 option').each(function() {
+            if($(this).val() == "${player.p_stone2}"){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#stone3 option').each(function() {
+            if($(this).val() == "${player.p_stone3}"){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        let date = "${player.p_date}".split("-");
+        let year = date[0];
+        let month = parseInt(date[1], 10);
+        let day = parseInt(date[2], 10);
+        
+        $('#year option').each(function() {
+            if($(this).val() == year){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#month option').each(function() {
+            if($(this).val() == month){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        $('#day option').each(function() {
+            if($(this).val() == day){
+              $(this).attr("selected", "selected");
+            }
+		});
+        
+        console.log("ready");
     });    
  
-    function setDateBox(){
+    function setDateBox() {
         var dt = new Date();
         var com_year = dt.getFullYear();
         
@@ -38,12 +99,15 @@
 </script>
 <body>
 <form id="form" method="post" enctype="multipart/form-data">
-	<p> 선수명 : <input type="text" name="p_name"></p>
+	<input type="hidden" name="p_num" value="${player.p_num }">
+	<p> 선수명 : <input type="text" name="p_name" value="${player.p_name }"></p>
 	<p> 이미지 : <input type="file" name="p_image" onchange="setThumbnail(event);"></p>	
 	<div id="image_container">
+		<img src="${player.p_full }">
 	</div>
 	<script>
 	function setThumbnail(event) {
+		$('#image_container').empty();
 		var reader = new FileReader(); 
 		reader.onload = function(event) { 
 			var img = document.createElement("img");
@@ -52,7 +116,7 @@
 			}; 
 		reader.readAsDataURL(event.target.files[0]);
 	}
-	</script>
+	</script>	
 	
 	<p> 포지션 :
 		<select name="p_position" id="position">
@@ -83,16 +147,16 @@
 			<option value="N">N</option>			
 		</select>
 	</p>
-	<p> 파워 : <input type="text" name="p_power"></p>
-	<p> 테크닉 : <input type="text" name="p_technique"></p>
-	<p> 피지컬 : <input type="text" name="p_physical"></p>
-	<p> 스피드 : <input type="text" name="p_speed"></p>
+	<p> 파워 : <input type="text" name="p_power" value="${player.p_power}"></p>
+	<p> 테크닉 : <input type="text" name="p_technique" value="${player.p_technique}"></p>
+	<p> 피지컬 : <input type="text" name="p_physical" value="${player.p_physical }"></p>
+	<p> 스피드 : <input type="text" name="p_speed" value="${player.p_speed }"></p>
 	
-	<p> 에이스 : <input type="text" name="p_ace"></p>
-	<p> 액티브 : <input type="text" name="p_active"></p>
-	<p> 패시브1 : <input type="text" name="p_passive1"></p>
-	<p> 패시브2 : <input type="text" name="p_passive2"></p>
-	<p> 패시브3 : <input type="text" name="p_passive3"></p>
+	<p> 에이스 : <input type="text" name="p_ace" value="${player.p_ace }"></p>
+	<p> 액티브 : <input type="text" name="p_active" value="${player.p_active }"></p>
+	<p> 패시브1 : <input type="text" name="p_passive1" value="${player.p_passive1 }"></p>
+	<p> 패시브2 : <input type="text" name="p_passive2" value="${player.p_passive2 }"></p>
+	<p> 패시브3 : <input type="text" name="p_passive3" value="${player.p_passive3 }"></p>
 	
 	<p> 스톤1 :
 		<select name="p_stone1" id="stone1">
@@ -133,18 +197,18 @@
 		</select>
 	</p>
 	
-	<p> 협동기/결전기 : <input type="text" name="p_coop"></p>
-	<p> 협동 선수1 : <input type="text" name="p_coop1"></p>
-	<p> 협동 선수2 : <input type="text" name="p_coop2"></p>
-	<p> 협동 선수3 : <input type="text" name="p_coop3"></p>
+	<p> 협동기/결전기 : <input type="text" name="p_coop" value="${player.p_coop }"></p>
+	<p> 협동 선수1 : <input type="text" name="p_coop1" value="${player.p_coop1 }"></p>
+	<p> 협동 선수2 : <input type="text" name="p_coop2" value="${player.p_coop2 }"></p>
+	<p> 협동 선수3 : <input type="text" name="p_coop3" value="${player.p_coop3 }"></p>
 	
-	<p> 스토리 : <input type="text" name="p_story"></p>
-	<input type="button" value="완료" onclick="transfer();"> 
+	<p> 스토리 : <input type="text" name="p_story" value="${player.p_story }"></p>
+	<input type="button" value="완료" onclick="transfer();">
 </form>
-<a href="/player_list">돌아가기</a>
+<a href="/player_detail?p_num=${player.p_num }">돌아가기</a>
 </body>
 <script>
-function transfer() {	
+function transfer() {
 	let form = $('#form')[0];
 	let formData = new FormData(form);
 	
@@ -167,16 +231,20 @@ function transfer() {
 	date += vDay;	
 	
 	formData.append('p_date', date);
-	
+		
 	$.ajax({
 		type:"POST",
-		url: "/player_write_result",
+		url: "/player_edit_result",
 		data: formData,
 		contentType: false,
-		processData: false
+		processData: false,
+		error:function(request, status, error) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
 	}).success(function(data) {
-		location.href = "/player_list";
+		console.log("ok");
+		location.href = "/player_detail?p_num=" + ${player.p_num};
 	});
-};
+}
 </script>
 </html>

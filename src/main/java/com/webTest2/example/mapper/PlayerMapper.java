@@ -18,4 +18,6 @@ public interface PlayerMapper {
 	public List<Player> searchPlayer(Search search);
 	
 	public int getPlayerCount();
+	
+	public void editPlayer(Player player);
 }

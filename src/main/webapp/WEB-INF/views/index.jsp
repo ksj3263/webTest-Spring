@@ -30,8 +30,8 @@
 		</div>
 		<div>
 			<a href="/board_list">자유게시판</a>
-			<a href="/skin_list">스킨 목록</a>
 			<a href="/player_list">선수 DB</a>
+			<a href="/skin_list">스킨 목록</a>
 		</div>
 </body>
 </html>

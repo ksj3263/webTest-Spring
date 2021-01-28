@@ -90,4 +90,29 @@
 		select count(*) as count
 		from player
 	</select>
+	
+	<update id = "editPlayer" parameterType="player">
+		update player
+		set p_name = #{p_name},
+			p_position = #{p_position},
+			p_power = #{p_power},
+			p_technique = 	#{p_technique},
+			p_physical = #{p_physical},
+			p_speed = #{p_speed},
+			p_ace = #{p_ace},
+			p_full = #{p_full},
+			p_thumb = #{p_thumb},
+			p_active = #{p_active},
+			p_passive1 = #{p_passive1},
+			p_passive2 = #{p_passive2},
+			p_passive3 = #{p_passive3},
+			p_stone1 = #{p_stone1},
+			p_stone2 = #{p_stone2},
+			p_stone3 = #{p_stone3},
+			p_date = #{p_date},
+			p_attribute = #{p_attribute},
+			p_tier = #{p_tier},
+			p_story = #{p_story}
+		where p_num=#{p_num}
+	</update>
 </mapper>

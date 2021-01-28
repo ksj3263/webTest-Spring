@@ -44,6 +44,7 @@
 		
 	<p> 스토리 : ${player.p_story }</p>
 	
+	<a href="/player_edit?p_num=${player.p_num }">수정하기</a>
 	<a href="/player_list">돌아가기</a>
 </body>
 </html>

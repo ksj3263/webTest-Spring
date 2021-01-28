@@ -355,46 +355,49 @@ public class Controller {
 	public String playerWriteResult(Player player, HttpServletRequest request) {
 		System.out.println(player.toString());
 		
-		String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\";
-		
-		MultipartFile file = player.getP_image();
-		String uuidName = UUID.randomUUID().toString() + file.getOriginalFilename();
-		String oPath = path + uuidName; // 원본 경로
-					
-		try {
-			file.transferTo(new File(oPath));
-		} catch(IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		File oFile = new File(oPath);
-
-		int index = oPath.lastIndexOf(".");
-		String ext = oPath.substring(index + 1); // 파일 확장자
-
-		String tPath = oFile.getParent() + File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
-		File tFile = new File(tPath);
-		
-		double ratio = 2; // 이미지 축소 비율
-
-		try {
-			BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
-			int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
-			int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+		if(!player.getP_image().getOriginalFilename().equals("")) {
+			String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\";
 			
-			BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
-			Graphics2D graphic = tImage.createGraphics();
-			Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
-			graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
-			graphic.dispose(); // 리소스를 모두 해제
+			MultipartFile file = player.getP_image();
+			String uuidName = UUID.randomUUID().toString() + file.getOriginalFilename();
+			String oPath = path + uuidName; // 원본 경로
+						
+			try {
+				file.transferTo(new File(oPath));
+			} catch(IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			File oFile = new File(oPath);
 
-			ImageIO.write(tImage, ext, tFile);
-		} catch (IOException e) {
-			e.printStackTrace();
+			int index = oPath.lastIndexOf(".");
+			String ext = oPath.substring(index + 1); // 파일 확장자
+
+			String tPath = oFile.getParent() + File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
+			File tFile = new File(tPath);
+			
+			double ratio = 2; // 이미지 축소 비율
+
+			try {
+				BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
+				int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
+				int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+				
+				BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
+				Graphics2D graphic = tImage.createGraphics();
+				Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+				graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+				graphic.dispose(); // 리소스를 모두 해제
+
+				ImageIO.write(tImage, ext, tFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
+			
+			player.setP_full("resources\\img\\" + uuidName);
+			player.setP_thumb("resources\\img\\t-" + uuidName);
 		}		
 		
-		player.setP_full("resources\\img\\" + uuidName);
-		player.setP_thumb("resources\\img\\t-" + uuidName);
 		playerservice.writePlayer(player);
 		
 		return "redirect:/player_list";
@@ -424,5 +427,67 @@ public class Controller {
 		
 		model.addAttribute("list", list);
 		return "/player_search";
+	}
+	
+	@RequestMapping("/player_edit")
+	public String PlayerEdit(Model model, @RequestParam("p_num") int p_num) {
+		Player player = playerservice.findPlayer(p_num);
+		
+		model.addAttribute(player);
+		return "/player_edit";
+	}
+	
+	@RequestMapping("/player_edit_result")
+	public String PlayerEditResult(Player player, HttpServletRequest request) {
+		System.out.println(player.toString());
+				
+		if(player.getP_image() != null) {
+			if(!player.getP_image().getOriginalFilename().equals("")) {
+				String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\";
+				
+				MultipartFile file = player.getP_image();
+				String uuidName = UUID.randomUUID().toString() + file.getOriginalFilename();
+				String oPath = path + uuidName; // 원본 경로
+							
+				try {
+					file.transferTo(new File(oPath));
+				} catch(IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				File oFile = new File(oPath);
+	
+				int index = oPath.lastIndexOf(".");
+				String ext = oPath.substring(index + 1); // 파일 확장자
+	
+				String tPath = oFile.getParent() + File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
+				File tFile = new File(tPath);
+				
+				double ratio = 2; // 이미지 축소 비율
+	
+				try {
+					BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
+					int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
+					int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+					
+					BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
+					Graphics2D graphic = tImage.createGraphics();
+					Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+					graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+					graphic.dispose(); // 리소스를 모두 해제
+	
+					ImageIO.write(tImage, ext, tFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}		
+				
+				player.setP_full("resources\\img\\" + uuidName);
+				player.setP_thumb("resources\\img\\t-" + uuidName);
+			}
+		}
+		
+		playerservice.editPlayer(player);
+		
+		return "redirect:/player_list";
 	}
 }

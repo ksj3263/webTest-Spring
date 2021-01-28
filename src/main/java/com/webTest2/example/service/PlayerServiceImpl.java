@@ -37,4 +37,9 @@ public class PlayerServiceImpl implements PlayerService {
 	public int getPlayerCount() {
 		return playermapper.getPlayerCount();
 	}
+	
+	@Override
+	public void editPlayer(Player player) {
+		playermapper.editPlayer(player);
+	}
 }
