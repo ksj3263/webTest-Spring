@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.webTest2.example.domain.Board;
+import com.webTest2.example.domain.Search;
 import com.webTest2.example.mapper.BoardMapper;
 
 @Service("BoardServiceImpl")
@@ -13,8 +14,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired BoardMapper boardmapper;
 	@Override
-	public List<Board> selectBoardList(int page) {
-		return boardmapper.selectBoardList((page-1)*10);
+	public List<Board> selectBoardList(Search search) {
+		return boardmapper.selectBoardList(search);
 	}
 	
 	@Override

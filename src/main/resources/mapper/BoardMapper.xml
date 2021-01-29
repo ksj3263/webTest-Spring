@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.webTest2.example.mapper.BoardMapper">
-	<select id="selectBoardList" resultType="Board">
+	<select id="selectBoardList" resultType="Board" parameterType="search">
 		SELECT @ROWNUM := @ROWNUM -1 as ROWNUM,
 				ta.b_id as bId,
 				ta.b_title as bTitle,
@@ -9,9 +9,22 @@
 				ta.b_writer as bWriter,
 				ta.b_datetime as bDateTime
 	    FROM board ta,
-	    	(select @rownum := (select count(*)-#{pageNum}+1 from board ta)) tb
+	    	(select @rownum := (select count(*)-#{page}+1 from board ta)) tb
+	    where 1=1
+	    <if test='searchType == 1'>
+	    	and (ta.b_title like concat('%', #{content}, '%') or ta.b_content like concat('%', #{content}, '%'))
+	    </if>
+	    <if test='searchType == 2'>
+	    	and ta.b_title like concat('%', #{content}, '%')
+	    </if>
+	    <if test='searchType == 3'>
+	    	and ta.b_content like concat('%', #{content}, '%')
+	    </if>
+	    <if test='searchType == 4'>
+	    	and ta.b_writer like concat('%', #{content}, '%')
+	    </if>
 	  	order by ta.b_base desc, b_order asc
-	    limit #{pageNum}, 10
+	    limit #{page}, 10
 	</select>
 	
 	<insert id="writeBoard" parameterType="Board">

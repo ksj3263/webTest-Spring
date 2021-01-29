@@ -99,13 +99,21 @@ public class Controller {
 	}
 	
 	@RequestMapping("/board_list")
-	public String boardList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page) {				
-		List<Board> list = boardservice.selectBoardList(Integer.parseInt(page));
+	public String boardList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page, Search search) {
+		System.out.println(search.toString());
+		search.setPage((Integer.parseInt(page)-1)*10);
+		if(search.getContent() == null)
+			search.setContent("");
+				
+		List<Board> list = boardservice.selectBoardList(search);
 		model.addAttribute("list", list);
 		
 		Pagination pg = new Pagination(Integer.parseInt(page), boardservice.getBoardCount());
 		model.addAttribute("pagination", pg);
 		return "/board_list";
+		
+		// search pagination
+		// searchType 5 6 
 	}
 	
 	@Secured({"ROLE_USER"})
@@ -118,7 +126,6 @@ public class Controller {
 	public String boardWriteResult(Model model, Board board) {
 		board.setbOrder(0);
 		board.setbGroup(0);
-		board.setuId(board.getbWriter());
 		boardservice.writeBoard(board);
 		boardservice.updateBase();		
 		
@@ -327,12 +334,8 @@ public class Controller {
 	
 	@RequestMapping("/player_list")
 	public String playerList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page, Search search) {
-		System.out.println(page);
-		System.out.println(search.toString());
-		
 		if(search.getContent() == null)
 			search.setContent("");
-		System.out.println(search.getContent());
 		
 		search.setCheckAttributes(true);
 		search.setCheckPositions(true);

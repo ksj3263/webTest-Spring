@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <style>
 	table {
 		border-collapse:collapse;
@@ -65,7 +66,21 @@
 	</sec:authorize>
 	
 	<a href="/">돌아가기</a>
-		
+	
+	<br>
+	<form id="form">
+		<select name="searchType">
+			<option value="1">글 제목&내용</option>
+			<option value="2">글 제목</option>
+			<option value="3">글 내용</option>
+			<option value="4">글 작성자</option>
+			<option value="5">댓글 내용</option>
+			<option value="6">댓글 작성자</option>
+		</select>
+		<input type="text" name="content"> 
+	</form>
+	<button onclick="transfer()">검색</button>
+
 	<div>
 		<ul>
 			 <c:choose>
@@ -109,4 +124,11 @@
 		</ul>
 	</div>
 </body>
+<script>
+function transfer() {	
+	let params = $('#form').serialize();
+	
+	location.href = "/board_list?" + params;
+};
+</script>
 </html>

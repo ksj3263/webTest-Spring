@@ -11,7 +11,14 @@ public class Search {
 	private boolean checkPositions;
 	private boolean checkAttributes;
 	private boolean checkTiers;
-		
+	private int searchType;
+			
+	public int getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(int searchType) {
+		this.searchType = searchType;
+	}
 	public boolean isCheckPositions() {
 		return checkPositions;
 	}
@@ -62,7 +69,8 @@ public class Search {
 	}
 	@Override
 	public String toString() {
-		return "Search2 [positions=" + positions + ", attributes=" + attributes + ", tiers=" + tiers + ", content="
-				+ content + "]";
+		return "Search [positions=" + positions + ", attributes=" + attributes + ", tiers=" + tiers + ", content="
+				+ content + ", page=" + page + ", checkPositions=" + checkPositions + ", checkAttributes="
+				+ checkAttributes + ", checkTiers=" + checkTiers + ", searchType=" + searchType + "]";
 	}	
 }

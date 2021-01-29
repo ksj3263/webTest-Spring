@@ -9,8 +9,6 @@ import com.webTest2.example.domain.Search;
 
 @Mapper
 public interface PlayerMapper {
-	public List<Player> getPlayerList(int pageNum);
-	
 	public Player findPlayer(int p_num);
 	
 	public void writePlayer(Player player);

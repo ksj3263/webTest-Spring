@@ -3,9 +3,10 @@ package com.webTest2.example.service;
 import java.util.List;
 
 import com.webTest2.example.domain.Board;
+import com.webTest2.example.domain.Search;
 
 public interface BoardService {
-	public List<Board> selectBoardList(int page);
+	public List<Board> selectBoardList(Search search);
 	
 	public void writeBoard(Board board);
 	

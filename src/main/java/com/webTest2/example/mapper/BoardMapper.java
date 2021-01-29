@@ -5,10 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.webTest2.example.domain.Board;
+import com.webTest2.example.domain.Search;
 
 @Mapper
 public interface BoardMapper {
-	public List<Board> selectBoardList(int pageNum);
+	public List<Board> selectBoardList(Search search);
 	
 	public void writeBoard(Board board);
 	
