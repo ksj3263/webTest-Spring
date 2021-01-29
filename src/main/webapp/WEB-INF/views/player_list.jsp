@@ -44,32 +44,31 @@
 </style>
 <body>
 <form id="form">
-	<p> 속성 : 열혈<input type="checkbox" id="열혈" name="am" class="attribute" value="true">
-	질풍<input type="checkbox" id="질풍" name="wh" class="attribute" value="true">
-	천둥<input type="checkbox" id="천둥" name="th" class="attribute" value="true">
-	섬광<input type="checkbox" id="섬광" name="li" class="attribute" value="true">
-	암흑<input type="checkbox" id="암흑" name="da" class="attribute" value="true"> </p>
+	<p> 속성 : 열혈<input type="checkbox" id="열혈" name="attributes" class="attribute" value="열혈">
+	질풍<input type="checkbox" id="질풍" name="attributes" class="attribute" value="질풍">
+	천둥<input type="checkbox" id="천둥" name="attributes" class="attribute" value="천둥">
+	섬광<input type="checkbox" id="섬광" name="attributes" class="attribute" value="섬광">
+	암흑<input type="checkbox" id="암흑" name="attributes" class="attribute" value="암흑"> </p>
 				
-	<p> 포지션 : 스트라이커<input type="checkbox" id="스트라이커" name="position" value="스트라이커" class="position">
-	어시스터<input type="checkbox" id="어시스터" name="position" value="어시스터" class="position">
-	어태커<input type="checkbox" id="어태커" name="position" value="어태커" class="position">
-	디펜더<input type="checkbox" id="디펜더" name="position" value="디펜더" class="position">
-	리더<input type="checkbox" id="리더" name="position" value="리더" class="position">
-	골키퍼<input type="checkbox" id="골키퍼" name="position" value="골키퍼" class="position"> </p>
+	<p> 포지션 : 스트라이커<input type="checkbox" id="스트라이커" name="positions" value="스트라이커" class="position">
+	어시스터<input type="checkbox" id="어시스터" name="positions" value="어시스터" class="position">
+	어태커<input type="checkbox" id="어태커" name="positions" value="어태커" class="position">
+	디펜더<input type="checkbox" id="디펜더" name="positions" value="디펜더" class="position">
+	리더<input type="checkbox" id="리더" name="positions" value="리더" class="position">
+	골키퍼<input type="checkbox" id="골키퍼" name="positions" value="골키퍼" class="position"> </p>
 	
-	<p> 등급 : L<input type="checkbox" id="L" name="tier" value="L" class="tier">
-	SR<input type="checkbox" id="SR" name="tier" value="SR" class="tier">
-	SRB<input type="checkbox" id="SRB" name="tier" value="SRB" class="tier">
-	R<input type="checkbox" id="R" name="tier" value="R" class="tier">
-	RB<input type="checkbox" id="RB" name="tier" value="RB" class="tier">
-	N<input type="checkbox" id="N" name="tier" value="N" class="tier"> </p>	
+	<p> 등급 : L<input type="checkbox" id="L" name="tiers" value="L" class="tier">
+	SR<input type="checkbox" id="SR" name="tiers" value="SR" class="tier">
+	SRB<input type="checkbox" id="SRB" name="tiers" value="SRB" class="tier">
+	R<input type="checkbox" id="R" name="tiers" value="R" class="tier">
+	RB<input type="checkbox" id="RB" name="tiers" value="RB" class="tier">
+	N<input type="checkbox" id="N" name="tiers" value="N" class="tier"> </p>	
 	
-	<input type="text" id="content"> <input type="button" value="검색" id="btn-search"> 
+	<input type="text" name="content" id="content"> <input type="button" value="검색" id="btn-search"> 
 </form>
 <br>
 <a href="/"><input type="button" value="돌아가기"></a>
 <button id="btn-all">전체선택</button> <button id="btn-not-all">선택해제</button>
-<input type="button" value="테스트" id="btn-test">
 <br>
 <div id="playerList">
 	<table border=1>
@@ -102,7 +101,7 @@
 			</c:when>
 			<c:when test="${ pagination.prevPage >= 5}">
 				<li>
-					<a href="/player_list?page=${pagination.prevPage}">◀</a>
+					<a href="javascript:void(0);" class="page" id="${pagination.prevPage}">◀</a>
 				</li>
 			</c:when>
 		</c:choose> 
@@ -115,7 +114,7 @@
 					</c:when>
 					<c:when test="${ pagination.page ne i }">
 						<li>
-							<a href="/player_list?page=${i}">${i}</a>
+							<a href="javascript:void(0);" class="page" id="${i }">${i}</a>
 						</li>
 					</c:when>
 				</c:choose>
@@ -123,12 +122,12 @@
 		<c:choose>
 			<c:when test="${ pagination.nextPage <= pagination.lastPage }">
 				<li style="">
-					<a href="/player_list?page=${pagination.nextPage}">▶</a>
+					<a href="javascript:void(0);" class="page" id="${pagination.nextPage}">▶</a>
 				</li>
 			</c:when>
 			<c:when test="${ pagination.nextPage > pagination.lastPage}">
 				<li style="display:none;">
-					<a href="/player_list?page=${pagination.nextPage}">▶</a>
+					<a href="javascript:void(0);" class="page" id="${pagination.nextPage}">▶</a>
 				</li>
 			</c:when>
 		</c:choose> 
@@ -139,6 +138,41 @@
 <a href="/player_write"><input type="button" value="선수 추가"></a>
 </body>
 <script>
+$(document).ready(function() {
+	let content = "${search.content}";
+			
+	<c:forEach var="item" items="${search.attributes }">
+		$("input[id=${item}]").prop("checked", true);
+	</c:forEach>
+	<c:forEach var="item" items="${search.positions }">
+		$("input[id=${item}]").prop("checked", true);
+	</c:forEach>
+	<c:forEach var="item" items="${search.tiers }">
+		$("input[id=${item}]").prop("checked", true);
+	</c:forEach>
+	$("#content").val(content);
+
+	$(document).on('click', '.page', function() {
+		$("input[type=checkbox]").prop("checked", false);
+		<c:forEach var="item" items="${search.attributes }">
+			$("input[id=${item}]").prop("checked", true);
+		</c:forEach>
+		<c:forEach var="item" items="${search.positions }">
+			$("input[id=${item}]").prop("checked", true);
+		</c:forEach>
+		<c:forEach var="item" items="${search.tiers }">
+			$("input[id=${item}]").prop("checked", true);
+		</c:forEach>
+		$("#content").val(content);
+		
+		let params=$("#form").serialize();
+		let id = $(this).attr('id');
+		let url = "/player_list?page=" + id + "&" + params;
+		
+		location.href = url;
+	});
+});
+
 $(document).on('click', '#btn-all', function () {
 	$("input[type=checkbox]").prop("checked", true);
 });
@@ -148,43 +182,10 @@ $(document).on('click', '#btn-not-all', function () {
 });
 
 $(document).on('click', '#btn-search', function() {
-	let attributes = [];
-	let positions = [];
-	let tiers = [];
-	let content = $('input[id="content"]').val();
-	
-	$('input[class="attribute"]:checked').each(function(){
-		attributes.push($(this).val());
-	});	
-	$('input[class="position"]:checked').each(function(){
-		positions.push($(this).val());
-	});	
-	$('input[class="tier"]:checked').each(function(){
-		tiers.push($(this).val());
-	});
-		
-	$.ajax({
-		type:"POST",
-		url: "/player_search",
-		data: {attributes: attributes, positions: positions, tiers: tiers, checkAttributes: true, checkPositions: true, checkTiers: true, content: content},
-		dataType: "html"
-	}).success(function(data) {
-		$("#playerList").html(data);	
-	});
-});
-
-$(document).on('click', '#btn-test', function() {
 	let params=$("#form").serialize();
-	console.log(params);
+	let url = "/player_list?" + params;
 	
-	$.ajax({
-		type:"POST",
-		url: "/player_test",
-		data: params,
-		dataType: "html"
-	}).success(function(data) {
-		console.log("ok");	
-	});
+	location.href = url;
 });
 </script>
 </html>

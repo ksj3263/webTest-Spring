@@ -3,37 +3,38 @@ package com.webTest2.example.domain;
 import java.util.List;
 
 public class Search {
-	private List<String> attributes;
 	private List<String> positions;
+	private List<String> attributes;
 	private List<String> tiers;
-	private Boolean checkAttributes;
-	private Boolean checkPositions;
-	private Boolean checkTiers;
 	private String content;
-	
-	public Boolean getCheckAttributes() {
-		return checkAttributes;
-	}
-	public void setCheckAttributes(Boolean checkAttributes) {
-		this.checkAttributes = checkAttributes;
-	}
-	public Boolean getCheckPositions() {
+	private int page;
+	private boolean checkPositions;
+	private boolean checkAttributes;
+	private boolean checkTiers;
+		
+	public boolean isCheckPositions() {
 		return checkPositions;
 	}
-	public void setCheckPositions(Boolean checkPositions) {
+	public void setCheckPositions(boolean checkPositions) {
 		this.checkPositions = checkPositions;
 	}
-	public Boolean getCheckTiers() {
+	public boolean isCheckAttributes() {
+		return checkAttributes;
+	}
+	public void setCheckAttributes(boolean checkAttributes) {
+		this.checkAttributes = checkAttributes;
+	}
+	public boolean isCheckTiers() {
 		return checkTiers;
 	}
-	public void setCheckTiers(Boolean checkTiers) {
+	public void setCheckTiers(boolean checkTiers) {
 		this.checkTiers = checkTiers;
 	}
-	public List<String> getAttributes() {
-		return attributes;
+	public int getPage() {
+		return page;
 	}
-	public void setAttributes(List<String> attributes) {
-		this.attributes = attributes;
+	public void setPage(int page) {
+		this.page = page;
 	}
 	public List<String> getPositions() {
 		return positions;
@@ -41,22 +42,27 @@ public class Search {
 	public void setPositions(List<String> positions) {
 		this.positions = positions;
 	}
+	public List<String> getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(List<String> attributes) {
+		this.attributes = attributes;
+	}
 	public List<String> getTiers() {
 		return tiers;
 	}
 	public void setTiers(List<String> tiers) {
 		this.tiers = tiers;
 	}
-	@Override
-	public String toString() {
-		return "Search [attributes=" + attributes + ", positions=" + positions + ", tiers=" + tiers
-				+ ", checkAttributes=" + checkAttributes + ", checkPositions=" + checkPositions + ", checkTiers="
-				+ checkTiers + "]";
-	}
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	@Override
+	public String toString() {
+		return "Search2 [positions=" + positions + ", attributes=" + attributes + ", tiers=" + tiers + ", content="
+				+ content + "]";
 	}	
 }

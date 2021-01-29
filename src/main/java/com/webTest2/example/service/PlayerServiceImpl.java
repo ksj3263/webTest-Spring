@@ -34,8 +34,8 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 	
 	@Override
-	public int getPlayerCount() {
-		return playermapper.getPlayerCount();
+	public int getPlayerCount(Search search) {
+		return playermapper.getPlayerCount(search);
 	}
 	
 	@Override

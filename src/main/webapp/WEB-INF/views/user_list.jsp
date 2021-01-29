@@ -48,7 +48,7 @@
 <h1>회원 목록</h1>
 	<table >
 		<tr>
-			<td colspan="3">전체 회원 수 : ${pagination.userCount}</td>
+			<td colspan="3">전체 회원 수 : ${pagination.count}</td>
 		</tr> 
 		<tr>
 			<th>No</th>

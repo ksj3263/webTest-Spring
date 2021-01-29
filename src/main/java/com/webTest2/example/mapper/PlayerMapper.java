@@ -17,7 +17,7 @@ public interface PlayerMapper {
 	
 	public List<Player> searchPlayer(Search search);
 	
-	public int getPlayerCount();
+	public int getPlayerCount(Search search);
 	
 	public void editPlayer(Player player);
 }

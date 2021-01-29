@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -30,9 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.webTest2.example.domain.Board;
-import com.webTest2.example.domain.PaginationBoard;
-import com.webTest2.example.domain.PaginationPlayer;
-import com.webTest2.example.domain.PaginationUser;
+import com.webTest2.example.domain.Pagination;
 import com.webTest2.example.domain.Player;
 import com.webTest2.example.domain.Reply;
 import com.webTest2.example.domain.Search;
@@ -106,8 +103,8 @@ public class Controller {
 		List<Board> list = boardservice.selectBoardList(Integer.parseInt(page));
 		model.addAttribute("list", list);
 		
-		PaginationBoard pgb = new PaginationBoard(Integer.parseInt(page), boardservice.getBoardCount());
-		model.addAttribute("pagination", pgb);
+		Pagination pg = new Pagination(Integer.parseInt(page), boardservice.getBoardCount());
+		model.addAttribute("pagination", pg);
 		return "/board_list";
 	}
 	
@@ -284,8 +281,8 @@ public class Controller {
 		List<User> list = userservice.selectUserList(Integer.parseInt(page));
 		model.addAttribute("list", list);
 		
-		PaginationUser pgu = new PaginationUser(Integer.parseInt(page), userservice.getUserCount());
-		model.addAttribute("pagination", pgu);
+		Pagination pg = new Pagination(Integer.parseInt(page), userservice.getUserCount());
+		model.addAttribute("pagination", pg);
 		return "/user_list";
 	}
 	
@@ -329,12 +326,35 @@ public class Controller {
 	}
 	
 	@RequestMapping("/player_list")
-	public String playerList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page) {
-		List<Player> list = playerservice.getPlayerList(Integer.parseInt(page));
+	public String playerList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page, Search search) {
+		System.out.println(page);
+		System.out.println(search.toString());
+		
+		if(search.getContent() == null)
+			search.setContent("");
+		System.out.println(search.getContent());
+		
+		search.setCheckAttributes(true);
+		search.setCheckPositions(true);
+		search.setCheckTiers(true);
+		if(search.getAttributes() == null) {
+			search.setCheckAttributes(false);
+		}
+		if(search.getPositions() == null) { 
+			search.setCheckPositions(false);
+		}
+		if(search.getTiers() == null) {
+			search.setCheckTiers(false);
+		}
+		
+		search.setPage((Integer.parseInt(page)-1)*10);
+		List<Player> list = playerservice.searchPlayer(search);
 		model.addAttribute("list", list);
 		
-		PaginationPlayer pgp = new PaginationPlayer(Integer.parseInt(page), playerservice.getPlayerCount());
-		model.addAttribute("pagination", pgp);
+		Pagination pg = new Pagination(Integer.parseInt(page), playerservice.getPlayerCount(search));
+		model.addAttribute("pagination", pg);
+						
+		model.addAttribute("search", search);
 		return "/player_list";
 	}
 	
@@ -403,35 +423,6 @@ public class Controller {
 		return "redirect:/player_list";
 	}
 	
-	@RequestMapping("/player_search")
-	public String PlayerSearch(Model model, Search search, @RequestParam (value="page", required=false, defaultValue="1") String page) {
-		List<String> temp = new ArrayList<String>();
-		temp.add("");	
-		
-		if(search.getAttributes() == null) {
-			search.setAttributes(temp);
-			search.setCheckAttributes(false);
-		}
-		if(search.getPositions() == null) { 
-			search.setPositions(temp);
-			search.setCheckPositions(false);
-		}
-		if(search.getTiers() == null) {
-			search.setTiers(temp);
-			search.setCheckTiers(false);
-		}
-		
-		System.out.println(search.toString());
-		System.out.println(search.getContent());
-		List<Player> list = playerservice.searchPlayer(search);
-		
-		model.addAttribute("list", list);
-		
-		PaginationPlayer pgp = new PaginationPlayer(Integer.parseInt(page), list.size());
-		model.addAttribute("pagination", pgp);
-		return "/player_search";
-	}
-	
 	@RequestMapping("/player_edit")
 	public String PlayerEdit(Model model, @RequestParam("p_num") int p_num) {
 		Player player = playerservice.findPlayer(p_num);
@@ -492,13 +483,5 @@ public class Controller {
 		playerservice.editPlayer(player);
 		
 		return "redirect:/player_list";
-	}
-	
-	@RequestMapping("/player_test")
-	public String playerTest() {
-		// ajax로 vo로 받기
-		// name=value로 값이 넘어온다
-		// pagination 합치기
-		return "";
 	}
 }

@@ -64,7 +64,7 @@
 	<select id="searchPlayer" resultType="Player">
 		select *
 		from player
-		where 1=1
+		where p_name like CONCAT('%',#{content},'%')
 		<if test="checkAttributes">
 			and p_attribute in
 			<foreach collection="attributes" item="item" index="index" open="(" close=")" separator=",">
@@ -84,11 +84,31 @@
 			</foreach>
 		</if>
 		order by p_num desc
+		limit #{page}, 10
 	</select>
 	
-	<select id="getPlayerCount" resultType="int">
+	<select id="getPlayerCount" resultType="int" parameterType="search">
 		select count(*) as count
 		from player
+		where p_name like CONCAT('%',#{content},'%')
+		<if test="checkAttributes">
+			and p_attribute in
+			<foreach collection="attributes" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="checkPositions">
+			and p_position in
+			<foreach collection="positions" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="checkTiers">
+			and p_tier in
+			<foreach collection="tiers" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
 	</select>
 	
 	<update id = "editPlayer" parameterType="player">
