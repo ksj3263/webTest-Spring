@@ -69,7 +69,7 @@
 	
 	<br>
 	<form id="form">
-		<select name="searchType">
+		<select name="searchType" id="searchType">
 			<option value="1">글 제목&내용</option>
 			<option value="2">글 제목</option>
 			<option value="3">글 내용</option>
@@ -77,7 +77,7 @@
 			<option value="5">댓글 내용</option>
 			<option value="6">댓글 작성자</option>
 		</select>
-		<input type="text" name="content"> 
+		<input type="text" name="content" id="content"> 
 	</form>
 	<button onclick="transfer()">검색</button>
 
@@ -91,7 +91,7 @@
 				</c:when>
 				<c:when test="${ pagination.prevPage >= 5}">
 					<li>
-						<a href="/board_list?page=${pagination.prevPage}">◀</a>
+						<a href="javascript:void(0);" class="page" id="${pagination.prevPage }">◀</a>
 					</li>
 				</c:when>
 			</c:choose> 
@@ -104,7 +104,7 @@
 						</c:when>
 						<c:when test="${ pagination.page ne i }">
 							<li>
-								<a href="/board_list?page=${i}">${i}</a>
+								<a href="javascript:void(0);" class="page" id="${i }">${i}</a>
 							</li>
 						</c:when>
 					</c:choose>
@@ -112,12 +112,12 @@
 			<c:choose>
 				<c:when test="${ pagination.nextPage <= pagination.lastPage }">
 					<li style="">
-						<a href="/board_list?page=${pagination.nextPage}">▶</a>
+						<a href="javascript:void(0);" class="page" id="${pagination.nextPage }">▶</a>
 					</li>
 				</c:when>
 				<c:when test="${ pagination.nextPage > pagination.lastPage}">
 					<li style="display:none;">
-						<a href="/board_list?page=${pagination.nextPage}">▶</a>
+						<a href="javascript:void(0);" class="page" id="${pagination.nextPage }">▶</a>
 					</li>
 				</c:when>
 			</c:choose> 
@@ -125,6 +125,26 @@
 	</div>
 </body>
 <script>
+$(document).ready(function() {
+	let content = "${search.content}";
+	
+	$('#searchType option').each(function() {
+    	if($(this).val() == "${search.searchType}") {
+    		$(this).attr("selected", "selected");
+        }
+	});			
+	
+	$("#content").val(content);
+	
+	$(document).on('click', '.page', function() {		
+		let params=$("#form").serialize();
+		let id = $(this).attr('id');
+		let url = "/board_list?page=" + id + "&" + params;
+		
+		location.href = url;
+	});
+});
+
 function transfer() {	
 	let params = $('#form').serialize();
 	

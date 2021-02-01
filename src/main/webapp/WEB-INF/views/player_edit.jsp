@@ -9,93 +9,93 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
-        setDateBox();
-        
-        $('#position option').each(function() {
-            if($(this).val() == "${player.p_position}"){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#attribute option').each(function() {
-            if($(this).val() == "${player.p_attribute}"){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#tier option').each(function() {
-            if($(this).val() == "${player.p_tier}"){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#stone1 option').each(function() {
-            if($(this).val() == "${player.p_stone1}"){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#stone2 option').each(function() {
-            if($(this).val() == "${player.p_stone2}"){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#stone3 option').each(function() {
-            if($(this).val() == "${player.p_stone3}"){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        let date = "${player.p_date}".split("-");
-        let year = date[0];
-        let month = parseInt(date[1], 10);
-        let day = parseInt(date[2], 10);
-        
-        $('#year option').each(function() {
-            if($(this).val() == year){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#month option').each(function() {
-            if($(this).val() == month){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        $('#day option').each(function() {
-            if($(this).val() == day){
-              $(this).attr("selected", "selected");
-            }
-		});
-        
-        console.log("ready");
-    });    
- 
-    function setDateBox() {
-        var dt = new Date();
-        var com_year = dt.getFullYear();
-        
-        for(var y = 2014 ; y <= com_year ; y++){
-            $("#year").append("<option value='" + y + "'>"+ y +"년</option>");
+$(document).ready(function() {
+	setDateBox();
+    
+    $('#position option').each(function() {
+    	if($(this).val() == "${player.p_position}") {
+    		$(this).attr("selected", "selected");
         }
-        
-        for(var i = 1; i <= 12; i++){
-        	if(i < 10)
-        		$("#month").append("<option value='" + i + "'>0"+ i +"월</option>");
-        	else
-        		$("#month").append("<option value='" + i + "'>"+ i +"월</option>");
-        }
-        
-        for(let d = 1 ; d <= 31 ; d++) {
-        	if(d < 10)
-        		$("#day").append("<option value='" + d + "'>0" + d + "일</option>");
-        	else
-        		$("#day").append("<option value='" + d + "'>" + d + "일</option>");
-        }
-    }
+	});
+      
+    $('#attribute option').each(function() {
+		if($(this).val() == "${player.p_attribute}") {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+	$('#tier option').each(function() {
+		if($(this).val() == "${player.p_tier}") {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+	$('#stone1 option').each(function() {
+		if($(this).val() == "${player.p_stone1}") {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+	$('#stone2 option').each(function() {
+		if($(this).val() == "${player.p_stone2}") {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+	$('#stone3 option').each(function() {
+		if($(this).val() == "${player.p_stone3}") {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+    let date = "${player.p_date}".split("-");
+    let year = date[0];
+    let month = parseInt(date[1], 10);
+    let day = parseInt(date[2], 10);
+      
+	$('#year option').each(function() {
+		if($(this).val() == year) {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+	$('#month option').each(function() {
+		if($(this).val() == month) {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+	$('#day option').each(function() {
+		if($(this).val() == day) {
+			$(this).attr("selected", "selected");
+		}
+	});
+      
+      console.log("ready");
+});    
+
+function setDateBox() {
+	var dt = new Date();
+	var com_year = dt.getFullYear();
+
+	for(var y = 2014 ; y <= com_year ; y++) {
+    	$("#year").append("<option value='" + y + "'>"+ y +"년</option>");
+	}
+
+	for(var i = 1; i <= 12; i++) {
+		if(i < 10)
+			$("#month").append("<option value='" + i + "'>0"+ i +"월</option>");
+		else
+			$("#month").append("<option value='" + i + "'>"+ i +"월</option>");
+	}
+
+	for(let d = 1 ; d <= 31 ; d++) {
+		if(d < 10)
+			$("#day").append("<option value='" + d + "'>0" + d + "일</option>");
+		else
+			$("#day").append("<option value='" + d + "'>" + d + "일</option>");
+	}
+}
 </script>
 <body>
 <form id="form" method="post" enctype="multipart/form-data">

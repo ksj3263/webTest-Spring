@@ -108,12 +108,11 @@ public class Controller {
 		List<Board> list = boardservice.selectBoardList(search);
 		model.addAttribute("list", list);
 		
-		Pagination pg = new Pagination(Integer.parseInt(page), boardservice.getBoardCount());
+		Pagination pg = new Pagination(Integer.parseInt(page), boardservice.getBoardCount(search));
 		model.addAttribute("pagination", pg);
-		return "/board_list";
 		
-		// search pagination
-		// searchType 5 6 
+		model.addAttribute("search", search);
+		return "/board_list";		 
 	}
 	
 	@Secured({"ROLE_USER"})

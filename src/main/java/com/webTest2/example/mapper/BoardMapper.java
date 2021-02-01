@@ -15,7 +15,7 @@ public interface BoardMapper {
 	
 	public Board findBoard(int id);
 	
-	public int getBoardCount();
+	public int getBoardCount(Search search);
 	
 	public void updateBase();
 	

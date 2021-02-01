@@ -29,8 +29,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getBoardCount() {
-		return boardmapper.getBoardCount();
+	public int getBoardCount(Search search) {
+		return boardmapper.getBoardCount(search);
 	}
 	
 	@Override
