@@ -88,11 +88,11 @@
 	<p> 피지컬 : <input type="text" name="p_physical"></p>
 	<p> 스피드 : <input type="text" name="p_speed"></p>
 	
-	<p> 에이스 : <input type="text" name="p_ace"></p>
-	<p> 액티브 : <input type="text" name="p_active"></p>
-	<p> 패시브1 : <input type="text" name="p_passive1"></p>
-	<p> 패시브2 : <input type="text" name="p_passive2"></p>
-	<p> 패시브3 : <input type="text" name="p_passive3"></p>
+	<p> 에이스 : <input type="text" name="p_name_ace"> <input type="text" name="p_ace"></p>
+	<p> 액티브 : <input type="text" name="p_name_a"> <input type="text" name="p_active"></p>
+	<p> 패시브1 : <input type="text" name="p_name_p1"> <input type="text" name="p_passive1"></p>
+	<p> 패시브2 : <input type="text" name="p_name_p2"> <input type="text" name="p_passive2"></p>
+	<p> 패시브3 : <input type="text" name="p_name_p3"> <input type="text" name="p_passive3"></p>
 	
 	<p> 스톤1 :
 		<select name="p_stone1" id="stone1">
@@ -138,7 +138,10 @@
 	<p> 협동 선수2 : <input type="text" name="p_coop2"></p>
 	<p> 협동 선수3 : <input type="text" name="p_coop3"></p>
 	
-	<p> 스토리 : <input type="text" name="p_story"></p>
+	<p> 스토리 :	</p>
+	<textarea id="story" name="p_story" style="resize:none;" rows=20 cols=200></textarea>
+	<p> 일러스트레이터 : <input type="text" name="p_ill"></p>
+	<p> CV : <input type="text" name="p_cv"></p>
 	<input type="button" value="완료" onclick="transfer();"> 
 </form>
 <a href="/player_list">돌아가기</a>

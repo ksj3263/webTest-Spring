@@ -436,7 +436,11 @@ public class Controller {
 	@RequestMapping("/player_edit_result")
 	public String PlayerEditResult(Player player, HttpServletRequest request) {
 		System.out.println(player.toString());
-				
+		
+		Player temp = playerservice.findPlayer(player.getP_num());
+		player.setP_full(temp.getP_full());
+		player.setP_thumb(temp.getP_thumb());
+		
 		if(player.getP_image() != null) {
 			if(!player.getP_image().getOriginalFilename().equals("")) {
 				String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\";

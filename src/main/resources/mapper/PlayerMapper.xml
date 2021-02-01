@@ -15,6 +15,8 @@
 			p_technique,
 			p_physical,
 			p_speed,
+			p_attribute,
+			p_tier,
 			p_ace,
 			p_active,
 			p_passive1,
@@ -26,9 +28,18 @@
 			p_stone2,
 			p_stone3,
 			p_date,
-			p_attribute,
-			p_tier,
-			p_story
+			p_coop,
+			p_coop1,
+			p_coop2,
+			p_coop3,
+			p_story,
+			p_name_ace,
+			p_name_a,
+			p_name_p1,
+			p_name_p2,
+			p_name_p3,
+			p_ill,
+			p_cv
 		) values (
 			#{p_name},
 			#{p_position},
@@ -36,6 +47,8 @@
 			#{p_technique},
 			#{p_physical},
 			#{p_speed},
+			#{p_attribute},
+			#{p_tier},
 			#{p_ace},
 			#{p_active},
 			#{p_passive1},
@@ -47,16 +60,26 @@
 			#{p_stone2},
 			#{p_stone3},
 			#{p_date},
-			#{p_attribute},
-			#{p_tier},
-			#{p_story}
+			#{p_coop},
+			#{p_coop1},
+			#{p_coop2},
+			#{p_coop3},
+			#{p_story},
+			#{p_name_ace},
+			#{p_name_a},
+			#{p_name_p1},
+			#{p_name_p2},
+			#{p_name_p3},
+			#{p_ill},
+			#{p_cv}
 		)
 	</insert>
 	
 	<select id="searchPlayer" resultType="Player">
 		select *
 		from player
-		where p_name like CONCAT('%',#{content},'%')
+		where p_name like CONCAT('%',#{content},'%') or p_active like concat('%', #{content}, '%')
+			or p_passive1 like CONCAT ('%', #{content}, '%') or p_passive2 like CONCAT ('%', #{content}, '%') or p_passive3 like CONCAT ('%', #{content}, '%')
 		<if test="checkAttributes">
 			and p_attribute in
 			<foreach collection="attributes" item="item" index="index" open="(" close=")" separator=",">
@@ -111,20 +134,31 @@
 			p_technique = 	#{p_technique},
 			p_physical = #{p_physical},
 			p_speed = #{p_speed},
+			p_attribute = #{p_attribute},
+			p_tier = #{p_tier},
 			p_ace = #{p_ace},
-			p_full = #{p_full},
-			p_thumb = #{p_thumb},
 			p_active = #{p_active},
 			p_passive1 = #{p_passive1},
 			p_passive2 = #{p_passive2},
 			p_passive3 = #{p_passive3},
+			p_full = #{p_full},
+			p_thumb = #{p_thumb},
 			p_stone1 = #{p_stone1},
 			p_stone2 = #{p_stone2},
 			p_stone3 = #{p_stone3},
 			p_date = #{p_date},
-			p_attribute = #{p_attribute},
-			p_tier = #{p_tier},
-			p_story = #{p_story}
+			p_coop = #{p_coop},
+			p_coop1 = #{p_coop1},
+			p_coop2 = #{p_coop2},
+			p_coop3 = #{p_coop3},
+			p_story = #{p_story},
+			p_name_ace = #{p_name_ace},
+			p_name_a = #{p_name_a},
+			p_name_p1 = #{p_name_p1},
+			p_name_p2 = #{p_name_p2},
+			p_name_p3 = #{p_name_p3},
+			p_ill = #{p_ill},
+			p_cv = #{p_cv}
 		where p_num=#{p_num}
 	</update>
 </mapper>

@@ -29,7 +29,56 @@ public class Player {
 	private String p_coop2;
 	private String p_coop3;	
 	private String p_story;
-			
+	private String p_name_ace;
+	private String p_name_a;
+	private String p_name_p1;
+	private String p_name_p2;
+	private String p_name_p3;
+	private String p_ill;
+	private String p_cv;	
+	
+	public String getP_ill() {
+		return p_ill;
+	}
+	public void setP_ill(String p_ill) {
+		this.p_ill = p_ill;
+	}
+	public String getP_cv() {
+		return p_cv;
+	}
+	public void setP_cv(String p_cv) {
+		this.p_cv = p_cv;
+	}
+	public String getP_name_ace() {
+		return p_name_ace;
+	}
+	public void setP_name_ace(String p_name_ace) {
+		this.p_name_ace = p_name_ace;
+	}
+	public String getP_name_a() {
+		return p_name_a;
+	}
+	public void setP_name_a(String p_name_a) {
+		this.p_name_a = p_name_a;
+	}
+	public String getP_name_p1() {
+		return p_name_p1;
+	}
+	public void setP_name_p1(String p_name_p1) {
+		this.p_name_p1 = p_name_p1;
+	}
+	public String getP_name_p2() {
+		return p_name_p2;
+	}
+	public void setP_name_p2(String p_name_p2) {
+		this.p_name_p2 = p_name_p2;
+	}
+	public String getP_name_p3() {
+		return p_name_p3;
+	}
+	public void setP_name_p3(String p_name_p3) {
+		this.p_name_p3 = p_name_p3;
+	}
 	public String getP_ace() {
 		return p_ace;
 	}
