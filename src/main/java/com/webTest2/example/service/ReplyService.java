@@ -16,4 +16,6 @@ public interface ReplyService {
 	public void editReply(Reply reply);
 	
 	public void deleteAllReply(int bId);
+	
+	public List<Reply> getReplyP(int p_num);
 }

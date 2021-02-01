@@ -213,42 +213,39 @@ public class Controller {
 		return "redirect:/board_detail?bId=" + board.getbId();
 	}
 	
-	@RequestMapping(value="/board_reply", method=RequestMethod.POST)
-	public String boardReply(Model model, HttpServletRequest request) {
-		int bId = Integer.parseInt(request.getParameter("b_id"));
-		
-		Reply reply = new Reply();
-		reply.setbId(bId);
-		reply.setrContent(request.getParameter("content"));
-		reply.setrWriter(request.getParameter("rWriter"));
-		reply.setuId(request.getParameter("u_id"));
+	@RequestMapping("/write_reply")
+	public String writeReply(Model model, Reply reply) {
 		replyservice.writeReply(reply);
 		
-		List<Reply> list = replyservice.getReply(bId);
+		List<Reply> list;
+		if(reply.getbId() == 0)
+			list = replyservice.getReplyP(reply.getP_num());
+		else
+			list = replyservice.getReply(reply.getbId());
+		model.addAttribute("list", list);
+		return "/reply_list";
+	}
+	
+	@RequestMapping("/delete_reply")
+	public String DeleteReply(Model model, Reply reply, @AuthenticationPrincipal User user) {
+		reply = replyservice.findReply(reply.getrId());
+		
+		if(!user.getUsername().equals(reply.getuId()))
+			return "/reply_denied";
+		
+		replyservice.deleteReply(reply.getrId());
+		
+		List<Reply> list;
+		if(reply.getbId() == 0)
+			list = replyservice.getReply(reply.getP_num());
+		else
+			list = replyservice.getReply(reply.getbId());
 		model.addAttribute("list", list);
 		
 		return "/reply_list";
 	}
 	
-	@RequestMapping(value="/board_reply_delete", method=RequestMethod.POST)
-	public String boardReplyDelete(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
-		int rId = Integer.parseInt(request.getParameter("r_id"));
-		
-		Reply reply = replyservice.findReply(rId);
-		String uId = user.getUsername();
-
-		if(!uId.equals(reply.getuId()))
-			return "/reply_denied";		
-		
-		replyservice.deleteReply(rId);
-		
-		List<Reply> list = replyservice.getReply(reply.getbId());
-		model.addAttribute("list", list);
-		
-		return "/reply_list";
-	}
-	
-	@RequestMapping(value="/board_reply_edit", method=RequestMethod.POST)
+	@RequestMapping(value="/edit_reply", method=RequestMethod.POST)
 	public String boardReplyEdit(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
 		int rId = Integer.parseInt(request.getParameter("r_id"));
 		
@@ -263,7 +260,7 @@ public class Controller {
 		return "/reply_edit";
 	}
 	
-	@RequestMapping(value="/board_reply_edit_result", method=RequestMethod.POST)
+	@RequestMapping(value="/edit_reply_result", method=RequestMethod.POST)
 	public String boardReplyEditResult(Model model, HttpServletRequest request) {
 		int rId = Integer.parseInt(request.getParameter("r_id"));
 		String content = request.getParameter("edit_content");
@@ -365,6 +362,8 @@ public class Controller {
 		Player player = playerservice.findPlayer(p_num);
 		model.addAttribute("player", player);
 		
+		List<Reply> list = replyservice.getReplyP(p_num);
+		model.addAttribute("list", list);
 		return "/player_detail";
 	}
 	

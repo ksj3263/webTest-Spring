@@ -12,19 +12,32 @@
 		where b_id = #{bId}
 	</select>
 	
+	<select id="getReplyP" resultType="Reply">
+		SELECT r_id as rId,
+				r_content as rContent,
+				r_writer as rWriter,
+				r_datetime as rDateTime,
+				u_id as uId,
+				p_num as p_num
+		from reply
+		where p_num = #{p_num}
+	</select>
+	
 	<insert id="writeReply" parameterType="Reply">
 		insert into reply (
 			r_id,
 			r_content,
 			r_writer,
 			b_id,
-			u_id
+			u_id,
+			p_num
 		) values (
 			#{rId},
 			#{rContent},
 			#{rWriter},
 			#{bId},
-			#{uId}
+			#{uId},
+			#{p_num}
 		)
 	</insert>
 	
@@ -39,7 +52,8 @@
 				r_writer as rWriter,
 				r_datetime as rDateTime,
 				u_id as uId,
-				b_id as bId
+				b_id as bId,
+				p_num as p_num
 		from reply
 		where r_id=#{rId}
 	</select>

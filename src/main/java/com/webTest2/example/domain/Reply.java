@@ -7,7 +7,14 @@ public class Reply {
 	private String rDateTime;
 	private String uId;
 	private int bId;
+	private int p_num;	
 	
+	public int getP_num() {
+		return p_num;
+	}
+	public void setP_num(int p_num) {
+		this.p_num = p_num;
+	}
 	public int getrId() {
 		return rId;
 	}
@@ -43,5 +50,10 @@ public class Reply {
 	}
 	public void setbId(int bId) {
 		this.bId = bId;
+	}
+	@Override
+	public String toString() {
+		return "Reply [rId=" + rId + ", rContent=" + rContent + ", rWriter=" + rWriter + ", rDateTime=" + rDateTime
+				+ ", uId=" + uId + ", bId=" + bId + ", p_num=" + p_num + "]";
 	}
 }

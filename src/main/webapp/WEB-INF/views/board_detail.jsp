@@ -23,13 +23,15 @@
 	<a href="/board_list">돌아가기</a>
 	
 <br><br>
-<sec:authorize access="isAuthenticated()">
-	<input type="hidden" name="b_id" value="${board.bId }">
-	<input type="text" name="content" id="cont"> <input type="button" value="댓글달기" id="btn">
-	<sec:authentication property="principal" var="principal"/>
-	<input type="hidden" name="rWriter" value="${principal.uName }">
-	<input type="hidden" name="u_id" value="${principal.username }">
-</sec:authorize>
+<form id="form">
+	<sec:authorize access="isAuthenticated()">
+		<input type="hidden" name="bId" value="${board.bId }">
+		<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
+		<sec:authentication property="principal" var="principal"/>
+			<input type="hidden" name="rWriter" value="${principal.uName }">
+			<input type="hidden" name="uId" value="${principal.username }">
+	</sec:authorize>
+</form>
 
 <div id="replyList">
 	<table>
@@ -54,28 +56,23 @@
 
 <script>
 $(document).on('click', '#btn', function () {
-	let b_id = $('input[name="b_id"]').val();
-	let content = $('input[name="content"]').val();	
-	let rWriter = $('input[name="rWriter"]').val();
-	let u_id = $('input[name="u_id"]').val();
-	console.log(b_id);
-	console.log(content);
-	console.log(rWriter);
-	
-	if(!content) {
-		console.log("null");
-	} else {	
+	let form = $('#form')[0];
+	let formData = new FormData(form);
+
+	if(formData.get('rContent') != "") {
 		$.ajax({
-			  method: "POST",
-			  url: "/board_reply",
-			  data: { b_id: b_id, content: content, rWriter: rWriter, u_id: u_id },
-			  dataType: "html"
-			})
-			.done(function(data) {
-		 		console.log("ok");
-		 		$("#replyList").html(data);	
-		 		$("#cont").val('');
-			});
+			method: "POST",
+			url: "/write_reply",
+			data: formData,
+			dataType: "html",
+			processData: false,
+			contentType: false
+		})
+		.done(function(data) {
+			console.log("ok");
+			$("#replyList").html(data);	
+	 		$("#cont").val('');
+		});	
 	}
 });
 $(document).on('click', '.btn-edit', function() {
@@ -88,7 +85,7 @@ $(document).on('click', '.btn-edit', function() {
 	
 	$.ajax({
 		method: "POST",
-		url: "/board_reply_edit",
+		url: "/edit_reply",
 		data: {r_id: r_id},
 		dateType: "html"
 	})
@@ -109,7 +106,7 @@ $(document).on('click', '#btn-edit-comp', function () {
 	
 	$.ajax({
 		  method: "POST",
-		  url: "/board_reply_edit_result",
+		  url: "/edit_reply_result",
 		  data: { r_id: r_id, edit_content: edit_content },
 		  dataType: "html"
 		})
@@ -125,8 +122,8 @@ $(document).on('click', '.btn-del', function () {
 	
 	$.ajax({
 		  method: "POST",
-		  url: "/board_reply_delete",
-		  data: { r_id: r_id },
+		  url: "/delete_reply",
+		  data: { rId: r_id },
 		  dataType: "html"
 		})
 		.done(function(data) {

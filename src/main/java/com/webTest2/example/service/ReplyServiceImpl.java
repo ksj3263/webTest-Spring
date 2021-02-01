@@ -41,4 +41,9 @@ public class ReplyServiceImpl implements ReplyService {
 	public void deleteAllReply(int bId) {
 		replymapper.deleteAllReply(bId);
 	}
+	
+	@Override
+	public List<Reply> getReplyP(int p_num) {
+		return replymapper.getReplyP(p_num);
+	}
 }
