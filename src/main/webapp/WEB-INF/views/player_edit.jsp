@@ -103,7 +103,7 @@ function setDateBox() {
 	<p> 선수명 : <input type="text" name="p_name" value="${player.p_name }"></p>
 	<p> 이미지 : <input type="file" name="p_image" onchange="setThumbnail(event);"></p>	
 	<div id="image_container">
-		<img src="${player.p_full }">
+		<img src="${player.p_full }" width=236px height=338px>
 	</div>
 	<script>
 	function setThumbnail(event) {

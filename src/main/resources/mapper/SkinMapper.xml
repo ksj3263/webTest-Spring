@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webTest2.example.mapper.SkinMapper">
+	<select id="getSkinList" parameterType="search" resultType="Skin">
+		select *
+		from skin
+		where 1=1
+		<if test="content!=null and !content.equals('')">
+			and s_name like CONCAT('%',#{content},'%')
+		</if>
+		<if test="checkProperties">
+			and s_property in
+			<foreach collection="properties" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="checkTiers">
+			and s_tier in
+			<foreach collection="tiers" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		order by s_num desc
+		limit #{page}, 10
+	</select>
+	
+	<select id="getSkinCount" resultType="int" parameterType="search">
+		select count(*) as count
+		from skin
+		where 1=1
+		<if test="content!=null and !content.equals('')">
+			and s_name like CONCAT('%',#{content},'%')
+		</if>
+		<if test="checkProperties">
+			and s_property in
+			<foreach collection="properties" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="checkTiers">
+			and s_tier in
+			<foreach collection="tiers" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
+	<insert id="writeSkin" parameterType="skin">
+		insert into skin (
+			s_name,
+			s_property,
+			s_tier,
+			s_full,
+			s_thumb,
+			s_date,
+			s_ill,
+			s_cv,
+			p_name
+		) values (
+			#{s_name},
+			#{s_property},
+			#{s_tier},
+			#{s_full},
+			#{s_thumb},
+			#{s_date},
+			#{s_ill},
+			#{s_cv},
+			#{p_name}
+		)		 
+	</insert>
+	
+	<select id="getSkinListName" resultType="skin" parameterType="string">
+		select *
+		from skin
+		where p_name = #{name}
+	</select>
+	
+	<select id="findSkin" resultType="skin" parameterType="int">
+		select *
+		from skin
+		where s_num = #{s_num}
+	</select>
+	
+	<update id="editSkin" parameterType="skin">
+		update skin
+		set s_name = #{s_name},
+			p_name = #{p_name},
+			s_property = #{s_property},
+			s_tier = #{s_tier},
+			s_full = #{s_full},
+			s_thumb = #{s_thumb},
+			s_date = #{s_date},
+			s_ill = #{s_ill},
+			s_cv = #{s_cv}
+		where s_num=#{s_num}
+	</update>
+</mapper>

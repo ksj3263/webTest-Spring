@@ -8,7 +8,14 @@ public class Reply {
 	private String uId;
 	private int bId;
 	private int p_num;	
+	private int s_num;
 	
+	public int getS_num() {
+		return s_num;
+	}
+	public void setS_num(int s_num) {
+		this.s_num = s_num;
+	}
 	public int getP_num() {
 		return p_num;
 	}

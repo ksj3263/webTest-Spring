@@ -44,48 +44,40 @@
 </style>
 <body>
 <form id="form">
-	<p> 속성 : 열혈<input type="checkbox" id="열혈" name="attributes" value="열혈">
-	질풍<input type="checkbox" id="질풍" name="attributes" value="질풍">
-	천둥<input type="checkbox" id="천둥" name="attributes" value="천둥">
-	섬광<input type="checkbox" id="섬광" name="attributes" value="섬광">
-	암흑<input type="checkbox" id="암흑" name="attributes" value="암흑"> </p>
-				
-	<p> 포지션 : 스트라이커<input type="checkbox" id="스트라이커" name="positions" value="스트라이커">
-	어시스터<input type="checkbox" id="어시스터" name="positions" value="어시스터">
-	어태커<input type="checkbox" id="어태커" name="positions" value="어태커">
-	디펜더<input type="checkbox" id="디펜더" name="positions" value="디펜더">
-	리더<input type="checkbox" id="리더" name="positions" value="리더">
-	골키퍼<input type="checkbox" id="골키퍼" name="positions" value="골키퍼"> </p>
+	<p> 종류 : 라이브<input type="checkbox" id="라이브" name="properties" value="라이브">
+	유니크<input type="checkbox" id="유니크" name="properties" value="유니크">
+	일반<input type="checkbox" id="일반" name="properties" value="일반">
+	이벤트<input type="checkbox" id="이벤트" name="properties" value="이벤트">
+	</p>
 	
 	<p> 등급 : L<input type="checkbox" id="L" name="tiers" value="L">
 	SR<input type="checkbox" id="SR" name="tiers" value="SR">
 	SRB<input type="checkbox" id="SRB" name="tiers" value="SRB">
 	R<input type="checkbox" id="R" name="tiers" value="R">
 	RB<input type="checkbox" id="RB" name="tiers" value="RB">
-	N<input type="checkbox" id="N" name="tiers" value="N"> </p>	
+	N<input type="checkbox" id="N" name="tiers" value="N"></p>	
 	
 	<input type="text" name="content" id="content"> <input type="button" value="검색" id="btn-search"> 
 </form>
 <br>
 <a href="/"><input type="button" value="돌아가기"></a>
 <button id="btn-all">전체선택</button> <button id="btn-not-all">선택해제</button>
+<a href="/skin_write"><input type="button" value="추가하기"></a>
 <br>
-<div id="playerList">
+<div id="skinList">
 	<table border=1>
 		<tr>
 			<td>이름</td>
 			<td>이미지</td>
-			<td>포지션</td>
-			<td>속성</td>
+			<td>종류</td>
 			<td>등급</td>
 		</tr>
 		<c:forEach var="list" items="${list }">
 			<tr>
-				<td><a href="/player_detail?p_num=${list.p_num}">${list.p_name }</a></td>
-				<td><img src="${list.p_thumb }" width=50px height=50px> </td>
-				<td>${list.p_position }</td>
-				<td>${list.p_attribute }</td>
-				<td>${list.p_tier}</td>
+				<td><a href="/skin_detail?s_num=${list.s_num}">${list.s_name }</a></td>
+				<td><img src="${list.s_thumb }" width=50px height=50px> </td>
+				<td>${list.s_property }</td>
+				<td>${list.s_tier}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -133,20 +125,14 @@
 		</c:choose> 
 	</ul>
 </div>
-
-<br>
-<a href="/player_write"><input type="button" value="선수 추가"></a>
 </body>
 <script>
 $(document).ready(function() {
 	let content = "${search.content}";
 			
-	<c:forEach var="item" items="${search.attributes }">
+	<c:forEach var="item" items="${search.properties }">
 		$("input[id=${item}]").prop("checked", true);
-	</c:forEach>
-	<c:forEach var="item" items="${search.positions }">
-		$("input[id=${item}]").prop("checked", true);
-	</c:forEach>
+	</c:forEach>	
 	<c:forEach var="item" items="${search.tiers }">
 		$("input[id=${item}]").prop("checked", true);
 	</c:forEach>
@@ -167,7 +153,7 @@ $(document).ready(function() {
 		
 		let params=$("#form").serialize();
 		let id = $(this).attr('id');
-		let url = "/player_list?page=" + id + "&" + params;
+		let url = "/skin_list?page=" + id + "&" + params;
 		
 		location.href = url;
 	});
@@ -183,7 +169,7 @@ $(document).on('click', '#btn-not-all', function () {
 
 $(document).on('click', '#btn-search', function() {
 	let params=$("#form").serialize();
-	let url = "/player_list?" + params;
+	let url = "/skin_list?" + params;
 	
 	location.href = url;
 });

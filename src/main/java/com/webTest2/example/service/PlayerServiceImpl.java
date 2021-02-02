@@ -37,4 +37,9 @@ public class PlayerServiceImpl implements PlayerService {
 	public void editPlayer(Player player) {
 		playermapper.editPlayer(player);
 	}
+	
+	@Override
+	public Player findPlayerName(String name) {
+		return playermapper.findPlayerName(name);
+	}
 }

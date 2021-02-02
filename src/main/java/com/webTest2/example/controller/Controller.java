@@ -33,10 +33,12 @@ import com.webTest2.example.domain.Pagination;
 import com.webTest2.example.domain.Player;
 import com.webTest2.example.domain.Reply;
 import com.webTest2.example.domain.Search;
+import com.webTest2.example.domain.Skin;
 import com.webTest2.example.domain.User;
 import com.webTest2.example.service.BoardService;
 import com.webTest2.example.service.PlayerService;
 import com.webTest2.example.service.ReplyService;
+import com.webTest2.example.service.SkinService;
 import com.webTest2.example.service.UserService;
 
 @org.springframework.stereotype.Controller
@@ -46,6 +48,7 @@ public class Controller {
 	@Autowired UserService userservice;
 	@Autowired ReplyService replyservice;
 	@Autowired PlayerService playerservice;
+	@Autowired SkinService skinservice;
 	
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -217,11 +220,13 @@ public class Controller {
 	public String writeReply(Model model, Reply reply) {
 		replyservice.writeReply(reply);
 		
-		List<Reply> list;
-		if(reply.getbId() == 0)
+		List<Reply> list = null;
+		if(reply.getP_num() != 0)
 			list = replyservice.getReplyP(reply.getP_num());
-		else
+		else if(reply.getbId() != 0)
 			list = replyservice.getReply(reply.getbId());
+		else if(reply.getS_num() != 0)
+			list = replyservice.getReplyS(reply.getS_num());
 		model.addAttribute("list", list);
 		return "/reply_list";
 	}
@@ -235,11 +240,13 @@ public class Controller {
 		
 		replyservice.deleteReply(reply.getrId());
 		
-		List<Reply> list;
-		if(reply.getbId() == 0)
-			list = replyservice.getReply(reply.getP_num());
-		else
+		List<Reply> list = null;
+		if(reply.getP_num() != 0)
+			list = replyservice.getReplyP(reply.getP_num());
+		else if(reply.getbId() != 0)
 			list = replyservice.getReply(reply.getbId());
+		else if(reply.getS_num() != 0)
+			list = replyservice.getReplyS(reply.getS_num());
 		model.addAttribute("list", list);
 		
 		return "/reply_list";
@@ -273,7 +280,13 @@ public class Controller {
 		reply.setrDateTime(format.format(today));
 		
 		replyservice.editReply(reply);
-		List<Reply> list = replyservice.getReply(reply.getbId());
+		List<Reply> list = null;
+		if(reply.getP_num() != 0)
+			list = replyservice.getReplyP(reply.getP_num());
+		else if(reply.getbId() != 0)
+			list = replyservice.getReply(reply.getbId());
+		else if(reply.getS_num() != 0)
+			list = replyservice.getReplyS(reply.getS_num());
 		model.addAttribute("list", list);
 		
 		return "/reply_list";
@@ -345,6 +358,7 @@ public class Controller {
 		if(search.getTiers() == null) {
 			search.setCheckTiers(false);
 		}
+		System.out.println(search.toString());
 		
 		search.setPage((Integer.parseInt(page)-1)*10);
 		List<Player> list = playerservice.searchPlayer(search);
@@ -361,6 +375,9 @@ public class Controller {
 	public String playerDetail(Model model, @RequestParam("p_num") int p_num) {
 		Player player = playerservice.findPlayer(p_num);
 		model.addAttribute("player", player);
+		
+		List<Skin> slist = skinservice.getSkinListName(player.getP_name());
+		model.addAttribute("slist", slist);
 		
 		List<Reply> list = replyservice.getReplyP(p_num);
 		model.addAttribute("list", list);
@@ -486,6 +503,178 @@ public class Controller {
 		}
 		
 		playerservice.editPlayer(player);
+		
+		return "redirect:/player_list";
+	}
+	
+	@RequestMapping("/skin_list")
+	public String skinList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page, Search search) {
+		System.out.println(search.toString());
+		
+		if(search.getContent() == null)
+			search.setContent("");
+		
+		search.setCheckProperties(true);
+		search.setCheckTiers(true);
+		if(search.getProperties() == null) { 
+			search.setCheckProperties(false);
+		}
+		if(search.getTiers() == null) {
+			search.setCheckTiers(false);
+		}
+		System.out.println(search.toString());
+		
+		search.setPage((Integer.parseInt(page)-1)*10);
+		List<Skin> list = skinservice.getSkinList(search);
+		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(Integer.parseInt(page), skinservice.getSkinCount(search));
+		model.addAttribute("pagination", pg);
+						
+		model.addAttribute("search", search);
+		return "/skin_list";
+	}
+	
+	@RequestMapping("/skin_write")
+	public String skinWrite() {
+		return "/skin_write";
+	}
+	
+	@RequestMapping("/skin_write_result")
+	public String SkinWriteResult(Skin skin, HttpServletRequest request) {
+		System.out.println(skin.toString());
+		
+		if(!skin.getS_image().getOriginalFilename().equals("")) {
+			String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\skin\\";
+			
+			MultipartFile file = skin.getS_image();
+			String uuidName = UUID.randomUUID().toString() + file.getOriginalFilename();
+			String oPath = path + uuidName; // 원본 경로
+						
+			try {
+				file.transferTo(new File(oPath));
+			} catch(IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			File oFile = new File(oPath);
+
+			int index = oPath.lastIndexOf(".");
+			String ext = oPath.substring(index + 1); // 파일 확장자
+
+			String tPath = oFile.getParent() + File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
+			File tFile = new File(tPath);
+			
+			double ratio = 2; // 이미지 축소 비율
+
+			try {
+				BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
+				int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
+				int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+				
+				BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
+				Graphics2D graphic = tImage.createGraphics();
+				Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+				graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+				graphic.dispose(); // 리소스를 모두 해제
+
+				ImageIO.write(tImage, ext, tFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
+			
+			skin.setS_full("resources\\img\\skin\\" + uuidName);
+			skin.setS_thumb("resources\\img\\skin\\t-" + uuidName);
+		}		
+				
+		skinservice.writeSkin(skin);
+		
+		return "redirect:/skin_list";
+	}
+	
+	@RequestMapping("/player_duplicate")
+	public String PlayerDuplicate(HttpServletRequest request) {
+		System.out.println(request.getParameter("name"));
+		String name = request.getParameter("name");
+		System.out.println(name);
+		
+		Player player = playerservice.findPlayerName(name);
+		
+		if(player != null)
+			return "/dup_ok";
+		else
+			return "/dup_no";
+	}
+
+	@RequestMapping("/skin_detail")
+	public String skinDetail(Model model, @RequestParam("s_num") int s_num) {
+		Skin skin = skinservice.findSkin(s_num);
+		model.addAttribute("player", playerservice.findPlayerName(skin.getP_name()));
+		model.addAttribute("skin", skin);
+		
+		List<Reply> list = replyservice.getReplyS(s_num);
+		model.addAttribute("list", list);
+		return "/skin_detail";
+	}
+	
+	@RequestMapping("/skin_edit")
+	public String skinEdit(Model model, @RequestParam("s_num") int s_num) {
+		Skin skin = skinservice.findSkin(s_num);
+		
+		model.addAttribute("skin", skin);
+		return "/skin_edit";		
+	}
+	
+	@RequestMapping("/skin_edit_result")
+	public String skinEditResult(Skin skin, HttpServletRequest request) {
+		Skin temp = skinservice.findSkin(skin.getS_num());
+		skin.setS_full(temp.getS_full());
+		skin.setS_thumb(temp.getS_thumb());
+		
+		if(!skin.getS_image().getOriginalFilename().equals("")) {
+			String path = request.getSession().getServletContext().getRealPath("/") + "resources\\img\\skin\\";
+			
+			MultipartFile file = skin.getS_image();
+			String uuidName = UUID.randomUUID().toString() + file.getOriginalFilename();
+			String oPath = path + uuidName; // 원본 경로
+						
+			try {
+				file.transferTo(new File(oPath));
+			} catch(IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			File oFile = new File(oPath);
+
+			int index = oPath.lastIndexOf(".");
+			String ext = oPath.substring(index + 1); // 파일 확장자
+
+			String tPath = oFile.getParent() + File.separator + "t-" + oFile.getName(); // 썸네일저장 경로
+			File tFile = new File(tPath);
+			
+			double ratio = 2; // 이미지 축소 비율
+
+			try {
+				BufferedImage oImage = ImageIO.read(oFile); // 원본이미지
+				int tWidth = (int) (oImage.getWidth() / ratio); // 생성할 썸네일이미지의 너비
+				int tHeight = (int) (oImage.getHeight() / ratio); // 생성할 썸네일이미지의 높이
+				
+				BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR); // 썸네일이미지
+				Graphics2D graphic = tImage.createGraphics();
+				Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+				graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+				graphic.dispose(); // 리소스를 모두 해제
+
+				ImageIO.write(tImage, ext, tFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
+			
+			skin.setS_full("resources\\img\\skin\\" + uuidName);
+			skin.setS_thumb("resources\\img\\skin\\t-" + uuidName);
+		}
+		
+		skinservice.editSkin(skin);
 		
 		return "redirect:/player_list";
 	}

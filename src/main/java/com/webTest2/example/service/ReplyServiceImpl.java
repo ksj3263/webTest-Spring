@@ -46,4 +46,9 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<Reply> getReplyP(int p_num) {
 		return replymapper.getReplyP(p_num);
 	}
+	
+	@Override
+	public List<Reply> getReplyS(int s_num) {
+		return replymapper.getReplyS(s_num);
+	}
 }

@@ -18,4 +18,6 @@ public interface ReplyService {
 	public void deleteAllReply(int bId);
 	
 	public List<Reply> getReplyP(int p_num);
+	
+	public List<Reply> getReplyS(int s_num);
 }

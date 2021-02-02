@@ -10,71 +10,41 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <body>	
-	<p> 선수명 : ${player.p_name }</p>
-	<p> 선수 이미지 <br> <img src="${player.p_full }" width=236px height=338px></p>
-	<p> 포지션 : ${player.p_position } </p>
-	<p> 속성 : ${player.p_attribute } </p>
-	<p> 등급 : ${player.p_tier } </p>
-	<p> 파워 : ${player.p_power }</p>
-	<p> 테크닉 : ${player.p_technique }</p>
-	<p> 피지컬 : ${player.p_physical }</p>
-	<p> 스피드 : ${player.p_speed }</p>
+	<p> 스킨명 : ${skin.s_name }</p>
+	<p> 스킨 이미지 <br> <img src="${skin.s_full }" width=236px height=338px></p>
+	<p> 종류 : ${skin.s_property } </p>
+	<p> 등급 : ${skin.s_tier } </p>
 	
-	<p> 에이스 : ${player.p_name_ace} - ${player.p_ace }</p>
-	<p> 액티브 : ${player.p_name_a} - ${player.p_active}</p>
-	<p> 패시브1 : ${player.p_name_p1} - ${player.p_passive1}</p>
-	<p> 패시브2 : ${player.p_name_p2} - ${player.p_passive2}</p>
-	<p> 패시브3 : ${player.p_name_p3} - ${player.p_passive3}</p>
+	<p> 업데이트 날짜 : ${skin.s_date } </p>
+	<p> 일러스트레이터 : ${skin.s_ill }</p>
+	<p> CV : ${skin.s_cv }</p>
 	
-	<p> 스톤1 : ${player.p_stone1} </p>
-	<p> 스톤2 : ${player.p_stone2} </p>
-	<p> 스톤3 : ${player.p_stone3} </p>
-	
-	<p> 업데이트 날짜 : ${player.p_date } </p>
-	
-	<c:choose>
-		<c:when test="${player.p_tier == 'L' }">		
-			<p> 결전기 : ${player.p_coop }</p>
-		</c:when>
-		<c:when test="${player.p_tier == 'SR' }">				
-			<p> 협동기 : ${player.p_coop }</p>
-			<p> 협동 선수1 : ${player.p_coop1 }</p>
-			<p> 협동 선수2 : ${player.p_coop2 }</p>
-			<p> 협동 선수3 : ${player.p_coop3 }</p>
-		</c:when>
-	</c:choose>
-		
-	<p> 스토리 : </p>
-	<textarea id="story" style="resize:none;" cols=200 disabled>${player.p_story }</textarea>
-	<p> 일러스트레이터 : ${player.p_ill }</p>
-	<p> CV : ${player.p_cv }</p>
-	
-	<a href="/player_edit?p_num=${player.p_num }">수정하기</a>
-	<a href="/player_list">돌아가기</a>
+	<a href="/skin_edit?s_num=${skin.s_num }">수정하기</a>
+	<a href="/skin_list">돌아가기</a>
 	
 	<br>
-	<p> 관련 스킨 </p>
+	<p> 관련 선수 </p>
 	<table border=1>
 		<tr>
 			<td>이름</td>
 			<td>이미지</td>
-			<td>종류</td>
+			<td>포지션</td>
+			<td>속성</td>
 			<td>등급</td>
 		</tr>
-		<c:forEach var="slist" items="${slist }">
-			<tr>
-				<td><a href="/skin_detail?s_num=${slist.s_num}">${slist.s_name }</a></td>
-				<td><img src="${slist.s_thumb }" width=50px height=50px> </td>
-				<td>${slist.s_property }</td>
-				<td>${slist.s_tier}</td>
-			</tr>
-		</c:forEach>
+		<tr>
+			<td><a href="/player_detail?p_num=${player.p_num}">${player.p_name }</a></td>
+			<td><img src="${player.p_thumb }" width=50px height=50px> </td>
+			<td>${player.p_position }</td>
+			<td>${player.p_attribute }</td>
+			<td>${player.p_tier}</td>
+		</tr>
 	</table>
 	
 	<br>
 	<form id="form">
 		<sec:authorize access="isAuthenticated()">
-			<input type="hidden" name="p_num" value="${player.p_num }">
+			<input type="hidden" name="s_num" value="${skin.s_num }">
 			<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
 			<sec:authentication property="principal" var="principal"/>
 				<input type="hidden" name="rWriter" value="${principal.uName }">
@@ -105,13 +75,6 @@
 	</div>
 </body>
 <script>
-$(document).ready(function() {
-	let textArea = $('#story');
-	textArea[0].style.height = 'auto';
-	let textAreaHeight = textArea.prop('scrollHeight');
-	textArea.css('height', textAreaHeight);
-});
-
 $(document).on('click', '#btn', function() {
 	let form = $('#form')[0];
 	let formData = new FormData(form);
@@ -126,7 +89,6 @@ $(document).on('click', '#btn', function() {
 			contentType: false
 		})
 		.done(function(data) {
-			console.log("ok");
 			$("#replyList").html(data);	
 	 		$("#cont").val('');
 		});	
@@ -137,8 +99,6 @@ $(document).on('click', '.btn-edit', function() {
 	let checkBtn = $(this);	
 	let tr = checkBtn.parent().parent();
 	let td = tr.children();
-	console.log(r_id);
-	console.log(td.eq(1).text());
 	
 	$.ajax({
 		method: "POST",
@@ -147,7 +107,6 @@ $(document).on('click', '.btn-edit', function() {
 		dateType: "html"
 	})
 	.done(function(data) {
-		console.log(data);
 		if(data == 'denied') {
 			location.href = data;
 		} else {
@@ -158,8 +117,6 @@ $(document).on('click', '.btn-edit', function() {
 $(document).on('click', '#btn-edit-comp', function () {
 	let r_id = $('input[name="r_id"]').val();
 	let edit_content = $('input[name="edit_content"]').val();
-	console.log(r_id);
-	console.log(edit_content);
 	
 	$.ajax({
 		  method: "POST",
@@ -168,14 +125,11 @@ $(document).on('click', '#btn-edit-comp', function () {
 		  dataType: "html"
 		})
 		.done(function(data) {
-	 		console.log("ok");
 	 		$("#replyList").html(data);	
 		});
 });
 $(document).on('click', '.btn-del', function () {
 	let r_id = $(this).attr('data-d_r_id');
-	console.log(r_id);
-	console.log("del");
 	
 	$.ajax({
 		  method: "POST",
@@ -184,7 +138,6 @@ $(document).on('click', '.btn-del', function () {
 		  dataType: "html"
 		})
 		.done(function(data) {
-			console.log(data);
 			if(data == 'denied') {
 				location.href = data;
 			} else {

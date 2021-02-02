@@ -6,11 +6,13 @@ public class Search {
 	private List<String> positions;
 	private List<String> attributes;
 	private List<String> tiers;
+	private List<String> properties;
 	private String content;
 	private int page;
 	private boolean checkPositions;
 	private boolean checkAttributes;
 	private boolean checkTiers;
+	private boolean checkProperties;
 	private int searchType;
 			
 	public int getSearchType() {
@@ -67,10 +69,23 @@ public class Search {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public List<String> getProperties() {
+		return properties;
+	}
+	public void setProperties(List<String> properties) {
+		this.properties = properties;
+	}
+	public boolean isCheckProperties() {
+		return checkProperties;
+	}
+	public void setCheckProperties(boolean checkProperties) {
+		this.checkProperties = checkProperties;
+	}
 	@Override
 	public String toString() {
-		return "Search [positions=" + positions + ", attributes=" + attributes + ", tiers=" + tiers + ", content="
-				+ content + ", page=" + page + ", checkPositions=" + checkPositions + ", checkAttributes="
-				+ checkAttributes + ", checkTiers=" + checkTiers + ", searchType=" + searchType + "]";
+		return "Search [positions=" + positions + ", attributes=" + attributes + ", tiers=" + tiers + ", properties="
+				+ properties + ", content=" + content + ", page=" + page + ", checkPositions=" + checkPositions
+				+ ", checkAttributes=" + checkAttributes + ", checkTiers=" + checkTiers + ", checkProperties="
+				+ checkProperties + ", searchType=" + searchType + "]";
 	}	
 }
