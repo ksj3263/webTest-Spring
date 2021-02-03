@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +49,7 @@
 	질풍<input type="checkbox" id="질풍" name="attributes" value="질풍">
 	천둥<input type="checkbox" id="천둥" name="attributes" value="천둥">
 	섬광<input type="checkbox" id="섬광" name="attributes" value="섬광">
-	암흑<input type="checkbox" id="암흑" name="attributes" value="암흑"> </p>
+	어둠<input type="checkbox" id="어둠" name="attributes" value="어둠"> </p>
 				
 	<p> 포지션 : 스트라이커<input type="checkbox" id="스트라이커" name="positions" value="스트라이커">
 	어시스터<input type="checkbox" id="어시스터" name="positions" value="어시스터">
@@ -69,7 +70,9 @@
 <br>
 <a href="/"><input type="button" value="돌아가기"></a>
 <button id="btn-all">전체선택</button> <button id="btn-not-all">선택해제</button>
-<br>
+<sec:authorize access="isAuthenticated()">
+	<a href="/player_write"><input type="button" value="선수 추가"></a>	
+</sec:authorize>
 <div id="playerList">
 	<table border=1>
 		<tr>
@@ -133,9 +136,6 @@
 		</c:choose> 
 	</ul>
 </div>
-
-<br>
-<a href="/player_write"><input type="button" value="선수 추가"></a>
 </body>
 <script>
 $(document).ready(function() {

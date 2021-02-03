@@ -11,13 +11,13 @@ import com.webTest2.example.domain.Search;
 public interface PlayerMapper {
 	public Player findPlayer(int p_num);
 	
+	public Player findPlayerName(String name);
+	
 	public void writePlayer(Player player);
 	
 	public List<Player> searchPlayer(Search search);
 	
 	public int getPlayerCount(Search search);
 	
-	public void editPlayer(Player player);
-	
-	public Player findPlayerName(String name);
+	public void editPlayer(Player player);	
 }

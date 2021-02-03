@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +63,9 @@
 <br>
 <a href="/"><input type="button" value="돌아가기"></a>
 <button id="btn-all">전체선택</button> <button id="btn-not-all">선택해제</button>
-<a href="/skin_write"><input type="button" value="추가하기"></a>
+<sec:authorize access="isAuthenticated()">
+	<a href="/skin_write"><input type="button" value="추가하기"></a>	
+</sec:authorize>
 <br>
 <div id="skinList">
 	<table border=1>

@@ -19,6 +19,11 @@ public class SkinServiceImpl implements SkinService {
 	}
 	
 	@Override
+	public List<Skin> getSkinList(String name) {
+		return skinmapper.getSkinListName(name);
+	}
+	
+	@Override
 	public int getSkinCount(Search search) {
 		return skinmapper.getSkinCount(search);
 	}
@@ -28,10 +33,6 @@ public class SkinServiceImpl implements SkinService {
 		skinmapper.writeSkin(skin);
 	}
 	
-	@Override
-	public List<Skin> getSkinListName(String name) {
-		return skinmapper.getSkinListName(name);
-	}
 	
 	@Override
 	public Skin findSkin(int s_num) {

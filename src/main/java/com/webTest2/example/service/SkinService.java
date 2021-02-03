@@ -12,7 +12,7 @@ public interface SkinService {
 	
 	public void writeSkin(Skin skin);
 	
-	public List<Skin> getSkinListName(String name);
+	public List<Skin> getSkinList(String name);
 	
 	public Skin findSkin(int s_num);
 	

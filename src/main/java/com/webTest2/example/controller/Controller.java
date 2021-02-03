@@ -371,19 +371,33 @@ public class Controller {
 		return "/player_list";
 	}
 	
-	@RequestMapping("/player_detail")
+	@RequestMapping(value="/player_detail", params = {"p_num"})
 	public String playerDetail(Model model, @RequestParam("p_num") int p_num) {
 		Player player = playerservice.findPlayer(p_num);
 		model.addAttribute("player", player);
 		
-		List<Skin> slist = skinservice.getSkinListName(player.getP_name());
+		List<Skin> slist = skinservice.getSkinList(player.getP_name());
 		model.addAttribute("slist", slist);
 		
-		List<Reply> list = replyservice.getReplyP(p_num);
+		List<Reply> list = replyservice.getReplyP(player.getP_num());
 		model.addAttribute("list", list);
 		return "/player_detail";
 	}
 	
+	@RequestMapping(value="/player_detail", params= {"p_name"})
+	public String playerDetail(Model model, @RequestParam("p_name") String p_name) {
+		Player player = playerservice.findPlayer(p_name);
+		model.addAttribute("player", player);
+		
+		List<Skin> slist = skinservice.getSkinList(player.getP_name());
+		model.addAttribute("slist", slist);
+		
+		List<Reply> list = replyservice.getReplyP(player.getP_num());
+		model.addAttribute("list", list);
+		return "/player_detail";
+	}
+	
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping("/player_write")
 	public String playerWrite(Model model) {
 		return "/player_write";
@@ -598,7 +612,7 @@ public class Controller {
 		String name = request.getParameter("name");
 		System.out.println(name);
 		
-		Player player = playerservice.findPlayerName(name);
+		Player player = playerservice.findPlayer(name);
 		
 		if(player != null)
 			return "/dup_ok";
@@ -609,7 +623,7 @@ public class Controller {
 	@RequestMapping("/skin_detail")
 	public String skinDetail(Model model, @RequestParam("s_num") int s_num) {
 		Skin skin = skinservice.findSkin(s_num);
-		model.addAttribute("player", playerservice.findPlayerName(skin.getP_name()));
+		model.addAttribute("player", playerservice.findPlayer(skin.getP_name()));
 		model.addAttribute("skin", skin);
 		
 		List<Reply> list = replyservice.getReplyS(s_num);

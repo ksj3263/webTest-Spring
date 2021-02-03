@@ -40,17 +40,6 @@
 			<td>${player.p_tier}</td>
 		</tr>
 	</table>
-	
-	<br>
-	<form id="form">
-		<sec:authorize access="isAuthenticated()">
-			<input type="hidden" name="s_num" value="${skin.s_num }">
-			<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
-			<sec:authentication property="principal" var="principal"/>
-				<input type="hidden" name="rWriter" value="${principal.uName }">
-				<input type="hidden" name="uId" value="${principal.username }">
-		</sec:authorize>
-	</form>
 		
 	<br>
 	<div id="replyList">
@@ -73,6 +62,16 @@
 			</c:forEach>
 		</table>
 	</div>
+	<br>
+	<form id="form">
+		<sec:authorize access="isAuthenticated()">
+			<input type="hidden" name="s_num" value="${skin.s_num }">
+			<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
+			<sec:authentication property="principal" var="principal"/>
+				<input type="hidden" name="rWriter" value="${principal.uName }">
+				<input type="hidden" name="uId" value="${principal.username }">
+		</sec:authorize>
+	</form>
 </body>
 <script>
 $(document).on('click', '#btn', function() {

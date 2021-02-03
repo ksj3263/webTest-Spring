@@ -23,16 +23,6 @@
 	<a href="/board_list">돌아가기</a>
 	
 <br><br>
-<form id="form">
-	<sec:authorize access="isAuthenticated()">
-		<input type="hidden" name="bId" value="${board.bId }">
-		<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
-		<sec:authentication property="principal" var="principal"/>
-			<input type="hidden" name="rWriter" value="${principal.uName }">
-			<input type="hidden" name="uId" value="${principal.username }">
-	</sec:authorize>
-</form>
-
 <div id="replyList">
 	<table>
 		<tr>
@@ -53,7 +43,16 @@
 		</c:forEach>
 	</table>
 </div>
-
+<form id="form">
+	<sec:authorize access="isAuthenticated()">
+		<input type="hidden" name="bId" value="${board.bId }">
+		<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
+		<sec:authentication property="principal" var="principal"/>
+			<input type="hidden" name="rWriter" value="${principal.uName }">
+			<input type="hidden" name="uId" value="${principal.username }">
+	</sec:authorize>
+</form>
+</body>
 <script>
 $(document).on('click', '#btn', function () {
 	let form = $('#form')[0];
@@ -136,5 +135,4 @@ $(document).on('click', '.btn-del', function () {
 		});
 });
 </script>
-</body>
 </html>

@@ -19,6 +19,11 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 	
 	@Override
+	public Player findPlayer(String name) {
+		return playermapper.findPlayerName(name);
+	}
+	
+	@Override
 	public void writePlayer(Player player) {
 		playermapper.writePlayer(player);
 	}
@@ -36,10 +41,5 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void editPlayer(Player player) {
 		playermapper.editPlayer(player);
-	}
-	
-	@Override
-	public Player findPlayerName(String name) {
-		return playermapper.findPlayerName(name);
-	}
+	}	
 }

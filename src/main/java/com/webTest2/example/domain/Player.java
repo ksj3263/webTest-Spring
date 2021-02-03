@@ -3,6 +3,7 @@ package com.webTest2.example.domain;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Player {
+	// 성별, 소속, 대사
 	private int p_num;
 	private String p_name;
 	private String p_position;
@@ -28,6 +29,12 @@ public class Player {
 	private String p_coop1;
 	private String p_coop2;
 	private String p_coop3;	
+	private String p_coop_count;
+	private String p_coop_cool;
+	private String p_coop_pre;
+	private String p_r1;
+	private String p_r2;
+	private String p_r3;
 	private String p_story;
 	private String p_name_ace;
 	private String p_name_a;
@@ -36,7 +43,43 @@ public class Player {
 	private String p_name_p3;
 	private String p_ill;
 	private String p_cv;	
-	
+				
+	public String getP_coop_count() {
+		return p_coop_count;
+	}
+	public void setP_coop_count(String p_coop_count) {
+		this.p_coop_count = p_coop_count;
+	}
+	public String getP_coop_cool() {
+		return p_coop_cool;
+	}
+	public void setP_coop_cool(String p_coop_cool) {
+		this.p_coop_cool = p_coop_cool;
+	}
+	public String getP_coop_pre() {
+		return p_coop_pre;
+	}
+	public void setP_coop_pre(String p_coop_pre) {
+		this.p_coop_pre = p_coop_pre;
+	}
+	public String getP_r1() {
+		return p_r1;
+	}
+	public void setP_r1(String p_r1) {
+		this.p_r1 = p_r1;
+	}
+	public String getP_r2() {
+		return p_r2;
+	}
+	public void setP_r2(String p_r2) {
+		this.p_r2 = p_r2;
+	}
+	public String getP_r3() {
+		return p_r3;
+	}
+	public void setP_r3(String p_r3) {
+		this.p_r3 = p_r3;
+	}
 	public String getP_ill() {
 		return p_ill;
 	}

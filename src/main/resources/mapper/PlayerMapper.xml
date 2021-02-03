@@ -5,6 +5,12 @@
 		select *
 		from player
 		where p_num = #{p_num}
+	</select>	
+	
+	<select id="findPlayerName" parameterType="string" resultType="player">
+		select *
+		from player
+		where p_name = #{name}
 	</select>
 	
 	<insert id="writePlayer" parameterType="Player">
@@ -32,6 +38,12 @@
 			p_coop1,
 			p_coop2,
 			p_coop3,
+			p_coop_count,
+			p_coop_cool,
+			p_coop_pre,
+			p_r1,
+			p_r2,
+			p_r3,
 			p_story,
 			p_name_ace,
 			p_name_a,
@@ -64,6 +76,12 @@
 			#{p_coop1},
 			#{p_coop2},
 			#{p_coop3},
+			#{p_coop_count},
+			#{p_coop_cool},
+			#{p_coop_pre},
+			#{p_r1},
+			#{p_r2},
+			#{p_r3},
 			#{p_story},
 			#{p_name_ace},
 			#{p_name_a},
@@ -76,7 +94,12 @@
 	</insert>
 	
 	<select id="searchPlayer" resultType="Player">
-		select *
+		select p_num,
+				p_name,
+				p_attribute,
+				p_position,
+				p_tier,
+				p_thumb
 		from player
 		where 1=1
 		<if test="content!=null and !content.equals('')">
@@ -168,6 +191,12 @@
 			p_coop1 = #{p_coop1},
 			p_coop2 = #{p_coop2},
 			p_coop3 = #{p_coop3},
+			p_r1 = #{p_r1},
+			p_r2 = #{p_r2},
+			p_r3 = #{p_r3},
+			p_coop_count = #{p_coop_count},
+			p_coop_cool = #{p_coop_cool},
+			p_coop_pre = #{p_coop_pre},
 			p_story = #{p_story},
 			p_name_ace = #{p_name_ace},
 			p_name_a = #{p_name_a},
@@ -178,10 +207,4 @@
 			p_cv = #{p_cv}
 		where p_num=#{p_num}
 	</update>
-	
-	<select id="findPlayerName" parameterType="string" resultType="player">
-		select *
-		from player
-		where p_name = #{name}
-	</select>
 </mapper>

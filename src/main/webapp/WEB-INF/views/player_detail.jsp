@@ -30,24 +30,30 @@
 	<p> 스톤2 : ${player.p_stone2} </p>
 	<p> 스톤3 : ${player.p_stone3} </p>
 	
-	<p> 업데이트 날짜 : ${player.p_date } </p>
-	
 	<c:choose>
 		<c:when test="${player.p_tier == 'L' }">		
-			<p> 결전기 : ${player.p_coop }</p>
+			<p> 결전기 : ${player.p_coop }<br>
+			${player.p_coop_count }회 사용 가능/${player.p_coop_cool }분 후 재사용 가능/경기 시작 ${player.p_coop_pre }분 후 사용 가능</p>
 		</c:when>
 		<c:when test="${player.p_tier == 'SR' }">				
-			<p> 협동기 : ${player.p_coop }</p>
-			<p> 협동 선수1 : ${player.p_coop1 }</p>
-			<p> 협동 선수2 : ${player.p_coop2 }</p>
-			<p> 협동 선수3 : ${player.p_coop3 }</p>
+			<p> 협동기 : ${player.p_coop } <br>
+			${player.p_coop_count }회 사용 가능/${player.p_coop_cool }분 후 재사용 가능/경기 시작 ${player.p_coop_pre }분 후 사용 가능</p>
+			<p> 협동 선수 :<br>
+			<a href="/player_detail?p_name=${player.p_coop1 }">${player.p_coop1 }</a>
+			<a href="/player_detail?p_name=${player.p_coop2 }"> ${player.p_coop2 }</a>
+			<a href="/player_detail?p_name=${player.p_coop3 }"> ${player.p_coop3 }</a></p>
+			<p> 연관 선수 :<br>
+			<a href="/player_detail?p_name=${player.p_r1 }"> ${player.p_r1 }</a>
+			<a href="/player_detail?p_name=${player.p_r2 }"> ${player.p_r2 }</a>
+			<a href="/player_detail?p_name=${player.p_r3 }"> ${player.p_r3 }</a></p>
 		</c:when>
 	</c:choose>
 		
 	<p> 스토리 : </p>
-	<textarea id="story" style="resize:none;" cols=200 disabled>${player.p_story }</textarea>
+	<textarea id="story" style="resize:none; width:90%;" disabled>${player.p_story }</textarea>
 	<p> 일러스트레이터 : ${player.p_ill }</p>
 	<p> CV : ${player.p_cv }</p>
+	<p> 업데이트 날짜 : ${player.p_date } </p>	
 	
 	<a href="/player_edit?p_num=${player.p_num }">수정하기</a>
 	<a href="/player_list">돌아가기</a>
@@ -70,17 +76,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	
-	<br>
-	<form id="form">
-		<sec:authorize access="isAuthenticated()">
-			<input type="hidden" name="p_num" value="${player.p_num }">
-			<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
-			<sec:authentication property="principal" var="principal"/>
-				<input type="hidden" name="rWriter" value="${principal.uName }">
-				<input type="hidden" name="uId" value="${principal.username }">
-		</sec:authorize>
-	</form>
 		
 	<br>
 	<div id="replyList">
@@ -103,9 +98,26 @@
 			</c:forEach>
 		</table>
 	</div>
+	<br>
+	<form id="form">
+		<sec:authorize access="isAuthenticated()">
+			<input type="hidden" name="p_num" value="${player.p_num }">
+			<input type="text" name="rContent" id="cont"> <input type="button" value="댓글달기" id="btn">
+			<sec:authentication property="principal" var="principal"/>
+				<input type="hidden" name="rWriter" value="${principal.uName }">
+				<input type="hidden" name="uId" value="${principal.username }">
+		</sec:authorize>
+	</form>
 </body>
 <script>
 $(document).ready(function() {
+	let textArea = $('#story');
+	textArea[0].style.height = 'auto';
+	let textAreaHeight = textArea.prop('scrollHeight');
+	textArea.css('height', textAreaHeight);
+});
+
+$(window).resize(function() {
 	let textArea = $('#story');
 	textArea[0].style.height = 'auto';
 	let textAreaHeight = textArea.prop('scrollHeight');

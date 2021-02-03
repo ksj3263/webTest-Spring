@@ -134,7 +134,7 @@ function setDateBox() {
 			<option value="질풍">질풍</option>
 			<option value="천둥">천둥</option>
 			<option value="섬광">섬광</option>
-			<option value="암흑">암흑</option>
+			<option value="어둠">어둠</option>
 		</select>
 	</p>
 	<p> 등급 :
@@ -164,7 +164,7 @@ function setDateBox() {
 			<option value="질풍">질풍</option>
 			<option value="천둥">천둥</option>
 			<option value="섬광">섬광</option>
-			<option value="암흑">암흑</option>
+			<option value="어둠">어둠</option>
 		</select>
 	</p>
 	<p> 스톤2 :
@@ -173,7 +173,7 @@ function setDateBox() {
 			<option value="질풍">질풍</option>
 			<option value="천둥">천둥</option>
 			<option value="섬광">섬광</option>
-			<option value="암흑">암흑</option>
+			<option value="어둠">어둠</option>
 		</select>
 	</p>
 	<p> 스톤3 :
@@ -182,10 +182,27 @@ function setDateBox() {
 			<option value="질풍">질풍</option>
 			<option value="천둥">천둥</option>
 			<option value="섬광">섬광</option>
-			<option value="암흑">암흑</option>
+			<option value="어둠">어둠</option>
 		</select>
 	</p>
+		
+	<p> 협동기/결전기 : <input type="text" name="p_coop" value="${player.p_coop }"><br>
+	<input type="text" name="p_coop_count" value="${player.p_coop_count }">회 사용 가능/
+	<input type="text" name="p_coop_cool" value="${player.p_coop_cool }">분 후 재사용 가능/
+	경기 시작 <input type="text" name="p_coop_pre" value="${player.p_coop_pre }">분 후 사용 가능</p>
+	<p> 협동 선수1 : <input type="text" name="p_coop1" value="${player.p_coop1 }"> <button type="button" onclick="dup1();">확인</button></p>
+	<p> 협동 선수2 : <input type="text" name="p_coop2" value="${player.p_coop2 }"> <button type="button" onclick="dup2();">확인</button></p>
+	<p> 협동 선수3 : <input type="text" name="p_coop3" value="${player.p_coop3 }"> <button type="button" onclick="dup3();">확인</button></p>
 	
+	<p> 연관 선수1 : <input type="text" name="p_r1" value="${player.p_r1 }"> </p>
+	<p> 연관 선수2 : <input type="text" name="p_r2" value="${player.p_r2 }"> </p>
+	<p> 연관 선수3 : <input type="text" name="p_r3" value="${player.p_r3 }"> </p>	
+	
+	<p> 스토리 : </p>
+	<textarea id="story" name="p_story" style="resize:none;" rows=20 cols=200>${player.p_story }
+	</textarea> 
+	<p> 일러스트레이터 : <input type="text" name="p_ill" value="${player.p_ill }"></p>
+	<p> CV : <input type="text" name="p_cv" value="${player.p_cv }"></p>
 	<p> 업데이트 날짜 :
 		<select name="year" id="year">
 		</select>
@@ -196,22 +213,59 @@ function setDateBox() {
 		<select name="day" id="day">
 		</select>
 	</p>
-	
-	<p> 협동기/결전기 : <input type="text" name="p_coop" value="${player.p_coop }"></p>
-	<p> 협동 선수1 : <input type="text" name="p_coop1" value="${player.p_coop1 }"></p>
-	<p> 협동 선수2 : <input type="text" name="p_coop2" value="${player.p_coop2 }"></p>
-	<p> 협동 선수3 : <input type="text" name="p_coop3" value="${player.p_coop3 }"></p>
-	
-	<p> 스토리 : </p>
-	<textarea id="story" name="p_story" style="resize:none;" rows=20 cols=200>${player.p_story }
-	</textarea> 
-	<p> 일러스트레이터 : <input type="text" name="p_ill" value="${player.p_ill }"></p>
-	<p> CV : <input type="text" name="p_cv" value="${player.p_cv }"></p>
 	<input type="button" value="완료" onclick="transfer();">
 </form>
 <a href="/player_detail?p_num=${player.p_num }">돌아가기</a>
 </body>
 <script>
+function dup1() {
+	let name = $('input[name="p_coop1"]').val();
+	
+	$.ajax({
+		type: "POST",
+		url: "/player_duplicate",
+		data : { name : name }
+	}).success(function (data) {
+		if(data == "ok") {
+			console.log("yes");
+		}			
+		else {
+			console.log("no");
+		}
+	});
+};
+function dup2() {
+	let name = $('input[name="p_coop2"]').val();
+	
+	$.ajax({
+		type: "POST",
+		url: "/player_duplicate",
+		data : { name : name }
+	}).success(function (data) {
+		if(data == "ok") {
+			console.log("yes");
+		}			
+		else {
+			console.log("no");
+		}
+	});
+};
+function dup3() {
+	let name = $('input[name="p_coop3"]').val();
+	
+	$.ajax({
+		type: "POST",
+		url: "/player_duplicate",
+		data : { name : name }
+	}).success(function (data) {
+		if(data == "ok") {
+			console.log("yes");
+		}			
+		else {
+			console.log("no");
+		}
+	});
+};
 function transfer() {
 	let form = $('#form')[0];
 	let formData = new FormData(form);
