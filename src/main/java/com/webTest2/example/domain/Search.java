@@ -9,12 +9,19 @@ public class Search {
 	private List<String> properties;
 	private String content;
 	private int page;
+	private int bId;
 	private boolean checkPositions;
 	private boolean checkAttributes;
 	private boolean checkTiers;
 	private boolean checkProperties;
 	private int searchType;
-			
+				
+	public int getbId() {
+		return bId;
+	}
+	public void setbId(int bId) {
+		this.bId = bId;
+	}
 	public int getSearchType() {
 		return searchType;
 	}

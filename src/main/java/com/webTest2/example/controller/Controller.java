@@ -135,12 +135,19 @@ public class Controller {
 	}
 	
 	@RequestMapping("/board_detail")
-	public String boardDetail(Model model, @RequestParam("bId") int id) {
+	public String boardDetail(Model model, @RequestParam("bId") int id, @RequestParam(value="page", required=false, defaultValue="1") String page) {
 		Board board = boardservice.findBoard(id);
 		model.addAttribute("board", board);
 		
-		List<Reply> list = replyservice.getReply(id);
+		Search search = new Search();
+		search.setPage((Integer.parseInt(page)-1)*10);
+		search.setbId(id);
+		
+		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(Integer.parseInt(page), replyservice.getReplyCount(id));
+		model.addAttribute("pagination", pg);
 		return "/board_detail";
 	}
 	
@@ -216,6 +223,22 @@ public class Controller {
 		return "redirect:/board_detail?bId=" + board.getbId();
 	}
 	
+	@RequestMapping("reply_list")
+	public String replyList(Model model, @RequestParam("bId") int id, @RequestParam(value="page", required=false, defaultValue="1") String page) {
+		Search search = new Search();
+		search.setbId(id);
+		search.setPage(Integer.parseInt(page));
+		
+		List<Reply> list = replyservice.getReply(search);
+		
+		model.addAttribute("list", list);
+		
+		// reply pagination ajax로 처리하기
+		// player, skin에도 적용하기
+		
+		return "/reply_list";
+	}
+	
 	@RequestMapping("/write_reply")
 	public String writeReply(Model model, Reply reply) {
 		replyservice.writeReply(reply);
@@ -223,8 +246,8 @@ public class Controller {
 		List<Reply> list = null;
 		if(reply.getP_num() != 0)
 			list = replyservice.getReplyP(reply.getP_num());
-		else if(reply.getbId() != 0)
-			list = replyservice.getReply(reply.getbId());
+		//else if(reply.getbId() != 0)
+		//	list = replyservice.getReply(reply.getbId());
 		else if(reply.getS_num() != 0)
 			list = replyservice.getReplyS(reply.getS_num());
 		model.addAttribute("list", list);
@@ -243,8 +266,8 @@ public class Controller {
 		List<Reply> list = null;
 		if(reply.getP_num() != 0)
 			list = replyservice.getReplyP(reply.getP_num());
-		else if(reply.getbId() != 0)
-			list = replyservice.getReply(reply.getbId());
+		//else if(reply.getbId() != 0)
+		//	list = replyservice.getReply(reply.getbId());
 		else if(reply.getS_num() != 0)
 			list = replyservice.getReplyS(reply.getS_num());
 		model.addAttribute("list", list);
@@ -283,8 +306,8 @@ public class Controller {
 		List<Reply> list = null;
 		if(reply.getP_num() != 0)
 			list = replyservice.getReplyP(reply.getP_num());
-		else if(reply.getbId() != 0)
-			list = replyservice.getReply(reply.getbId());
+		//else if(reply.getbId() != 0)
+		//	list = replyservice.getReply(reply.getbId());
 		else if(reply.getS_num() != 0)
 			list = replyservice.getReplyS(reply.getS_num());
 		model.addAttribute("list", list);
