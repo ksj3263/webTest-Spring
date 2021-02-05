@@ -129,7 +129,7 @@ public class Controller {
 		board.setbOrder(0);
 		board.setbGroup(0);
 		boardservice.writeBoard(board);
-		boardservice.updateBase();		
+		boardservice.updateBase();
 		
 		return "redirect:/board_detail?bId=" + boardservice.lastBoard();
 	}
@@ -164,9 +164,8 @@ public class Controller {
 		if(board2.getbOrder() == 0) {
 			board.setbOrder(boardservice.getMaxOrder(board2.getbBase())+1);
 		} else {
-			board.setbOrder(board2.getbOrder());			
+			board.setbOrder(board2.getbOrder());	
 		}
-		board.setuId(board.getbWriter());
 		board.setbBase(board2.getbBase());
 		board.setbGroup(board2.getbGroup()+1);
 		
@@ -256,13 +255,9 @@ public class Controller {
 		
 		Search search = new Search();
 		search.setPage(0);
-		
-		if(reply.getP_num() != 0) 
-			search.setP_num(reply.getP_num());
-		else if(reply.getbId() != 0) 
-			search.setbId(reply.getbId());
-		else if(reply.getS_num() != 0)
-			search.setS_num(reply.getS_num());
+		search.setP_num(reply.getP_num());
+		search.setbId(reply.getbId());
+		search.setS_num(reply.getS_num());
 		
 		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
@@ -284,13 +279,9 @@ public class Controller {
 		
 		Search search = new Search();
 		search.setPage(0);
-		
-		if(reply.getP_num() != 0) 
-			search.setP_num(reply.getP_num());
-		else if(reply.getbId() != 0) 
-			search.setbId(reply.getbId());
-		else if(reply.getS_num() != 0)
-			search.setS_num(reply.getS_num());
+		search.setP_num(reply.getP_num());
+		search.setbId(reply.getbId());
+		search.setS_num(reply.getS_num());
 		
 		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
@@ -332,13 +323,9 @@ public class Controller {
 		
 		Search search = new Search();
 		search.setPage(0);
-		
-		if(reply.getP_num() != 0) 
-			search.setP_num(reply.getP_num());
-		else if(reply.getbId() != 0) 
-			search.setbId(reply.getbId());
-		else if(reply.getS_num() != 0)
-			search.setS_num(reply.getS_num());
+		search.setP_num(reply.getP_num());
+		search.setbId(reply.getbId());
+		search.setS_num(reply.getS_num());
 		
 		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
@@ -770,5 +757,10 @@ public class Controller {
 		skinservice.editSkin(skin);
 		
 		return "redirect:/player_list";
+	}
+	
+	@RequestMapping("/deck")
+	public String deckMain() {
+		return "/deck";
 	}
 }

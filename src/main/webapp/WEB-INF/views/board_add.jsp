@@ -13,7 +13,8 @@
 	<form action="/board_add_result?bId=${board.bId }" method="post">					
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal" var="principal"/>
-			<input type="hidden" name="bWriter" value="${principal.username }">
+			<input type="hidden" name="bWriter" value="${principal.uName }">
+			<input type="hidden" name="uId" value="${principal.username }">
 		</sec:authorize>
 		<p><input type="text" name="bTitle" value="RE:${board.bTitle}"></p>
 		<p><textarea style="resize:vertical;" name="bContent" cols="40" rows="8"></textarea></p>

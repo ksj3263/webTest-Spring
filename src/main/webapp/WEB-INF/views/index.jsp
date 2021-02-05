@@ -33,6 +33,7 @@
 			<a href="/player_list">선수 DB</a>
 			<a href="/skin_list">스킨 목록</a>
 			<a href="/stone_list">스톤 DB</a>
+			<a href="/deck">덱 구성</a>
 		</div>
 </body>
 </html>
