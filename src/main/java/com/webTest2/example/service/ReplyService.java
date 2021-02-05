@@ -17,10 +17,6 @@ public interface ReplyService {
 	public void editReply(Reply reply);
 	
 	public void deleteAllReply(int bId);
-	
-	public List<Reply> getReplyP(int p_num);
-	
-	public List<Reply> getReplyS(int s_num);
-	
-	public int getReplyCount(int bId);
+		
+	public int getReplyCount(Search search);
 }

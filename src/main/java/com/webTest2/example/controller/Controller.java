@@ -135,18 +135,18 @@ public class Controller {
 	}
 	
 	@RequestMapping("/board_detail")
-	public String boardDetail(Model model, @RequestParam("bId") int id, @RequestParam(value="page", required=false, defaultValue="1") String page) {
+	public String boardDetail(Model model, @RequestParam("bId") int id) {
 		Board board = boardservice.findBoard(id);
 		model.addAttribute("board", board);
 		
 		Search search = new Search();
-		search.setPage((Integer.parseInt(page)-1)*10);
+		search.setPage(0);
 		search.setbId(id);
 		
 		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
 		
-		Pagination pg = new Pagination(Integer.parseInt(page), replyservice.getReplyCount(id));
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
 		model.addAttribute("pagination", pg);
 		return "/board_detail";
 	}
@@ -224,17 +224,28 @@ public class Controller {
 	}
 	
 	@RequestMapping("reply_list")
-	public String replyList(Model model, @RequestParam("bId") int id, @RequestParam(value="page", required=false, defaultValue="1") String page) {
+	public String replyList(Model model, HttpServletRequest request) {
 		Search search = new Search();
-		search.setbId(id);
-		search.setPage(Integer.parseInt(page));
-		
-		List<Reply> list = replyservice.getReply(search);
-		
+		int page = Integer.parseInt(request.getParameter("page"));
+		int bId = 0;
+		if(request.getParameter("bId") != null)
+			bId = Integer.parseInt(request.getParameter("bId"));
+		int p_num = 0;
+		if(request.getParameter("p_num") != null)
+			p_num = Integer.parseInt(request.getParameter("p_num"));
+		int s_num = 0;
+		if(request.getParameter("s_num") != null)
+			s_num = Integer.parseInt(request.getParameter("s_num"));
+		search.setPage((page-1)*10);
+		search.setbId(bId);
+		search.setP_num(p_num);
+		search.setS_num(s_num);
+				
+		List<Reply> list = replyservice.getReply(search);		
 		model.addAttribute("list", list);
 		
-		// reply pagination ajax로 처리하기
-		// player, skin에도 적용하기
+		Pagination pg = new Pagination(page, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
 		
 		return "/reply_list";
 	}
@@ -243,14 +254,22 @@ public class Controller {
 	public String writeReply(Model model, Reply reply) {
 		replyservice.writeReply(reply);
 		
-		List<Reply> list = null;
-		if(reply.getP_num() != 0)
-			list = replyservice.getReplyP(reply.getP_num());
-		//else if(reply.getbId() != 0)
-		//	list = replyservice.getReply(reply.getbId());
+		Search search = new Search();
+		search.setPage(0);
+		
+		if(reply.getP_num() != 0) 
+			search.setP_num(reply.getP_num());
+		else if(reply.getbId() != 0) 
+			search.setbId(reply.getbId());
 		else if(reply.getS_num() != 0)
-			list = replyservice.getReplyS(reply.getS_num());
+			search.setS_num(reply.getS_num());
+		
+		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
+				
 		return "/reply_list";
 	}
 	
@@ -263,14 +282,21 @@ public class Controller {
 		
 		replyservice.deleteReply(reply.getrId());
 		
-		List<Reply> list = null;
-		if(reply.getP_num() != 0)
-			list = replyservice.getReplyP(reply.getP_num());
-		//else if(reply.getbId() != 0)
-		//	list = replyservice.getReply(reply.getbId());
+		Search search = new Search();
+		search.setPage(0);
+		
+		if(reply.getP_num() != 0) 
+			search.setP_num(reply.getP_num());
+		else if(reply.getbId() != 0) 
+			search.setbId(reply.getbId());
 		else if(reply.getS_num() != 0)
-			list = replyservice.getReplyS(reply.getS_num());
+			search.setS_num(reply.getS_num());
+		
+		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
 		
 		return "/reply_list";
 	}
@@ -303,14 +329,22 @@ public class Controller {
 		reply.setrDateTime(format.format(today));
 		
 		replyservice.editReply(reply);
-		List<Reply> list = null;
-		if(reply.getP_num() != 0)
-			list = replyservice.getReplyP(reply.getP_num());
-		//else if(reply.getbId() != 0)
-		//	list = replyservice.getReply(reply.getbId());
+		
+		Search search = new Search();
+		search.setPage(0);
+		
+		if(reply.getP_num() != 0) 
+			search.setP_num(reply.getP_num());
+		else if(reply.getbId() != 0) 
+			search.setbId(reply.getbId());
 		else if(reply.getS_num() != 0)
-			list = replyservice.getReplyS(reply.getS_num());
+			search.setS_num(reply.getS_num());
+		
+		List<Reply> list = replyservice.getReply(search);
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
 		
 		return "/reply_list";
 	}
@@ -402,8 +436,15 @@ public class Controller {
 		List<Skin> slist = skinservice.getSkinList(player.getP_name());
 		model.addAttribute("slist", slist);
 		
-		List<Reply> list = replyservice.getReplyP(player.getP_num());
+		Search search = new Search();
+		search.setPage(0);
+		search.setP_num(p_num);
+				
+		List<Reply> list = replyservice.getReply(search);		
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
 		return "/player_detail";
 	}
 	
@@ -415,8 +456,15 @@ public class Controller {
 		List<Skin> slist = skinservice.getSkinList(player.getP_name());
 		model.addAttribute("slist", slist);
 		
-		List<Reply> list = replyservice.getReplyP(player.getP_num());
+		Search search = new Search();
+		search.setPage(0);
+		search.setP_num(player.getP_num());
+				
+		List<Reply> list = replyservice.getReply(search);		
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
 		return "/player_detail";
 	}
 	
@@ -648,9 +696,17 @@ public class Controller {
 		Skin skin = skinservice.findSkin(s_num);
 		model.addAttribute("player", playerservice.findPlayer(skin.getP_name()));
 		model.addAttribute("skin", skin);
-		
-		List<Reply> list = replyservice.getReplyS(s_num);
+				
+		Search search = new Search();
+		search.setPage(0);
+		search.setS_num(s_num);
+				
+		List<Reply> list = replyservice.getReply(search);		
 		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, replyservice.getReplyCount(search));
+		model.addAttribute("pagination", pg);
+		
 		return "/skin_detail";
 	}
 	

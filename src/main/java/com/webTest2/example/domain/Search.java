@@ -10,12 +10,26 @@ public class Search {
 	private String content;
 	private int page;
 	private int bId;
+	private int p_num;
+	private int s_num;
 	private boolean checkPositions;
 	private boolean checkAttributes;
 	private boolean checkTiers;
 	private boolean checkProperties;
 	private int searchType;
-				
+					
+	public int getS_num() {
+		return s_num;
+	}
+	public void setS_num(int s_num) {
+		this.s_num = s_num;
+	}
+	public int getP_num() {
+		return p_num;
+	}
+	public void setP_num(int p_num) {
+		this.p_num = p_num;
+	}
 	public int getbId() {
 		return bId;
 	}

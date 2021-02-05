@@ -44,17 +44,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 	
 	@Override
-	public List<Reply> getReplyP(int p_num) {
-		return replymapper.getReplyP(p_num);
-	}
-	
-	@Override
-	public List<Reply> getReplyS(int s_num) {
-		return replymapper.getReplyS(s_num);
-	}
-	
-	@Override
-	public int getReplyCount(int bId) {
-		return replymapper.getReplyCount(bId);
+	public int getReplyCount(Search search) {
+		return replymapper.getReplyCount(search);
 	}
 }

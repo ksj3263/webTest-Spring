@@ -76,8 +76,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-</div>
-<div>
 	<ul>
 		 <c:choose>
 			<c:when test="${ pagination.prevPage < 5 }">
@@ -92,18 +90,18 @@
 			</c:when>
 		</c:choose> 
 		<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">				
-				<c:choose>
-					<c:when test="${ pagination.page eq i }">							
-						<li style="background-color:#ededed;">
-							<span>${i}</span>
-						</li>
-					</c:when>
-					<c:when test="${ pagination.page ne i }">
-						<li>
-							<a href="javascript:void(0);" class="page" id="${i }">${i}</a>
-						</li>
-					</c:when>
-				</c:choose>
+			<c:choose>
+				<c:when test="${ pagination.page eq i }">							
+					<li style="background-color:#ededed;">
+						<span>${i}</span>
+					</li>
+				</c:when>
+				<c:when test="${ pagination.page ne i }">
+					<li>
+						<a href="javascript:void(0);" class="page" id="${i }">${i}</a>
+					</li>
+				</c:when>
+			</c:choose>
 		</c:forEach>
 		<c:choose>
 			<c:when test="${ pagination.nextPage <= pagination.lastPage }">
@@ -132,18 +130,14 @@
 <script>
 $(document).on('click', '.page', function() {
 	let id = $(this).attr('id');
-	let url = "/board_detail?bId=" + ${board.bId} + "&page=" + id;
-	
-	//location.href = url;
 	
 	$.ajax({
 		method: "POST",
-		url: "/write_reply",
+		url: "/reply_list",
 		data: { bId:${board.bId}, page:id },
 		dataType: "html",
 	})
 	.done(function(data) {
-		console.log("ok");
 		$("#replyList").html(data);
 	});	
 });
@@ -161,7 +155,6 @@ $(document).on('click', '#btn', function () {
 			contentType: false
 		})
 		.done(function(data) {
-			console.log("ok");
 			$("#replyList").html(data);	
 	 		$("#cont").val('');
 		});	
@@ -172,8 +165,6 @@ $(document).on('click', '.btn-edit', function() {
 	let checkBtn = $(this);	
 	let tr = checkBtn.parent().parent();
 	let td = tr.children();
-	console.log(r_id);
-	console.log(td.eq(1).text());
 	
 	$.ajax({
 		method: "POST",
@@ -182,7 +173,6 @@ $(document).on('click', '.btn-edit', function() {
 		dateType: "html"
 	})
 	.done(function(data) {
-		console.log(data);
 		if(data == 'denied') {
 			location.href = data;
 		} else {
@@ -193,8 +183,6 @@ $(document).on('click', '.btn-edit', function() {
 $(document).on('click', '#btn-edit-comp', function () {
 	let r_id = $('input[name="r_id"]').val();
 	let edit_content = $('input[name="edit_content"]').val();
-	console.log(r_id);
-	console.log(edit_content);
 	
 	$.ajax({
 		  method: "POST",
@@ -203,14 +191,11 @@ $(document).on('click', '#btn-edit-comp', function () {
 		  dataType: "html"
 		})
 		.done(function(data) {
-	 		console.log("ok");
 	 		$("#replyList").html(data);	
 		});
 });
 $(document).on('click', '.btn-del', function () {
 	let r_id = $(this).attr('data-d_r_id');
-	console.log(r_id);
-	console.log("del");
 	
 	$.ajax({
 		  method: "POST",
@@ -219,7 +204,6 @@ $(document).on('click', '.btn-del', function () {
 		  dataType: "html"
 		})
 		.done(function(data) {
-			console.log(data);
 			if(data == 'denied') {
 				location.href = data;
 			} else {

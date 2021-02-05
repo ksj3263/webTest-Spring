@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.webTest2.example.mapper.ReplyMapper">
 	<select id="getReply" resultType="Reply">
-		SELECT @ROWNUM := @ROWNUM -1 as ROWNUM,
-				ta.r_id as rId,
+		SELECT 	ta.r_id as rId,
 				ta.r_content as rContent,
 				ta.r_writer as rWriter,
 				ta.r_datetime as rDateTime,
@@ -13,31 +12,19 @@
 				ta.s_num as s_num
 		from reply ta,
 			(select @rownum := (select count(*)-#{page}+1 from reply ta where b_id=#{bId})) tb
-		where ta.b_id = #{bId}
+		where 1=1
+		<if test="bId > 0">
+			and ta.b_id = #{bId}
+		</if>
+		<if test="p_num > 0">
+			and ta.p_num = #{p_num}
+		</if>
+		<if test="s_num > 0">
+			and ta.s_num = #{s_num}
+		</if>
+		order by ta.r_id
 		limit #{page}, 10
-	</select>
-	
-	<select id="getReplyP" resultType="Reply">
-		SELECT r_id as rId,
-				r_content as rContent,
-				r_writer as rWriter,
-				r_datetime as rDateTime,
-				u_id as uId,
-				p_num as p_num
-		from reply
-		where p_num = #{p_num}
-	</select>
-	
-	<select id="getReplyS" resultType="reply">
-		SELECT r_id as rId,
-				r_content as rContent,
-				r_writer as rWriter,
-				r_datetime as rDateTime,
-				u_id as uId,
-				s_num as s_num
-		from reply
-		where s_num = #{s_num}
-	</select>
+	</select>	
 	
 	<insert id="writeReply" parameterType="Reply">
 		insert into reply (
@@ -89,10 +76,19 @@
 		where b_id = #{bId}
 	</delete>
 	
-	<select id="getReplyCount" parameterType="int" resultType="int">
+	<select id="getReplyCount" parameterType="search" resultType="int">
 		select count(*) as count
 		from reply
-		where b_id = #{bId}
+		where 1=1
+		<if test="bId > 0">
+			and b_id = #{bId}
+		</if>
+		<if test="p_num > 0">
+			and p_num = #{p_num}
+		</if>
+		<if test="s_num > 0">
+			and s_num = #{s_num}
+		</if>
 	</select>
 </mapper>
 
