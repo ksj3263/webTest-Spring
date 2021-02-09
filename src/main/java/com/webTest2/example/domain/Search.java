@@ -9,6 +9,7 @@ public class Search {
 	private List<String> properties;
 	private String content;
 	private int page;
+	private int pageNum;
 	private int bId;
 	private int p_num;
 	private int s_num;
@@ -17,7 +18,13 @@ public class Search {
 	private boolean checkTiers;
 	private boolean checkProperties;
 	private int searchType;
-					
+							
+	public int getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
 	public int getS_num() {
 		return s_num;
 	}

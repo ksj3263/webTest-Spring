@@ -130,7 +130,7 @@
 			</foreach>
 		</if>
 		order by p_num desc
-		limit #{page}, 10
+		limit #{pageNum}, 10
 	</select>
 	
 	<select id="getPlayerCount" resultType="int" parameterType="search">

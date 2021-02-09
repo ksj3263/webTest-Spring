@@ -21,7 +21,7 @@
 			</foreach>
 		</if>
 		order by s_num desc
-		limit #{page}, 10
+		limit #{pageNum}, 10
 	</select>
 	
 	<select id="getSkinCount" resultType="int" parameterType="search">

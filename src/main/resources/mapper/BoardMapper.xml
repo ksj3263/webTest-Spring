@@ -9,7 +9,7 @@
 				ta.b_writer as bWriter,
 				ta.b_datetime as bDateTime
 	    FROM board ta,
-	    	(select @rownum := (select count(*)-#{page}+1 from board ta)) tb
+	    	(select @rownum := (select count(*)-#{pageNum}+1 from board ta)) tb
 	    where 1=1
 	    <if test='searchType == 1'>
 	    	and (ta.b_title like concat('%', #{content}, '%') or ta.b_content like concat('%', #{content}, '%'))
@@ -30,7 +30,7 @@
 	    	and ta.b_id in (select b_id from reply where r_writer like concat('%', #{content}, '%'))
 	    </if>
 	  	order by ta.b_base desc, b_order asc
-	    limit #{page}, 10
+	    limit #{pageNum}, 10
 	</select>
 	
 	<insert id="writeBoard" parameterType="Board">

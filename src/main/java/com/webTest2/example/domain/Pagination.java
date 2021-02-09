@@ -97,5 +97,12 @@ public class Pagination {
 
 	public void setCount(int count) {
 		this.count = count;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "Pagination [page=" + page + ", pageNum=" + pageNum + ", startPage=" + startPage + ", endPage=" + endPage
+				+ ", lastPage=" + lastPage + ", prevPage=" + prevPage + ", nextPage=" + nextPage + ", count=" + count
+				+ "]";
+	}		
 }

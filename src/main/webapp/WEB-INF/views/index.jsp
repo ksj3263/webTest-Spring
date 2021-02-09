@@ -34,6 +34,7 @@
 			<a href="/skin_list">스킨 목록</a>
 			<a href="/stone_list">스톤 DB</a>
 			<a href="/deck">덱 구성</a>
+			<a href="/update">패치 노트</a>
 		</div>
 </body>
 </html>

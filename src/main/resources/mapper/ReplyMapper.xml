@@ -11,7 +11,7 @@
 				ta.p_num as p_num,
 				ta.s_num as s_num
 		from reply ta,
-			(select @rownum := (select count(*)-#{page}+1 from reply ta where b_id=#{bId})) tb
+			(select @rownum := (select count(*)-#{pageNum}+1 from reply ta where b_id=#{bId})) tb
 		where 1=1
 		<if test="bId > 0">
 			and ta.b_id = #{bId}
@@ -23,7 +23,7 @@
 			and ta.s_num = #{s_num}
 		</if>
 		order by ta.r_id
-		limit #{page}, 10
+		limit #{pageNum}, 10
 	</select>	
 	
 	<insert id="writeReply" parameterType="Reply">

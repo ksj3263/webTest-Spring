@@ -104,14 +104,16 @@ public class Controller {
 	@RequestMapping("/board_list")
 	public String boardList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page, Search search) {
 		System.out.println(search.toString());
-		search.setPage((Integer.parseInt(page)-1)*10);
+		int data = Integer.parseInt(page);
+		search.setPage(data);
+		search.setPageNum((data-1)*10);
 		if(search.getContent() == null)
 			search.setContent("");
 				
 		List<Board> list = boardservice.selectBoardList(search);
 		model.addAttribute("list", list);
 		
-		Pagination pg = new Pagination(Integer.parseInt(page), boardservice.getBoardCount(search));
+		Pagination pg = new Pagination(data, boardservice.getBoardCount(search));
 		model.addAttribute("pagination", pg);
 		
 		model.addAttribute("search", search);
@@ -140,7 +142,8 @@ public class Controller {
 		model.addAttribute("board", board);
 		
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setbId(id);
 		
 		List<Reply> list = replyservice.getReply(search);
@@ -235,7 +238,8 @@ public class Controller {
 		int s_num = 0;
 		if(request.getParameter("s_num") != null)
 			s_num = Integer.parseInt(request.getParameter("s_num"));
-		search.setPage((page-1)*10);
+		search.setPageNum((page-1)*10);
+		search.setPage(page);
 		search.setbId(bId);
 		search.setP_num(p_num);
 		search.setS_num(s_num);
@@ -254,7 +258,8 @@ public class Controller {
 		replyservice.writeReply(reply);
 		
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setP_num(reply.getP_num());
 		search.setbId(reply.getbId());
 		search.setS_num(reply.getS_num());
@@ -278,7 +283,8 @@ public class Controller {
 		replyservice.deleteReply(reply.getrId());
 		
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setP_num(reply.getP_num());
 		search.setbId(reply.getbId());
 		search.setS_num(reply.getS_num());
@@ -322,7 +328,8 @@ public class Controller {
 		replyservice.editReply(reply);
 		
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setP_num(reply.getP_num());
 		search.setbId(reply.getbId());
 		search.setS_num(reply.getS_num());
@@ -337,11 +344,12 @@ public class Controller {
 	}
 	
 	@RequestMapping("/user_list")
-	public String userList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page) {				
-		List<User> list = userservice.selectUserList(Integer.parseInt(page));
+	public String userList(Model model, @RequestParam(value="page", required=false, defaultValue="1") String page) {
+		int data = Integer.parseInt(page);
+		List<User> list = userservice.selectUserList(data);
 		model.addAttribute("list", list);
 		
-		Pagination pg = new Pagination(Integer.parseInt(page), userservice.getUserCount());
+		Pagination pg = new Pagination(data, userservice.getUserCount());
 		model.addAttribute("pagination", pg);
 		return "/user_list";
 	}
@@ -404,11 +412,13 @@ public class Controller {
 		}
 		System.out.println(search.toString());
 		
-		search.setPage((Integer.parseInt(page)-1)*10);
+		int data = Integer.parseInt(page);
+		search.setPage(data);
+		search.setPageNum((data-1)*10);
 		List<Player> list = playerservice.searchPlayer(search);
 		model.addAttribute("list", list);
 		
-		Pagination pg = new Pagination(Integer.parseInt(page), playerservice.getPlayerCount(search));
+		Pagination pg = new Pagination(data, playerservice.getPlayerCount(search));
 		model.addAttribute("pagination", pg);
 						
 		model.addAttribute("search", search);
@@ -424,7 +434,8 @@ public class Controller {
 		model.addAttribute("slist", slist);
 		
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setP_num(p_num);
 				
 		List<Reply> list = replyservice.getReply(search);		
@@ -444,7 +455,8 @@ public class Controller {
 		model.addAttribute("slist", slist);
 		
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setP_num(player.getP_num());
 				
 		List<Reply> list = replyservice.getReply(search);		
@@ -596,11 +608,13 @@ public class Controller {
 		}
 		System.out.println(search.toString());
 		
-		search.setPage((Integer.parseInt(page)-1)*10);
+		int data = Integer.parseInt(page);
+		search.setPage(data);
+		search.setPageNum((data-1)*10);
 		List<Skin> list = skinservice.getSkinList(search);
 		model.addAttribute("list", list);
 		
-		Pagination pg = new Pagination(Integer.parseInt(page), skinservice.getSkinCount(search));
+		Pagination pg = new Pagination(data, skinservice.getSkinCount(search));
 		model.addAttribute("pagination", pg);
 						
 		model.addAttribute("search", search);
@@ -685,7 +699,8 @@ public class Controller {
 		model.addAttribute("skin", skin);
 				
 		Search search = new Search();
-		search.setPage(0);
+		search.setPage(1);
+		search.setPageNum(0);
 		search.setS_num(s_num);
 				
 		List<Reply> list = replyservice.getReply(search);		
@@ -760,7 +775,68 @@ public class Controller {
 	}
 	
 	@RequestMapping("/deck")
-	public String deckMain() {
+	public String deckMain(Model model, Search search) {
+		if(search.getContent() == null)
+			search.setContent("");
+		
+		search.setCheckAttributes(true);
+		search.setCheckPositions(true);
+		search.setCheckTiers(true);
+		if(search.getAttributes() == null) {
+			search.setCheckAttributes(false);
+		}
+		if(search.getPositions() == null) { 
+			search.setCheckPositions(false);
+		}
+		if(search.getTiers() == null) {
+			search.setCheckTiers(false);
+		}
+		System.out.println(search.toString());
+		
+		search.setPage(1);
+		search.setPageNum(0);
+		List<Player> list = playerservice.searchPlayer(search);
+		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(1, playerservice.getPlayerCount(search));
+		model.addAttribute("pagination", pg);
+		System.out.println(pg.toString());
+						
+		model.addAttribute("search", search);
 		return "/deck";
+	}
+	
+	@RequestMapping("/list_player")
+	public String listPlayer(Model model, Search search) {
+		if(search.getContent() == null)
+			search.setContent("");
+		
+		search.setCheckAttributes(true);
+		search.setCheckPositions(true);
+		search.setCheckTiers(true);
+		if(search.getAttributes() == null) {
+			search.setCheckAttributes(false);
+		}
+		if(search.getPositions() == null) { 
+			search.setCheckPositions(false);
+		}
+		if(search.getTiers() == null) {
+			search.setCheckTiers(false);
+		}
+		System.out.println(search.toString());
+		
+		search.setPageNum((search.getPage()-1)*10);
+		List<Player> list = playerservice.searchPlayer(search);
+		model.addAttribute("list", list);
+		
+		Pagination pg = new Pagination(search.getPage(), playerservice.getPlayerCount(search));
+		model.addAttribute("pagination", pg);
+		
+		System.out.println(playerservice.getPlayerCount(search));
+		System.out.println(pg.toString());
+						
+		model.addAttribute("search", search);
+		
+		return "/list_player";
 	}
 }

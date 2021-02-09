@@ -176,7 +176,7 @@ $(document).on('click', '.btn-edit', function() {
 		if(data == 'denied') {
 			location.href = data;
 		} else {
-			td.eq(1).html(data);			
+			td.eq(1).html(data);
 		}
 	});
 });
