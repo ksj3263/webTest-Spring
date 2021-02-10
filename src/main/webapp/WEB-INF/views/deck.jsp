@@ -154,10 +154,18 @@
 				<td id="SS">
 					<h4>SS</h4>
 					<img src="resources/img/bean.jpg" width=50px height=50px id="SS" class="drop">
+				</td>
+				<td id="SP">
+					<h4>SP</h4>
+					<img src="resources/img/bean.jpg" width=50px height=50px id="SP1" class="drop">
 				</td>				
 				<td id="RW">
 					<h4>RW</h4>
 					<img src="resources/img/bean.jpg" width=50px height=50px id="RW" class="drop">
+				</td>
+				<td>
+					<p> 버프 </p>
+					<p> 디버프 </p>
 				</td>
 			</tr>
 			<tr id="mid">
@@ -168,10 +176,18 @@
 				<td id="CM">
 					<h4>CM</h4>
 					<img src="resources/img/bean.jpg" width=50px height=50px id="CM" class="drop">
-				</td>				
+				</td>			
+				<td id="SP">
+					<h4>SP</h4>
+					<img src="resources/img/bean.jpg" width=50px height=50px id="SP2" class="drop">
+				</td>	
 				<td id="RM">
 					<h4>RM</h4>
 					<img src="resources/img/bean.jpg" width=50px height=50px id="RM" class="drop">
+				</td>
+				<td>
+					<p> 버프 </p>
+					<p> 디버프 </p>
 				</td>
 			</tr>
 			<tr id="defense">
@@ -182,10 +198,18 @@
 				<td id="CB">
 					<h4>CB</h4>
 					<img src="resources/img/bean.jpg" width=50px height=50px id="CB" class="drop">
-				</td>				
+				</td>
+				<td id="SP">
+					<h4>SP</h4>
+					<img src="resources/img/bean.jpg" width=50px height=50px id="SP3" class="drop">
+				</td>		
 				<td id="RB">
 					<h4>RB</h4>
 					<img src="resources/img/bean.jpg" width=50px height=50px id="RB" class="drop">
+				</td>
+				<td>
+					<p> 버프 </p>
+					<p> 디버프 </p>
 				</td>
 			</tr>
 			<tr id="goalkeeper">
@@ -195,6 +219,22 @@
 					<img src="resources/img/bean.jpg" width=50px height=50px id="GK" class="drop">
 				</td>
 				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<p> 버프 </p>
+					<p> 디버프 </p>
+				</td>
+				<td>
+					<p> 버프 </p>
+					<p> 디버프 </p>
+				</td>
+				<td>
+				</td>
+				<td>
+					<p> 버프 </p>
+					<p> 디버프 </p>
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -246,20 +286,43 @@ $(document).on('click', '#btn-search', function() {
 	});	
 });
 
-// 한번에 한번만 동작하게 만들기
 $(document).on('click', '.drag', function () {
 	let target = $(this);
 	let data = target.context;
-	
-	$(document).on('click', '.drop', function() {
-		let target2 = $(this);
-		let data2 = target2.context;
+	let chk = 0;	
 		
-		$('.drop').each(function() {
-			if($(this).context.id == data2.id) {
-				$(this).attr('src', data.src);
+	$(document).on('click', '.drop', function() {
+		if(chk == 0) {		
+			let target2 = $(this);			
+			let temp = target2.parent();
+			let temp2 = temp.children();
+						
+			$(temp2[1]).attr('src', data.src);
+			chk=1;
+			
+			if(temp[0].id == "SP") {				
+				for(let i = 1 ; i <= 3 ; i ++) {
+					if(target2.context.id != "SP" + i)
+						$("#SP" + i).attr('src', "resources/img/bean.jpg");
+				}
 			}
-		});
+			
+			tr = temp.parent();
+			td = tr.children();
+			console.log(td.eq(4));
+			
+			$.ajax({
+				method: "POST",
+				url: "/player_skill",
+				data: { p_num:data.id},
+				dataType: "json"
+			})
+			.done(function(data) {
+				console.log(data);
+				td.eq(4).html(data.p1 + "<br>" +  data.p2 + "<br>" + data.p3);
+				// 선수 바꾸면 내용 바꾸기
+			});
+		}
 	});
 });
 </script>
